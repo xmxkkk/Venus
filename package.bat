@@ -1,5 +1,0 @@
-cd .
-
-mvn package
-
-pause
