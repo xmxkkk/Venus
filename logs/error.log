@@ -1,8 +1,0 @@
-2016-11-29 13:04:16,655	ERROR	[venus.task.analyse.LuStrategyTask.init][	320] [except]
-### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicata du champ '8509e174ff60eb1c32f1de01b2306e14' pour la clef 'PRIMARY'
-### The error may involve venus.dao.RunStatusMapper.insert-Inline
-### The error occurred while setting parameters
-### SQL: insert into run_status (id,status) values (?,?)
-### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicata du champ '8509e174ff60eb1c32f1de01b2306e14' pour la clef 'PRIMARY'
-; SQL []; Duplicata du champ '8509e174ff60eb1c32f1de01b2306e14' pour la clef 'PRIMARY'; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicata du champ '8509e174ff60eb1c32f1de01b2306e14' pour la clef 'PRIMARY'
-2016-11-29 13:12:50,750	ERROR	[venus.task.analyse.LuStrategyTask.init][	320] [except]not close json text, token : error
