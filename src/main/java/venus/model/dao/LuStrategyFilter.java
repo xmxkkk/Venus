@@ -3,11 +3,19 @@ package venus.model.dao;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LuStrategyFilter {
+public class LuStrategyFilter implements Comparable<LuStrategyFilter>{
 	int id;
 	String filter;
 	String condition;
 	String update_time;
+	int ord;
+	
+	public int getOrd() {
+		return ord;
+	}
+	public void setOrd(int ord) {
+		this.ord = ord;
+	}
 	public int getId() {
 		return id;
 	}
@@ -35,7 +43,12 @@ public class LuStrategyFilter {
 	@Override
 	public String toString() {
 		return "LuStrategyFilter [id=" + id + ", filter=" + filter + ", condition=" + condition + ", update_time="
-				+ update_time + "]";
+				+ update_time + ", ord=" + ord + "]";
+	}
+	
+	@Override
+	public int compareTo(LuStrategyFilter o) {
+		return this.ord-o.getOrd();
 	}
 	
 }

@@ -108,6 +108,7 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 					if(luStrategyFilters.size()==0)continue;
 				}
 				
+				
 				List<String> codes=null;
 				if(luStrategy.getId()==-1){
 					codes=luCommonChoose.choose(strategy_json_str);

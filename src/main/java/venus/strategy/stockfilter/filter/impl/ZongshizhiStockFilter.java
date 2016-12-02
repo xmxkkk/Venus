@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import venus.dao.StockCompanySummaryMapper;
 import venus.helper.util.CommonUtil;
+import venus.helper.util.NumUtil;
 import venus.model.dao.StockCompanySummary;
 import venus.strategy.stockfilter.filter.StockFilter;
 
@@ -24,7 +25,10 @@ public class ZongshizhiStockFilter implements StockFilter{
 		try{
 			StockCompanySummary stockCompanySummary=stockCompanySummaryMapper.findCode(code);
 			if(null==stockCompanySummary)return false;
-			result= CommonUtil.compareExpressionDouble(stockCompanySummary.getZongshizhi(), params);
+
+			double zongshizhi=NumUtil.format4(stockCompanySummary.getZongshizhi()/100000000);
+			
+			result= CommonUtil.compareExpressionDouble(zongshizhi, params);
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.info("[except]"+e.getMessage());
