@@ -14,10 +14,14 @@ public class CodeStockFilter implements StockFilter{
 		boolean result=false;
 		try{
 
-			if(params.startsWith("IN")&&params.replace("IN", "").equals(code)){
-				result= true;
-			}else if(params.startsWith("!IN")&&params.replace("!IN", "").equals(code)){
-				result= true;
+//			if(params.startsWith("IN")&&params.replace("IN", "").equals(code)){
+//				result= true;
+//			}else if(params.startsWith("!IN")&&!params.replace("!IN", "").equals(code)){
+//				result= true;
+//			}
+			
+			if(params.equals(code)){
+				return true;
 			}
 			
 		}catch(Exception e){
