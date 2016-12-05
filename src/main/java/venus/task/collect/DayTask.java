@@ -82,8 +82,7 @@ public class DayTask {
 			stockDayFuTask.updateChange(0,null);
 			taskExecTimeMiddle.end(id);
 			
-			
-			id=taskExecTimeMiddle.start("stockDayFuTask.updateWeight");
+			id=taskExecTimeMiddle.start("stockinfoTask.updateWeight");
 			stockinfoTask.updateWeight(null);
 			taskExecTimeMiddle.end(id);
 			
@@ -113,12 +112,12 @@ public class DayTask {
 			stockDayTask.updateChange(0,null);
 			taskExecTimeMiddle.end(id);
 			
-			id=taskExecTimeMiddle.start("stockinfoTask.updateBeta");
-			stockinfoTask.updateBeta(null);
-			taskExecTimeMiddle.end(id);
-			
 			id=taskExecTimeMiddle.start("stockinfoTask.updateTradeDays");
 			stockinfoTask.updateTradeDays(null);
+			taskExecTimeMiddle.end(id);
+			
+			id=taskExecTimeMiddle.start("stockinfoTask.updateBeta");
+			stockinfoTask.updateBeta(null);
 			taskExecTimeMiddle.end(id);
 			
 			id=taskExecTimeMiddle.start("stockinfoTask.updateFirstTradeDay");
@@ -186,8 +185,8 @@ public class DayTask {
 				}
 				CommonUtil.wait2000(count);
 				stockDayTask.updateChange(0,null);
-				stockinfoTask.updateBeta(null);
 				stockinfoTask.updateTradeDays(null);
+				stockinfoTask.updateBeta(null);
 				stockinfoTask.updateFirstTradeDay(null);
 				taskUpdateMiddle.update("StockDayTask.initAll", Constant.TIME$SECOND$30DAY);
 			}
