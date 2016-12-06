@@ -66,6 +66,9 @@ public interface StockDayMapper {
 	@Select("select avg(abs(change_rate)) from stock_day where code=#{code} order by abs(change_rate) desc limit #{num}")
 	Double findBetaAvg(@Param("code")String code,@Param("num")int num);
 	
+	@Select("select avg(abs(change_rate)) from stock_day where code=#{code}")
+	Double findBeta(@Param("code")String code);
+	
 	public static class StockDayMapperProvider {
 		public String insertAll(Map<String, List<StockDay>> map) {
 			List<StockDay> list = map.get("list");

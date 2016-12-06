@@ -16,6 +16,10 @@ public class App {
 	public static void main(String[] args) {
 		final ConfigurableApplicationContext cxt = SpringApplication.run(App.class, args);
 		
+//		StockinfoTask stockinfoTask=cxt.getBean(StockinfoTask.class);
+//		stockinfoTask.updateBeta(null);
+		
+		
 		CommandProperty startProperty=cxt.getBean(CommandProperty.class);
 		String startDtCommand=startProperty.getCommandDt().trim();
 		if(!startDtCommand.equals("none")&&startDtCommand.equals("start")){

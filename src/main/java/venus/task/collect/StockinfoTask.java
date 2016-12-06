@@ -116,7 +116,9 @@ public class StockinfoTask {
 			}
 			for(int i=0;i<stocks.size();i++){
 				Stockinfo stock=stocks.get(i);
-				Double beta=stockDayMapper.findBetaAvg(stock.getCode(), stock.getTrade_days()/10);
+//				Double beta=stockDayMapper.findBetaAvg(stock.getCode(), stock.getTrade_days()/10);
+				Double beta=stockDayMapper.findBeta(stock.getCode());
+				
 				if(beta==null){
 					beta=new Double(0);
 				}
