@@ -83,9 +83,9 @@ public class LuChoose2 implements LuChoose{
 //				if(!xiaoshoumaolilvStockFilter.filter(code, ">30"))continue;
 //				if(!zichanfuzhailvStockFilter.filter(code, "<60"))continue;
 //				if(!cansellStockFilter.filter(code, "-30,30,>10"))continue;
-//				if(!jinglirunstableStockFilter.filter(code, null))continue;
+//				if(!jinglirunstableStockFilter.filter(code, "true"))continue;
 //				if(!jingzichanshouyilvhangyeStockFilter.filter(code, "<=0.2"))continue;
-//				if(!dongshizhangStockFilter.filter(code, null))continue;
+//				if(!dongshizhangStockFilter.filter(code, "true"))continue;
 //				if(!shangshiriqiStockFilter.filter(code, ">5"))continue;
 //				if(!priceStockFilter.filter(code, "<35"))continue;
 //				if(!financerateStockFilter.filter(code, "营业总收入,>10"))continue;
@@ -105,7 +105,7 @@ public class LuChoose2 implements LuChoose{
 			e.printStackTrace();
 			logger.error("[except]"+e.getMessage());
 		}
-		logger.info("[end]"+result);
+		logger.info("[end]"+result.size()+","+result);
 		return result;
 	}
 	

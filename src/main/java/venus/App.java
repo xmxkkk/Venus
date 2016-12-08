@@ -6,9 +6,13 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import venus.helper.property.CommandProperty;
 import venus.helper.util.CommonUtil;
+import venus.model.dao.StockCompanyFinance;
 import venus.task.analyse.LuStrategyTask;
+import venus.task.analyse.StockCompanyFinanceAnalyse;
 import venus.task.collect.CheckTask;
 import venus.task.collect.DayTask;
+import venus.task.collect.StockCompanyFinanceTask;
+import venus.task.collect.StockCompanyInfoTask;
 import venus.task.collect.StockCompanyTask;
 
 @SpringBootApplication
@@ -16,8 +20,15 @@ public class App {
 	public static void main(String[] args) {
 		final ConfigurableApplicationContext cxt = SpringApplication.run(App.class, args);
 		
-//		StockinfoTask stockinfoTask=cxt.getBean(StockinfoTask.class);
-//		stockinfoTask.updateBeta(null);
+//		StockCompanyInfoTask stockCompanyInfoTask=cxt.getBean(StockCompanyInfoTask.class);
+//		stockCompanyInfoTask.init(null);
+		
+//		StockCompanyFinanceTask stockCompanyFinanceTask=cxt.getBean(StockCompanyFinanceTask.class);
+//		stockCompanyFinanceTask.init("000001");
+		
+		
+//		StockCompanyFinanceAnalyse stockCompanyFinanceAnalyse=cxt.getBean(StockCompanyFinanceAnalyse.class);
+//		stockCompanyFinanceAnalyse.init();
 		
 		
 		CommandProperty startProperty=cxt.getBean(CommandProperty.class);

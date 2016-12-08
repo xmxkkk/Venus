@@ -85,7 +85,7 @@ public class LuChoose1 implements LuChoose{
 				if(!xiaoshoumaolilvStockFilter.filter(code, ">20"))continue;
 				if(!zichanfuzhailvStockFilter.filter(code, "<80"))continue;
 	//			if(!cansellStockFilter.filter(code, "-30,30,>10"))continue;
-				if(!jinglirunstableStockFilter.filter(code, null))continue;
+				if(!jinglirunstableStockFilter.filter(code, "true"))continue;
 //				if(!jingzichanshouyilvhangyeStockFilter.filter(code, "<=0.7"))continue;
 //				if(!dongshizhangStockFilter.filter(code, null))continue;
 				if(!shangshiriqiStockFilter.filter(code, ">8"))continue;
@@ -106,7 +106,7 @@ public class LuChoose1 implements LuChoose{
 			e.printStackTrace();
 			logger.error("[except]"+e.getMessage());
 		}
-		logger.info("[end]"+result);
+		logger.info("[end]"+result.size()+","+result);
 		return result;
 	}
 	

@@ -83,11 +83,11 @@ public class StockCompanyInfoTask {
 				
 				String shijikongzhiren="";
 				if(detail1.get(3).select("td span").size()>=2){
-					shijikongzhiren=detail1.get(3).select("td span").get(1).text();
+					shijikongzhiren=detail1.get(3).select("td span").get(0).text()+detail1.get(3).select("td span").get(1).text();
 				}
 				String zuizhongkongzhiren="";
 				if(detail1.get(4).select("td span").size()>=2){
-					zuizhongkongzhiren=detail1.get(4).select("td span").get(1).text();
+					zuizhongkongzhiren=detail1.get(4).select("td span").get(0).text()+detail1.get(4).select("td span").get(1).text();
 				}
 				
 				String dongshizhang=detail1.get(5).select("td").get(0).child(1).text();

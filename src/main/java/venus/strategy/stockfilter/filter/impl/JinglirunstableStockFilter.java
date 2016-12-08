@@ -34,6 +34,10 @@ public class JinglirunstableStockFilter implements StockFilter{
 					}
 				}
 			}
+			if(params.equals("false")){
+				result=!result;
+			}
+			
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.info("[except]"+e.getMessage());

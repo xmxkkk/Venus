@@ -38,6 +38,7 @@ import venus.model.dao.StockDay;
 import venus.model.dao.StockDayFu;
 import venus.model.dao.Stockinfo;
 import venus.model.dao.TradeDay;
+import venus.strategy.stockfilter.choose.LuChoose;
 import venus.strategy.stockfilter.choose.LuCommonChoose;
 
 @Component
@@ -100,20 +101,20 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 //					continue;
 //				}
 			
-//				LuChoose luChoose=(LuChoose)getApplicationContext().getBean(luStrategy.getStrategy_class());
-//				List<String> codes=luChoose.choose();
-				
-				if(luStrategy.getId()>0){
-					List<LuStrategyFilter> luStrategyFilters=luStrategyFilterMapper.findId(luStrategy.getId());
-					if(luStrategyFilters.size()==0)continue;
-				}
-				
-				
 				List<String> codes=null;
-				if(luStrategy.getId()==-1){
-					codes=luCommonChoose.choose(strategy_json_str);
+				if(!StringUtil.isBlank(luStrategy.getStrategy_class())){
+					LuChoose luChoose=(LuChoose)getApplicationContext().getBean(luStrategy.getStrategy_class());
+					codes=luChoose.choose();
 				}else{
-					codes=luCommonChoose.choose(luStrategy.getId());
+					if(luStrategy.getId()>0){
+						List<LuStrategyFilter> luStrategyFilters=luStrategyFilterMapper.findId(luStrategy.getId());
+						if(luStrategyFilters.size()==0)continue;
+					}
+					if(luStrategy.getId()==-1){
+						codes=luCommonChoose.choose(strategy_json_str);
+					}else{
+						codes=luCommonChoose.choose(luStrategy.getId());
+					}
 				}
 				
 				double[] rateAvgMonths=new double[months.length];
@@ -307,7 +308,8 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 					double zongshizhi=stockCompanySummary.getZongshizhi()==null?0:stockCompanySummary.getZongshizhi();
 					
 					logger.info(stock.getCode()+"="+stock.getName()+"	"+",市盈率="+stockCompanySummary.getShiyinglvttm()+",	净收="+stockCompanySummary.getJingzichanshouyilv()
-					+",	总市值:"+NumUtil.format(zongshizhi/100000000,0)+",	行业:"+stockCompanyHangye.getLevel1()+",	价格:"+stockDay.getClose_price());
+					+",	总市值:"+NumUtil.format(zongshizhi/100000000,0)+",	行业:"+stockCompanyHangye.getLevel1()+"	,"+stockCompanyHangye.getLevel2()+"	,"
+							+stockCompanyHangye.getLevel3()+",	价格:"+stockDay.getClose_price());
 				}
 				
 				luStrategy.setRun_status(1);

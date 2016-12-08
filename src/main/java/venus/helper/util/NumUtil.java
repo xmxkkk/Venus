@@ -8,15 +8,31 @@ import java.util.Map;
 
 public class NumUtil {
 	public static double format4(double d){
+		Double double1=new Double(d);
+		if(double1.isInfinite()||double1.isNaN()){
+			d=0;
+		}
 		return new BigDecimal(d).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 	public static double format2(double d){
+		Double double1=new Double(d);
+		if(double1.isInfinite()||double1.isNaN()){
+			d=0;
+		}
 		return new BigDecimal(d).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 	public static double format1(double d){
+		Double double1=new Double(d);
+		if(double1.isInfinite()||double1.isNaN()){
+			d=0;
+		}
 		return new BigDecimal(d).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 	public static String format(double d,int wei){
+		Double double1=new Double(d);
+		if(double1.isInfinite()||double1.isNaN()){
+			d=0;
+		}
 		return new BigDecimal(d).setScale(wei, BigDecimal.ROUND_HALF_UP).toString();
 	}
 	public static double text2num(String text){

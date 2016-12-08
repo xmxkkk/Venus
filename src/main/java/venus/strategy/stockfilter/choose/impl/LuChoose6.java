@@ -16,6 +16,7 @@ import venus.strategy.stockfilter.filter.impl.BetaStockFilter;
 import venus.strategy.stockfilter.filter.impl.CansellStockFilter;
 import venus.strategy.stockfilter.filter.impl.DongshizhangStockFilter;
 import venus.strategy.stockfilter.filter.impl.FinancerateStockFilter;
+import venus.strategy.stockfilter.filter.impl.GuoqiStockFilter;
 import venus.strategy.stockfilter.filter.impl.HangyeStockFilter;
 import venus.strategy.stockfilter.filter.impl.JinglirunstableStockFilter;
 import venus.strategy.stockfilter.filter.impl.JingzichanshouyilvStockFilter;
@@ -34,8 +35,8 @@ import venus.strategy.stockfilter.filter.impl.ZichanfuzhailvStockFilter;
 import venus.strategy.stockfilter.filter.impl.ZongshizhiStockFilter;
 
 @Component
-public class LuChoose4 implements LuChoose{
-	Logger logger=Logger.getLogger(LuChoose4.class);
+public class LuChoose6 implements LuChoose{
+	Logger logger=Logger.getLogger(LuChoose6.class);
 	@Autowired StockinfoMapper stockinfoMapper;
 	@Autowired StockCompanySummaryMapper stockCompanySummaryMapper;
 	@Autowired StockCompanyHangyeDataMapper stockCompanyHangyeDataMapper;
@@ -59,6 +60,7 @@ public class LuChoose4 implements LuChoose{
 	@Autowired YewuStockFilter yewuStockFilter;
 	@Autowired XiadieStockFilter xiadieStockFilter;
 	@Autowired XianjinliuStockFilter xianjinliuStockFilter;
+	@Autowired GuoqiStockFilter guoqiStockFilter;
 	public List<String> choose() {
 		logger.info("[start]");
 		
@@ -68,32 +70,37 @@ public class LuChoose4 implements LuChoose{
 			for(Stockinfo stock:stocks){
 				String code=stock.getCode();
 				
-				//传入合法条件
-				if(!zongshizhiStockFilter.filter(code, "<10000000000D"))continue;
-//				if(!hangyeStockFilter.filter(code, "1,!=医药生物"))continue;
-//				if(!shiyinglvttmStockFilter.filter(code, "<50"))continue;
-				if(!jingzichanshouyilvStockFilter.filter(code, ">10&&<35"))continue;
+			
+//				if(!zongshizhiStockFilter.filter(code, "<100"))continue;
+				if(!hangyeStockFilter.filter(code, "2,=新材料||=化工新材料||=化工合成材料"))continue;
+//				if(!shiyinglvttmStockFilter.filter(code, "<18"))continue;
+				if(!jingzichanshouyilvStockFilter.filter(code, ">0"))continue;
 //				if(!top1holderrateStockFilter.filter(code, ">25"))continue;
 	//			if(!orgholderrateStockFilter.filter(code, "<30"))continue;
-				if(!xiaoshoumaolilvStockFilter.filter(code, ">35"))continue;
-				if(!zichanfuzhailvStockFilter.filter(code, "<60&&>20"))continue;
+//				if(!xiaoshoumaolilvStockFilter.filter(code, ">30"))continue;
+//				if(!zichanfuzhailvStockFilter.filter(code, "<60&&>20"))continue;
 	//			if(!cansellStockFilter.filter(code, "-30,30,>10"))continue;
-//				if(!jinglirunstableStockFilter.filter(code, "true"))continue;
+//				if(!jinglirunstableStockFilter.filter(code, null))continue;
 //				if(!jingzichanshouyilvhangyeStockFilter.filter(code, "<=0.2"))continue;
-//				if(!dongshizhangStockFilter.filter(code, "true"))continue;
-				if(!shangshiriqiStockFilter.filter(code, ">5"))continue;
-				if(!priceStockFilter.filter(code, "<20"))continue;
-				if(!financerateStockFilter.filter(code, "营业总收入,>10&&<55"))continue;
+//				if(!dongshizhangStockFilter.filter(code, null))continue;
+//				if(!shangshiriqiStockFilter.filter(code, ">3"))continue;
+//				if(!priceStockFilter.filter(code, "<20"))continue;
+//				if(!financerateStockFilter.filter(code, "应收账款,>-30&&<-20"))continue;
+//				if(!financerateStockFilter.filter(code, "营业收入,>0"))continue;
 //				if(!betaStockFilter.filter(code, ">2.5"))continue;
-//				if(!nameStockFilter.filter(code, "!INST"))continue;
+				if(!nameStockFilter.filter(code, "!INST"))continue;
 //				if(!xiadieStockFilter.filter(code, "60,<-10"))continue;
 				
 //				if(!xianjinliuStockFilter.filter(code, "筹资现金,>0"))continue;
-				if(!xianjinliuStockFilter.filter(code, "经营现金,>0"))continue;
+//				if(!xianjinliuStockFilter.filter(code, "经营现金,>0"))continue;
 //				if(!xianjinliuStockFilter.filter(code, "投资现金,<0"))continue;
 //				if(!xianjinliuStockFilter.filter(code, "现金,>0"))continue;
 				
+				if(!guoqiStockFilter.filter(code, "false"))continue;
 				
+				
+				
+
 				
 				result.add(code);
 			}

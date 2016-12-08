@@ -77,8 +77,6 @@ public class StockCompanyFinanceTask {
 				List<StockCompanyFinance> insertAll = new ArrayList<StockCompanyFinance>();
 				Stockinfo stock = stocks.get(i);
 				
-//				stockCompanyFinanceMapper.deleteCode(stock.getCode());
-				
 				String[] dataTypes = { "debt", "benefit", "cash" };
 				
 				for (String dataType : dataTypes) {
