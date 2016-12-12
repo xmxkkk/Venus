@@ -97,11 +97,7 @@ public class LuChoose6 implements LuChoose{
 //				if(!xianjinliuStockFilter.filter(code, "现金,>0"))continue;
 				
 				if(!guoqiStockFilter.filter(code, "false"))continue;
-				
-				
-				
-
-				
+								
 				result.add(code);
 			}
 		}catch(Exception e){
