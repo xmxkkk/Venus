@@ -6,7 +6,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import venus.helper.property.CommandProperty;
 import venus.helper.util.CommonUtil;
-import venus.model.dao.StockCompanyFinance;
 import venus.task.analyse.LuStrategyTask;
 import venus.task.analyse.StockCompanyFinanceAnalyse;
 import venus.task.collect.CheckTask;
