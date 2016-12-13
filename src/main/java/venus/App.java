@@ -7,11 +7,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import venus.helper.property.CommandProperty;
 import venus.helper.util.CommonUtil;
 import venus.task.analyse.LuStrategyTask;
-import venus.task.analyse.StockCompanyFinanceAnalyse;
 import venus.task.collect.CheckTask;
 import venus.task.collect.DayTask;
-import venus.task.collect.StockCompanyFinanceTask;
-import venus.task.collect.StockCompanyInfoTask;
 import venus.task.collect.StockCompanyTask;
 
 @SpringBootApplication
