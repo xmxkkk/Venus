@@ -24,6 +24,10 @@ public interface StockCompanySummaryMapper {
 			+ ",chengliriqi=#{chengliriqi},shangshiriqi=#{shangshiriqi} where code=#{code}")
 	int update(StockCompanySummary stockCompanySummary);
 	
+	@Update("update stock_company_summary set open_price=#{open_price},close_price=#{close_price},curr_price=#{curr_price},high_price=#{high_price},low_price=#{low_price}"
+			+ ",chengjiaoliang=#{chengjiaoliang},chengjiaoe=#{chengjiaoe},update_time=#{update_time} where code=#{code}")
+	int updateBase(StockCompanySummary stockCompanySummary);
+	
 	@Delete("delete from stock_company_summary where code=#{code}")
 	int delete(@Param("code")String code);
 	

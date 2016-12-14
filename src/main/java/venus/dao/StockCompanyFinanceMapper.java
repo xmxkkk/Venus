@@ -43,6 +43,9 @@ public interface StockCompanyFinanceMapper {
 	@Select("select * from stock_company_finance where code=#{code} and type=#{type} and menu=#{menu} order by time asc")
 	List<StockCompanyFinance> findCodeTypeMenu(@Param("code")String code,@Param("type")String type,@Param("menu")String menu);
 	
+	@Select("select * from stock_company_finance where code=#{code} and type=#{type} and menu=#{menu} order by time desc limit #{length}")
+	List<StockCompanyFinance> findCodeTypeMenuLastLimit(@Param("code")String code,@Param("type")String type,@Param("menu")String menu,@Param("length")int length);
+	
 	@Select("select * from stock_company_finance where code=#{code} and type=#{type} and menu=#{menu} and time>=#{startTime} and time<=#{endTime}")
 	List<StockCompanyFinance> findCodeTypeMenuTime(@Param("code")String code,@Param("type")String type,@Param("menu")String menu,@Param("startTime")String startTime,@Param("endTime")String endTime);
 	

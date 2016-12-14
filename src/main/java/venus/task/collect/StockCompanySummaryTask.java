@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import venus.dao.StockCompanyFinanceMapper;
 import venus.dao.StockCompanySummaryMapper;
 import venus.dao.StockDayMapper;
 import venus.dao.StockinfoMapper;
@@ -17,6 +18,7 @@ import venus.helper.util.DateUtil;
 import venus.helper.util.NumUtil;
 import venus.helper.util.StringUtil;
 import venus.helper.util.URLUtil;
+import venus.model.dao.StockCompanyFinance;
 import venus.model.dao.StockCompanySummary;
 import venus.model.dao.StockDay;
 import venus.model.dao.Stockinfo;
@@ -27,6 +29,7 @@ public class StockCompanySummaryTask {
 	@Autowired StockinfoMapper stockinfoMapper;
 	@Autowired StockDayMapper stockDayMapper;
 	@Autowired StockCompanySummaryMapper stockCompanySummaryMapper;
+	@Autowired StockCompanyFinanceMapper stockCompanyFinanceMapper;
 	@Autowired URLUtil URLUtil;
 	public void init(String stockCode){
 		init(false,stockCode);
@@ -95,8 +98,15 @@ public class StockCompanySummaryTask {
 				
 				logger.info(stockCompanySummary);
 				
-				stockCompanySummaryMapper.delete(stock.getCode());
-				stockCompanySummaryMapper.insert(stockCompanySummary);
+				StockCompanySummary stockCompanySummaryDB=stockCompanySummaryMapper.findCode(stock.getCode());
+				if(stockCompanySummaryDB==null){
+					stockCompanySummaryMapper.insert(stockCompanySummary);
+				}else{
+					stockCompanySummaryMapper.updateBase(stockCompanySummary);
+				}
+				
+//				stockCompanySummaryMapper.delete(stock.getCode());
+//				stockCompanySummaryMapper.insert(stockCompanySummary);
 			}
 			
 			initOther(cacheParam, stockCode);
@@ -120,7 +130,8 @@ public class StockCompanySummaryTask {
 			}
 			for(int i=0;i<stocks.size();i++){
 				Stockinfo stock=stocks.get(i);
-
+				String code=stock.getCode();
+				
 				String str=null;
 				try{
 					str=URLUtil.url2str("http://finance.sina.com.cn/realstock/company/"+StringUtil.toMarketName(stock)+"/nc.shtml",Constant.CHARSET$GB2312, cacheParam);
@@ -183,17 +194,36 @@ public class StockCompanySummaryTask {
 					stockCompanySummary.setZuijinniandumeigushouyi(zuijinniandumeigushouyi);
 				}
 				
+				double zuijinniandujinglirun=0;
+				List<StockCompanyFinance> zuijinniandujingliruns=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "year", "净利润",1);
+				if(zuijinniandujingliruns.size()==1){
+					zuijinniandujinglirun=zuijinniandujingliruns.get(0).getValue();
+					zuijinniandujinglirun*=10000;
+				}
+				stockCompanySummary.setZuijinniandujinglirun(zuijinniandujinglirun);
+				
+				/*
 				m=Pattern.compile("var profit = ([0-9\\.-]+);").matcher(str);
 				while(m.find()){
 					double zuijinniandujinglirun=Double.parseDouble(m.group(1))*100000000;
 					stockCompanySummary.setZuijinniandujinglirun(zuijinniandujinglirun);
-				}
+				}*/
 				
+				List<StockCompanyFinance> zuijinsigejidujingliruns=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "simple", "净利润",4);
+				double zuijinsigejidujinglirun=0;
+				if(zuijinsigejidujingliruns.size()==4){
+					for (StockCompanyFinance stockCompanyFinance : zuijinsigejidujingliruns) {
+						zuijinsigejidujinglirun+=stockCompanyFinance.getValue();
+					}
+					zuijinsigejidujinglirun *= 10000;
+				}
+				stockCompanySummary.setZuijinsigejidujinglirun(zuijinsigejidujinglirun);
+				/*
 				m=Pattern.compile("var profit_four = ([0-9\\.-]+);").matcher(str);
 				while(m.find()){
 					double zuijinsigejidujinglirun=Double.parseDouble(m.group(1))*100000000;
-					stockCompanySummary.setZuijinsigejidujinglirun(zuijinsigejidujinglirun);
-				}
+					
+				}*/
 				
 				m=Pattern.compile("<p><b>注册资本：</b>([0-9\\.-]+)万元</p>").matcher(str);
 				while(m.find()){
@@ -216,6 +246,7 @@ public class StockCompanySummaryTask {
 					String shangshiriqi=m.group(1);
 					stockCompanySummary.setShangshiriqi(shangshiriqi);
 				}
+				
 					
 	//			<p><b>成立日期：</b>1987-12-22</p>
 	//			<p><b>上市日期：</b>1991-04-03</p>

@@ -88,7 +88,7 @@ public class LuChoose6 implements LuChoose{
 //				if(!financerateStockFilter.filter(code, "应收账款,>-30&&<-20"))continue;
 //				if(!financerateStockFilter.filter(code, "营业收入,>0"))continue;
 //				if(!betaStockFilter.filter(code, ">2.5"))continue;
-				if(!nameStockFilter.filter(code, "!INST"))continue;
+//				if(!nameStockFilter.filter(code, "!INST"))continue;
 //				if(!xiadieStockFilter.filter(code, "60,<-10"))continue;
 				
 //				if(!xianjinliuStockFilter.filter(code, "筹资现金,>0"))continue;

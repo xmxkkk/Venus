@@ -9,6 +9,7 @@ import venus.helper.util.CommonUtil;
 import venus.task.analyse.LuStrategyTask;
 import venus.task.collect.CheckTask;
 import venus.task.collect.DayTask;
+import venus.task.collect.StockCompanySummaryTask;
 import venus.task.collect.StockCompanyTask;
 
 @SpringBootApplication
@@ -19,9 +20,8 @@ public class App {
 //		StockCompanyInfoTask stockCompanyInfoTask=cxt.getBean(StockCompanyInfoTask.class);
 //		stockCompanyInfoTask.init(null);
 		
-//		StockCompanyFinanceTask stockCompanyFinanceTask=cxt.getBean(StockCompanyFinanceTask.class);
-//		stockCompanyFinanceTask.init("000001");
-		
+//		StockCompanySummaryTask stockCompanySummaryTask=cxt.getBean(StockCompanySummaryTask.class);
+//		stockCompanySummaryTask.init(null);
 		
 //		StockCompanyFinanceAnalyse stockCompanyFinanceAnalyse=cxt.getBean(StockCompanyFinanceAnalyse.class);
 //		stockCompanyFinanceAnalyse.init();
