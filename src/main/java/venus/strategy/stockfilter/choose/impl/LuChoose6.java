@@ -22,6 +22,7 @@ import venus.strategy.stockfilter.filter.impl.JinglirunstableStockFilter;
 import venus.strategy.stockfilter.filter.impl.JingzichanshouyilvStockFilter;
 import venus.strategy.stockfilter.filter.impl.JingzichanshouyilvhangyeStockFilter;
 import venus.strategy.stockfilter.filter.impl.NameStockFilter;
+import venus.strategy.stockfilter.filter.impl.OrgNameStockFilter;
 import venus.strategy.stockfilter.filter.impl.OrgholderrateStockFilter;
 import venus.strategy.stockfilter.filter.impl.PriceStockFilter;
 import venus.strategy.stockfilter.filter.impl.ShangshiriqiStockFilter;
@@ -61,6 +62,7 @@ public class LuChoose6 implements LuChoose{
 	@Autowired XiadieStockFilter xiadieStockFilter;
 	@Autowired XianjinliuStockFilter xianjinliuStockFilter;
 	@Autowired GuoqiStockFilter guoqiStockFilter;
+	@Autowired OrgNameStockFilter orgNameStockFilter;
 	public List<String> choose() {
 		logger.info("[start]");
 		
@@ -72,9 +74,9 @@ public class LuChoose6 implements LuChoose{
 				
 			
 //				if(!zongshizhiStockFilter.filter(code, "<100"))continue;
-				if(!hangyeStockFilter.filter(code, "2,=新材料||=化工新材料||=化工合成材料"))continue;
+//				if(!hangyeStockFilter.filter(code, "2,=新材料||=化工新材料||=化工合成材料"))continue;
 //				if(!shiyinglvttmStockFilter.filter(code, "<18"))continue;
-				if(!jingzichanshouyilvStockFilter.filter(code, ">0"))continue;
+//				if(!jingzichanshouyilvStockFilter.filter(code, ">0"))continue;
 //				if(!top1holderrateStockFilter.filter(code, ">25"))continue;
 	//			if(!orgholderrateStockFilter.filter(code, "<30"))continue;
 //				if(!xiaoshoumaolilvStockFilter.filter(code, ">30"))continue;
@@ -96,7 +98,9 @@ public class LuChoose6 implements LuChoose{
 //				if(!xianjinliuStockFilter.filter(code, "投资现金,<0"))continue;
 //				if(!xianjinliuStockFilter.filter(code, "现金,>0"))continue;
 				
-				if(!guoqiStockFilter.filter(code, "false"))continue;
+				if(!orgNameStockFilter.filter(code, "IN汇添富"))continue;
+				
+//				if(!guoqiStockFilter.filter(code, "false"))continue;
 								
 				result.add(code);
 			}
