@@ -20,6 +20,8 @@ public class StockCompanyTask {
 	@Autowired StockCompanyHolderCansellTask stockCompanyHolderCansellTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/holder/"
 	@Autowired StockCompanyHolderNumberTask stockCompanyHolderNumberTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/holder/"
 	@Autowired StockCompanyHolderTopTask stockCompanyHolderTopTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/holder/"
+	@Autowired StockCompanyHolderChangeTask stockCompanyHolderChangeTask;
+	@Autowired StockCompanyHolderStructTask stockCompanyHolderStructTask;
 	@Autowired StockCompanyHolderOrgTask stockCompanyHolderOrgTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/position/"
 	@Autowired StockCompanyHoldingTask stockCompanyHoldingTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/company/"
 	@Autowired StockCompanyInfoTask stockCompanyInfoTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/company/"
@@ -32,7 +34,6 @@ public class StockCompanyTask {
 		logger.info("[start]");
 		try{
 			String idInit=taskExecTimeMiddle.start("stockCompanyTask.init");
-			
 			
 			String id=null;
 			TaskUpdate taskUpdate=null;
@@ -114,6 +115,22 @@ public class StockCompanyTask {
 				id=taskExecTimeMiddle.start("stockCompanyHolderTopTask.initCache");
 				stockCompanyHolderTopTask.initCache();
 				taskUpdateMiddle.update("StockCompanyHolderTopTask.init",Constant.TIME$SECOND$3DAY);
+				taskExecTimeMiddle.end(id);
+			}
+			
+			taskUpdate=taskUpdateMapper.findExist("StockCompanyHolderChangeTask.init");
+			if(taskUpdate==null){
+				id=taskExecTimeMiddle.start("stockCompanyHolderChangeTask.initCache");
+				stockCompanyHolderChangeTask.initCache();
+				taskUpdateMiddle.update("StockCompanyHolderChangeTask.init",Constant.TIME$SECOND$3DAY);
+				taskExecTimeMiddle.end(id);
+			}
+			
+			taskUpdate=taskUpdateMapper.findExist("StockCompanyHolderStructTask.init");
+			if(taskUpdate==null){
+				id=taskExecTimeMiddle.start("stockCompanyHolderStructTask.initCache");
+				stockCompanyHolderStructTask.initCache();
+				taskUpdateMiddle.update("StockCompanyHolderStructTask.init",Constant.TIME$SECOND$3DAY);
 				taskExecTimeMiddle.end(id);
 			}
 			
@@ -228,6 +245,20 @@ public class StockCompanyTask {
 				taskUpdateMiddle.update("StockCompanyHolderTopTask.init",Constant.TIME$SECOND$3DAY);
 				taskExecTimeMiddle.end(id);
 			}
+			taskUpdate=taskUpdateMapper.findExist("StockCompanyHolderChangeTask.init");
+			if(taskUpdate==null){
+				id=taskExecTimeMiddle.start("stockCompanyHolderChangeTask.initCache");
+				stockCompanyHolderChangeTask.initCache();
+				taskUpdateMiddle.update("StockCompanyHolderChangeTask.init",Constant.TIME$SECOND$3DAY);
+				taskExecTimeMiddle.end(id);
+			}
+			taskUpdate=taskUpdateMapper.findExist("StockCompanyHolderStructTask.init");
+			if(taskUpdate==null){
+				id=taskExecTimeMiddle.start("stockCompanyHolderStructTask.initCache");
+				stockCompanyHolderStructTask.initCache();
+				taskUpdateMiddle.update("StockCompanyHolderStructTask.init",Constant.TIME$SECOND$3DAY);
+				taskExecTimeMiddle.end(id);
+			}
 			
 			taskUpdate=taskUpdateMapper.findExist("StockCompanyHolderOrgTask.init");
 			if(taskUpdate==null){
@@ -297,6 +328,14 @@ public class StockCompanyTask {
 			
 			id=taskExecTimeMiddle.start("stockCompanyHolderTopTask.initCache");
 			stockCompanyHolderTopTask.initCache();
+			taskExecTimeMiddle.end(id);
+			
+			id=taskExecTimeMiddle.start("stockCompanyHolderChangeTask.initCache");
+			stockCompanyHolderChangeTask.initCache();
+			taskExecTimeMiddle.end(id);
+			
+			id=taskExecTimeMiddle.start("stockCompanyHolderStructTask.initCache");
+			stockCompanyHolderStructTask.initCache();
 			taskExecTimeMiddle.end(id);
 			
 			id=taskExecTimeMiddle.start("stockCompanyHolderOrgTask.init");
