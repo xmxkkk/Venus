@@ -36,9 +36,9 @@ public interface StockCompanyHolderTopMapper {
 	@Select("select * from stock_company_holder_top where code=#{code} and type=#{type} and time=#{time}")
 	List<StockCompanyHolderTop> findCodeTypeTime(@Param("code")String code,@Param("type")String type,@Param("time")String time);
 	
-	@Select("select * from stock_company_holder_top where code=#{code} and type=#{type} order by time desc,stock_rate desc limit 1")
+	@Select("select * from stock_company_holder_top where code=#{code} and type=#{type} order by time desc,stock_rate desc limit #{length}")
+	List<StockCompanyHolderTop> findTop(@Param("code")String code,@Param("type")String type,@Param("length")int length);
 	
-	StockCompanyHolderTop findTop1(@Param("code")String code,@Param("type")String type);
 	@InsertProvider(type=StockCompanyHolderTopMapperProvider.class,method="insertAll")
 	int insertAll(List<StockCompanyHolderTop> list);
 	

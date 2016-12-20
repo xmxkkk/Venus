@@ -17,16 +17,17 @@ import venus.strategy.stockfilter.filter.StockFilter;
  *
  */
 @Component
-public class Top1holderrateStockFilter implements StockFilter{
-	Logger logger=Logger.getLogger(Top1holderrateStockFilter.class);
+public class Top10holderrateStockFilter implements StockFilter{
+	Logger logger=Logger.getLogger(Top10holderrateStockFilter.class);
 	@Autowired StockCompanyHolderTopMapper stockCompanyHolderTopMapper;
 	public boolean filter(String code, String params) {
 		logger.info("[start]"+code+","+params);
 		boolean result=false;
+		double rate=0;
 		try{
-			List<StockCompanyHolderTop> stockCompanyHolderTops=stockCompanyHolderTopMapper.findTop(code, "top10_gudong_in",1);
+			List<StockCompanyHolderTop> stockCompanyHolderTops=stockCompanyHolderTopMapper.findTop(code, "top10_gudong_in",10);
 			if(stockCompanyHolderTops==null||stockCompanyHolderTops.size()==0)return false;
-			double rate=0;
+			
 			for (StockCompanyHolderTop stockCompanyHolderTop2 : stockCompanyHolderTops) {
 				rate+=stockCompanyHolderTop2.getStock_rate();
 			}
@@ -35,7 +36,7 @@ public class Top1holderrateStockFilter implements StockFilter{
 			e.printStackTrace();
 			logger.info("[except]"+e.getMessage());
 		}
-		logger.info("[start]"+code+","+params+","+result);
+		logger.info("[start]"+code+","+rate+","+params+","+result);
 		return result;
 	}
 }

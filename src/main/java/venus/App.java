@@ -26,8 +26,8 @@ public class App {
 //		StockCompanyFinanceAnalyse stockCompanyFinanceAnalyse=cxt.getBean(StockCompanyFinanceAnalyse.class);
 //		stockCompanyFinanceAnalyse.init();
 		
-		StockCompanyHolderStructTask stockCompanyHolderStructTask=cxt.getBean(StockCompanyHolderStructTask.class);
-		stockCompanyHolderStructTask.initCache();
+//		StockCompanyHolderStructTask stockCompanyHolderStructTask=cxt.getBean(StockCompanyHolderStructTask.class);
+//		stockCompanyHolderStructTask.initCache();
 		
 		CommandProperty startProperty=cxt.getBean(CommandProperty.class);
 		String startDtCommand=startProperty.getCommandDt().trim();

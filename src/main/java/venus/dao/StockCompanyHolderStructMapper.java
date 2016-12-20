@@ -32,6 +32,9 @@ public interface StockCompanyHolderStructMapper {
 	@Select("select * from stock_company_holder_struct where code=#{code}")
 	List<StockCompanyHolderStruct> findCode(String code);
 	
+	@Select("select * from stock_company_holder_struct where code=#{code} order by time desc limit 1")
+	StockCompanyHolderStruct findCodeLast(String code);
+	
 	@Select("select * from stock_company_holder_struct where code=#{code} and time=#{time}")
 	StockCompanyHolderStruct findCodeTime(@Param("code")String code,@Param("time")String time);
 	
