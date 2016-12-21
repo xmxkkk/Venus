@@ -76,11 +76,13 @@ public class StockCompanyFinanceTask {
 				
 				List<StockCompanyFinance> insertAll = new ArrayList<StockCompanyFinance>();
 				Stockinfo stock = stocks.get(i);
+				String code=stock.getCode();
 				
-				String[] dataTypes = { "debt", "benefit", "cash" };
+//				stockCompanyFinanceMapper.deleteCode(code);
+				
+				String[] dataTypes = {"each", "grow", "pay", "operate", "debt", "benefit", "cash" };
 				
 				for (String dataType : dataTypes) {
-					String code=stock.getCode();
 					
 					List<String> typeList=new ArrayList<String>();
 					typeList.add("report");
@@ -156,7 +158,6 @@ public class StockCompanyFinanceTask {
 								stockCompanyFinance.setUpdate_time(DateUtil.datetime());
 								
 								StockCompanyFinance stockCompanyFinanceDB=stockCompanyFinanceMapper.find(code, time, menu, type);
-								
 								if(stockCompanyFinanceDB!=null){
 									stockCompanyFinanceMapper.delete(code, time, menu, type);
 								}

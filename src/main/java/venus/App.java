@@ -9,6 +9,7 @@ import venus.helper.util.CommonUtil;
 import venus.task.analyse.LuStrategyTask;
 import venus.task.collect.CheckTask;
 import venus.task.collect.DayTask;
+import venus.task.collect.StockCompanyFinanceTask;
 import venus.task.collect.StockCompanyHolderStructTask;
 import venus.task.collect.StockCompanyTask;
 
@@ -28,6 +29,9 @@ public class App {
 		
 //		StockCompanyHolderStructTask stockCompanyHolderStructTask=cxt.getBean(StockCompanyHolderStructTask.class);
 //		stockCompanyHolderStructTask.initCache();
+		
+//		StockCompanyFinanceTask stockCompanyFinanceTask=cxt.getBean(StockCompanyFinanceTask.class);
+//		stockCompanyFinanceTask.init("000001");
 		
 		CommandProperty startProperty=cxt.getBean(CommandProperty.class);
 		String startDtCommand=startProperty.getCommandDt().trim();

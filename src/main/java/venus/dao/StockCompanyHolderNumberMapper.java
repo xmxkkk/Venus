@@ -39,6 +39,12 @@ public interface StockCompanyHolderNumberMapper {
 	@Select("select * from stock_company_holder_number where code=#{code} and time<=#{time} order by time asc")
 	List<StockCompanyHolderNumber> findDtLt(@Param("code")String code,@Param("time")String time);
 	
+	@Select("select * from stock_company_holder_number where code=#{code} and menu like #{menu} order by time desc limit 1")
+	StockCompanyHolderNumber findCodeMenuLast(@Param("code")String code,@Param("menu")String menu);
+	
+	@Select("select * from stock_company_holder_number where code=#{code} order by time desc limit 1")
+	StockCompanyHolderNumber findCodeLast(@Param("code")String code);
+	
 	@InsertProvider(type=StockCompanyHolderNumberMapperProvider.class,method="insertAll")
 	int insertAll(List<StockCompanyHolderNumber> list);
 	
