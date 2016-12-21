@@ -93,11 +93,11 @@ public class CheckTask {
 				StockCompanyFinance stockCompanyFinance=stockCompanyFinanceMapper.findLastTime(code);
 				if(stockCompanyFinance==null){
 					logger.info("[message]"+code+",StockCompanyFinance");
-					stockCompanyFinanceTask.init(code);
+					stockCompanyFinanceTask.init(code,0);
 				}else{
 					if(!stockCompanyFinance.getTime().equals(newOne)&&!stockCompanyFinance.getTime().equals(beforeNewOne)){
 						logger.info("[message]"+code+",StockCompanyFinance");
-						stockCompanyFinanceTask.init(code);
+						stockCompanyFinanceTask.init(code,0);
 					}
 				}
 				
@@ -155,13 +155,13 @@ public class CheckTask {
 					StockCompanyHangyeData stockCompanyHangyeData=stockCompanyHangyeDataMapper.findLastTime(code);
 					if(stockCompanyHangyeData==null){
 						logger.info("[message]"+code+",StockCompanyHangyeData");
-						stockCompanyHangyeDataTask.init(code);
+						stockCompanyHangyeDataTask.init(code,0);
 					}else{
 						if(stockCompanyHangyeData.getDate().equals(newOne)||stockCompanyHangyeData.getDate().equals(beforeNewOne)){
 							
 						}else{
 							logger.info("[message]"+code+",StockCompanyHangyeData");
-							stockCompanyHangyeDataTask.init(code);
+							stockCompanyHangyeDataTask.init(code,0);
 						}
 					}
 				}
@@ -169,21 +169,21 @@ public class CheckTask {
 					StockCompanySummary stockCompanySummary=stockCompanySummaryMapper.findCode(code);
 					if(stockCompanySummary==null||stockCompanySummary.getShangshiriqi()==null){
 						logger.info("[message]"+code+",StockCompanySummary");
-						stockCompanySummaryTask.init(code);
+						stockCompanySummaryTask.init(code,0);
 					}
 				}
 				if(stock.getStop()==0){
 					StockCompanyHangye stockCompanyHangye=stockCompanyHangyeMapper.findCode(code);
 					if(stockCompanyHangye==null){
 						logger.info("[message]"+code+",StockCompanyHangye");
-						stockCompanyHangyeTask.init(code);
+						stockCompanyHangyeTask.init(code,0);
 					}
 				}
 				if(stock.getStop()==0){
 					StockCompanyInfo stockCompanyInfo=stockCompanyInfoMapper.findCode(code);
 					if(stockCompanyInfo==null){
 						logger.info("[message]"+code+",StockCompanyInfo");
-						stockCompanyInfoTask.init(code);
+						stockCompanyInfoTask.init(code,0);
 					}
 				}
 			}

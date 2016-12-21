@@ -8,6 +8,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import venus.dao.StockCompanyHolderStructMapper;
@@ -19,17 +20,20 @@ import venus.model.dao.Stockinfo;
 
 @Component
 public class StockCompanyHolderStructTask {
+	Logger logger=Logger.getLogger(StockCompanyHolderStructTask.class);
+	@Value("${stock-company-holder-struct-threadnum}")
+	public int threadNum;
 	@Autowired StockinfoMapper stockinfoMapper;
 	@Autowired StockCompanyHolderStructMapper stockCompanyHolderStructMapper;
-	Logger logger=Logger.getLogger(StockCompanyHolderStructTask.class);
+	
 	@Autowired URLUtil URLUtil;
-	public void init(){
-		init(false);
+	public void init(int threadId){
+		init(false,threadId);
 	}
-	public void initCache(){
-		init(true);
+	public void initCache(int threadId){
+		init(true,threadId);
 	}
-	private void init(boolean cacheParam){
+	private void init(boolean cacheParam,int threadId){
 		logger.info("[start]"+cacheParam);
 		try{
 			List<StockCompanyHolderStruct> insertAll=new ArrayList<StockCompanyHolderStruct>();
@@ -37,6 +41,10 @@ public class StockCompanyHolderStructTask {
 			List<Stockinfo> stocks=stockinfoMapper.findStockinfos();
 			for(Stockinfo stock:stocks){
 				//http://stockpage.10jqka.com.cn/000001/position/
+				if (stock.getCode().hashCode() % threadNum != threadId) {
+					continue;
+				}
+				
 				String code=stock.getCode();
 				String str=null;
 				try{

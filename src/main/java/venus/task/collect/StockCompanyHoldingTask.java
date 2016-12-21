@@ -9,6 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import venus.dao.StockCompanyHoldingMapper;
@@ -24,18 +25,20 @@ import venus.model.dao.Stockinfo;
 @Component
 public class StockCompanyHoldingTask {
 	Logger logger=Logger.getLogger(StockCompanyHoldingTask.class);
+	@Value("${stock-company-holding-threadnum}")
+	public int threadNum;
 	@Autowired
 	StockCompanyHoldingMapper stockCompanyHoldingMapper;
 	@Autowired
 	StockinfoMapper stockinfoMapper;
 	@Autowired URLUtil URLUtil;
-	public void init(){
-		init(false);
+	public void init(int threadId){
+		init(false,threadId);
 	}
-	public void initCache(){
-		init(true);
+	public void initCache(int threadId){
+		init(true,threadId);
 	}
-	private void init(boolean cacheParam){
+	private void init(boolean cacheParam,int threadId){
 		logger.info("[start]"+cacheParam);
 		try{
 			List<StockCompanyHolding> insertAll=new ArrayList<StockCompanyHolding>();
@@ -45,6 +48,9 @@ public class StockCompanyHoldingTask {
 			List<Stockinfo> stocks=stockinfoMapper.findStockinfos();
 			for(Stockinfo stock:stocks){
 				//http://stockpage.10jqka.com.cn/000002/company/
+				if (stock.getCode().hashCode() % threadNum != threadId) {
+					continue;
+				}
 				
 				String str=null;
 				try{

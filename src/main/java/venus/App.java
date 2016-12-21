@@ -4,13 +4,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import venus.helper.middle.Count;
 import venus.helper.property.CommandProperty;
 import venus.helper.util.CommonUtil;
 import venus.task.analyse.LuStrategyTask;
 import venus.task.collect.CheckTask;
 import venus.task.collect.DayTask;
 import venus.task.collect.StockCompanyFinanceTask;
-import venus.task.collect.StockCompanyHolderStructTask;
+import venus.task.collect.StockCompanySummaryTask;
 import venus.task.collect.StockCompanyTask;
 
 @SpringBootApplication
@@ -30,8 +31,23 @@ public class App {
 //		StockCompanyHolderStructTask stockCompanyHolderStructTask=cxt.getBean(StockCompanyHolderStructTask.class);
 //		stockCompanyHolderStructTask.initCache();
 		
-//		StockCompanyFinanceTask stockCompanyFinanceTask=cxt.getBean(StockCompanyFinanceTask.class);
-//		stockCompanyFinanceTask.init("000001");
+		
+//		final StockCompanyFinanceTask stockCompanyFinanceTask=cxt.getBean(StockCompanyFinanceTask.class);
+//		final Count count=new Count();
+//		count.init(stockCompanyFinanceTask.threadNum);
+//		for (int i = 0; i < stockCompanyFinanceTask.threadNum; i++) {
+//			final int threadId = i;
+//			new Thread() {
+//				public void run() {
+//					stockCompanyFinanceTask.init(null,threadId);
+//					synchronized (count) {
+//						count.reduce();
+//					}
+//				}
+//			}.start();
+//		}
+//		CommonUtil.wait2000(count);
+		
 		
 		CommandProperty startProperty=cxt.getBean(CommandProperty.class);
 		String startDtCommand=startProperty.getCommandDt().trim();
@@ -73,7 +89,7 @@ public class App {
 		String startShutdownCommand=startProperty.getCommandShutdown().trim();
 		if(!startShutdownCommand.equals("none")&&startShutdownCommand.equals("start")){
 			CommonUtil.shutdown();
-		}
+		}/**/
 		
 		
 //		StockCompanySummaryTask stockCompanySummaryTask=cxt.getBean(StockCompanySummaryTask.class);

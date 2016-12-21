@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONArray;
@@ -22,21 +23,22 @@ import venus.model.dao.Stockinfo;
 @Component
 public class StockCompanyFinanceTask {
 	Logger logger = Logger.getLogger(StockCompanyFinanceTask.class);
-
+	@Value("${stock-company-finance-task-threadnum}")
+	public int threadNum;
 	@Autowired
 	private StockCompanyFinanceMapper stockCompanyFinanceMapper;
 	@Autowired
 	private StockinfoMapper stockinfoMapper;
 	@Autowired URLUtil URLUtil;
-	public void init(String stockCode) {
-		init(false,stockCode);
+	public void init(String stockCode,int threadId) {
+		init(false,stockCode,threadId);
 	}
 
-	public void initCache(String stockCode) {
-		init(true,stockCode);
+	public void initCache(String stockCode,int threadId) {
+		init(true,stockCode,threadId);
 	}
 
-	private void init(boolean cacheParam,String stockCode) {
+	private void init(boolean cacheParam,String stockCode,int threadId) {
 
 		// http://stockpage.10jqka.com.cn/basic/000001/main.txt
 		// http://stockpage.10jqka.com.cn/basic/000001/debt.txt
@@ -44,7 +46,6 @@ public class StockCompanyFinanceTask {
 		// http://stockpage.10jqka.com.cn/basic/000001/cash.txt
 		logger.info("[start]" + cacheParam);
 		try {
-			
 			/* "main", */// 002815:cash:1000
 			List<Stockinfo> stocks = null;
 			if(stockCode==null){
@@ -54,6 +55,8 @@ public class StockCompanyFinanceTask {
 				Stockinfo stock=stockinfoMapper.findStockinfo(stockCode);
 				stocks.add(stock);
 			}
+			
+			List<String> kv=new ArrayList<String>();
 			
 			//"report", "simple", "year"
 
@@ -73,15 +76,21 @@ public class StockCompanyFinanceTask {
 			}
 			
 			for (int i = 0; i < stocks.size(); i++) {
-				
-				List<StockCompanyFinance> insertAll = new ArrayList<StockCompanyFinance>();
 				Stockinfo stock = stocks.get(i);
 				String code=stock.getCode();
 				
+				if(stockCode==null){
+					if (code.hashCode() % threadNum != threadId) {
+						continue;
+					}
+				}
+				
+				List<StockCompanyFinance> insertAll = new ArrayList<StockCompanyFinance>();
+				
 //				stockCompanyFinanceMapper.deleteCode(code);
 				
-				String[] dataTypes = {"each", "grow", "pay", "operate", "debt", "benefit", "cash" };
-				
+				String[] dataTypes = {"main", "each", "grow", "pay", "operate", "debt", "benefit", "cash" };
+//				String[] dataTypes = {};
 				for (String dataType : dataTypes) {
 					
 					List<String> typeList=new ArrayList<String>();
@@ -132,7 +141,6 @@ public class StockCompanyFinanceTask {
 
 					JSONArray title = object.getJSONArray("title");
 
-					
 					for (String type : types) {
 						JSONArray report = object.getJSONArray(type);
 						for (int k = 1; k < report.size(); k++) {
@@ -162,12 +170,18 @@ public class StockCompanyFinanceTask {
 									stockCompanyFinanceMapper.delete(code, time, menu, type);
 								}
 								
-								insertAll.add(stockCompanyFinance);
+								String key=code+ time+ menu+ type;
+								
+								if(!kv.contains(key)){
+									kv.add(key);
+									insertAll.add(stockCompanyFinance);
+								}
 
 								if (insertAll.size() == 1000) {
 									stockCompanyFinanceMapper.insertAll(insertAll);
 									logger.info(stock.getCode() + ":" + dataType + ":" + insertAll.size());
 									insertAll.clear();
+									kv.clear();
 								}
 							}
 						}

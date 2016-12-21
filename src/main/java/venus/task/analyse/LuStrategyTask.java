@@ -306,10 +306,19 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 					StockDay stockDay=stockDayMapper.findLast(code);
 					
 					double zongshizhi=stockCompanySummary.getZongshizhi()==null?0:stockCompanySummary.getZongshizhi();
+					double shiyinglvttm=stockCompanySummary==null||stockCompanySummary.getShiyinglvttm()==null?0:stockCompanySummary.getShiyinglvttm();
+					double jingzichanshouyilv=stockCompanySummary==null||stockCompanySummary.getJingzichanshouyilv()==null?0:stockCompanySummary.getJingzichanshouyilv();
 					
-					logger.info(stock.getCode()+"="+stock.getName()+"	"+",市盈率="+stockCompanySummary.getShiyinglvttm()+",	净收="+stockCompanySummary.getJingzichanshouyilv()
-					+",	总市值:"+NumUtil.format(zongshizhi/100000000,0)+",	行业:"+stockCompanyHangye.getLevel1()+"	,"+stockCompanyHangye.getLevel2()+"	,"
-							+stockCompanyHangye.getLevel3()+",	价格:"+stockDay.getClose_price());
+					String level1=stockCompanyHangye==null||stockCompanyHangye.getLevel1()==null?"":stockCompanyHangye.getLevel1();
+					String level2=stockCompanyHangye==null||stockCompanyHangye.getLevel2()==null?"":stockCompanyHangye.getLevel2();
+					String level3=stockCompanyHangye==null||stockCompanyHangye.getLevel3()==null?"":stockCompanyHangye.getLevel3();
+					
+					double close_price=stockDay==null||stockDay.getClose_price()==null?0:stockDay.getClose_price();
+					
+					
+					logger.info(stock.getCode()+"="+stock.getName()+"	"+",市盈率="+shiyinglvttm+",	净收="+jingzichanshouyilv
+					+",	总市值:"+NumUtil.format(zongshizhi/100000000,0)+",	行业:"+level1+"	,"+level2+"	,"
+							+level3+",	价格:"+close_price);
 				}
 				
 				luStrategy.setRun_status(1);

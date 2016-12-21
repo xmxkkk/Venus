@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import venus.dao.StockCompanyFinanceMapper;
@@ -26,18 +27,20 @@ import venus.model.dao.Stockinfo;
 @Component
 public class StockCompanySummaryTask {
 	Logger logger=Logger.getLogger(StockCompanySummaryTask.class);
+	@Value("${stock-company-summary-threadnum}")
+	public int threadNum;
 	@Autowired StockinfoMapper stockinfoMapper;
 	@Autowired StockDayMapper stockDayMapper;
 	@Autowired StockCompanySummaryMapper stockCompanySummaryMapper;
 	@Autowired StockCompanyFinanceMapper stockCompanyFinanceMapper;
 	@Autowired URLUtil URLUtil;
-	public void init(String stockCode){
-		init(false,stockCode);
+	public void init(String stockCode,int threadId){
+		init(false,stockCode,threadId);
 	}
-	public void initCache(String stockCode){
-		init(true,stockCode);
+	public void initCache(String stockCode,int threadId){
+		init(true,stockCode,threadId);
 	}
-	private void init(boolean cacheParam,String stockCode){
+	private void init(boolean cacheParam,String stockCode,int threadId){
 		//http://hq.sinajs.cn/?list=sh600000,sh600004,sh600005,sh600006,sh600007,sh600008,sh600009,sh600010,sh600011,sh600012,sh600015,sh600016,sh600017,sh600018,sh600019,sh600020,sh600021,sh600022,sh600023,sh600026,sh600027,sh600028,sh600029,sh600030,sh600031,sh600033,sh600035,sh600036,sh600037,sh600038,sh600039,sh600048,sh600050,sh600051,sh600052,sh600053,sh600054,sh600055,sh600056,sh600057
 		logger.info("[start]"+cacheParam+","+stockCode);
 		try{
@@ -51,6 +54,12 @@ public class StockCompanySummaryTask {
 			}
 			for(int i=0;i<stocks.size();i++){
 				Stockinfo stock=stocks.get(i);
+				
+				if(stockCode==null){
+					if (stock.getCode().hashCode() % threadNum != threadId) {
+						continue;
+					}
+				}
 
 				String str=null;
 				try{
@@ -202,12 +211,6 @@ public class StockCompanySummaryTask {
 				}
 				stockCompanySummary.setZuijinniandujinglirun(zuijinniandujinglirun);
 				
-				/*
-				m=Pattern.compile("var profit = ([0-9\\.-]+);").matcher(str);
-				while(m.find()){
-					double zuijinniandujinglirun=Double.parseDouble(m.group(1))*100000000;
-					stockCompanySummary.setZuijinniandujinglirun(zuijinniandujinglirun);
-				}*/
 				
 				List<StockCompanyFinance> zuijinsigejidujingliruns=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "simple", "净利润",4);
 				double zuijinsigejidujinglirun=0;
@@ -218,12 +221,6 @@ public class StockCompanySummaryTask {
 					zuijinsigejidujinglirun *= 10000;
 				}
 				stockCompanySummary.setZuijinsigejidujinglirun(zuijinsigejidujinglirun);
-				/*
-				m=Pattern.compile("var profit_four = ([0-9\\.-]+);").matcher(str);
-				while(m.find()){
-					double zuijinsigejidujinglirun=Double.parseDouble(m.group(1))*100000000;
-					
-				}*/
 				
 				m=Pattern.compile("<p><b>注册资本：</b>([0-9\\.-]+)万元</p>").matcher(str);
 				while(m.find()){
@@ -282,6 +279,12 @@ public class StockCompanySummaryTask {
 			}
 			for(Stockinfo stock:stocks){
 				String code=stock.getCode();
+//				if(code.compareTo("601958")<0){
+//					continue;
+//				}
+//				if(code.equals("601958")){
+//					System.out.println();
+//				}
 				logger.info(code);
 				StockCompanySummary stockCompanySummary=stockCompanySummaryMapper.findCode(code);
 				if(stockCompanySummary==null){
@@ -316,16 +319,33 @@ public class StockCompanySummaryTask {
 					shijinglv=NumUtil.format2(stockCompanySummary.getClose_price()/stockCompanySummary.getMeigujingzichan());
 				}
 				double shiyinglvttm=0;
-				if(stockCompanySummary.getZuijinsigejidujinglirun()!=0.0){
-					shiyinglvttm=NumUtil.format2(lastStockDay.getClose_price()*stockCompanySummary.getZongguben()/stockCompanySummary.getZuijinsigejidujinglirun());
+				
+				List<StockCompanyFinance> stockCompanyFinancess=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "simple", "基本每股收益", 4);
+				if(stockCompanyFinancess!=null&&stockCompanyFinancess.size()==4){
+					double lirun=0;
+					for(int i=0;i<stockCompanyFinancess.size();i++){
+						lirun+=stockCompanyFinancess.get(i).getValue();
+					}
+					lirun=NumUtil.format4(lirun);
+					if(lirun!=0){
+						shiyinglvttm=NumUtil.format4(lastStockDay.getClose_price()/lirun);
+					}
 				}
+
 				double shiyinglvjing=0;
-				if(stockCompanySummary.getZuijinniandujinglirun()!=0.0){
-					shiyinglvjing=NumUtil.format2(lastStockDay.getClose_price()*stockCompanySummary.getZongguben()/stockCompanySummary.getZuijinniandujinglirun());
+				List<StockCompanyFinance> stockCompanyFinance1=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "year", "基本每股收益", 1);
+				if(stockCompanyFinance1!=null&&stockCompanyFinance1.size()==1){
+					double lirunyear=stockCompanyFinance1.get(0).getValue();
+					lirunyear=NumUtil.format4(lirunyear);
+					if(lirunyear!=0){
+						shiyinglvjing=lastStockDay.getClose_price()/lirunyear;
+					}
 				}
+				
 				double jingzichanshouyilv=0;
-				if(stockCompanySummary.getMeigujingzichan()!=0.0){
-					jingzichanshouyilv=NumUtil.format2(stockCompanySummary.getZuijinsigejidumeigushouyi()*100.0/stockCompanySummary.getMeigujingzichan());
+				List<StockCompanyFinance> stockCompanyFinance2=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "year", "净资产收益率", 1);
+				if(stockCompanyFinance2!=null&&stockCompanyFinance2.size()==1){
+					jingzichanshouyilv=stockCompanyFinance2.get(0).getValue();
 				}
 				
 				String update_time=DateUtil.datetime();

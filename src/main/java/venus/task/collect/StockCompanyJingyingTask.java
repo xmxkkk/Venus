@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONArray;
@@ -24,19 +25,21 @@ import venus.model.dao.Stockinfo;
 @Component
 public class StockCompanyJingyingTask {
 	Logger logger=Logger.getLogger(StockCompanyJingyingTask.class);
+	@Value("${stock-company-jingying-threadnum}")
+	public int threadNum;
 	@Autowired
 	StockCompanyJingyingMapper stockCompanyJingyingMapper;
 	@Autowired
 	StockinfoMapper stockinfoMapper;
 	
 	@Autowired URLUtil URLUtil;
-	public void init(String stockCode){
-		init(false,stockCode);
+	public void init(String stockCode,int threadId){
+		init(false,stockCode,threadId);
 	}
-	public void initCache(String stockCode){
-		init(true,stockCode);
+	public void initCache(String stockCode,int threadId){
+		init(true,stockCode,threadId);
 	}
-	private void init(boolean cacheParam,String stockCode){
+	private void init(boolean cacheParam,String stockCode,int threadId){
 		logger.info("[start]"+cacheParam+","+stockCode);
 		try{
 			List<Stockinfo> stocks = null;
@@ -52,6 +55,14 @@ public class StockCompanyJingyingTask {
 			
 			for(Stockinfo stock:stocks){
 				String code=stock.getCode();
+				
+				if(stockCode==null){
+					if (code.hashCode() % threadNum != threadId) {
+						continue;
+					}
+				}
+				
+				
 				
 				String str=null;
 				try{

@@ -9,6 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import venus.dao.StockCompanyHolderTopMapper;
@@ -24,23 +25,29 @@ import venus.model.dao.Stockinfo;
 @Component
 public class StockCompanyHolderTopTask {
 	Logger logger=Logger.getLogger(StockCompanyHolderTopTask.class);
+	@Value("${stock-company-holder-top-threadnum}")
+	public int threadNum;
 	@Autowired StockCompanyHolderTopMapper stockCompanyHolderTopMapper;
 	@Autowired StockinfoMapper stockinfoMapper;
 	@Autowired StockCompanySummaryMapper stockCompanySummaryMapper;
 	@Autowired URLUtil URLUtil;
-	public void init(){
-		init(false);
+	public void init(int threadId){
+		init(false,threadId);
 	}
-	public void initCache(){
-		init(true);
+	public void initCache(int threadId){
+		init(true,threadId);
 	}
-	private void init(boolean cacheParam){
+	private void init(boolean cacheParam,int threadId){
 		logger.info("[start]"+cacheParam);
 		try{
 			List<StockCompanyHolderTop> insertAll=new ArrayList<StockCompanyHolderTop>();
 			
 			List<Stockinfo> stocks=stockinfoMapper.findStockinfos();
 			for(Stockinfo stock:stocks){
+				if (stock.getCode().hashCode() % threadNum != threadId) {
+					continue;
+				}
+				
 				if(stockCompanySummaryMapper.findCode(stock.getCode())==null)continue;
 				if(stockCompanySummaryMapper.findStop(stock.getCode())!=null)continue;
 				

@@ -7,6 +7,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import venus.dao.StockCompanyEventMapper;
@@ -21,23 +22,30 @@ import venus.model.dao.Stockinfo;
 @Component
 public class StockCompanyEventTask {
 	Logger logger=Logger.getLogger(StockCompanyEventTask.class);
+	@Value("${stock-company-event-task-threadnum}")
+	public int threadNum;
 	@Autowired
 	StockCompanyEventMapper stockCompanyEventMapper;
 	@Autowired
 	StockinfoMapper stockinfoMapper;
 	@Autowired URLUtil URLUtil;
-	public void init(){
-		init(false);
+	public void init(int threadId){
+		init(false,threadId);
 	}
-	public void initCache(){
-		init(true);
+	public void initCache(int threadId){
+		init(true,threadId);
 	}
-	private void init(boolean cacheParam){
+	private void init(boolean cacheParam,int threadId){
 		logger.info("[start]"+cacheParam);
 		try{
 			List<Stockinfo> stocks=stockinfoMapper.findStockinfos();
 			for(Stockinfo stock:stocks){
 				//http://stockpage.10jqka.com.cn/000001/event/
+				String code=stock.getCode();
+				if (code.hashCode() % threadNum != threadId) {
+					continue;
+				}
+				
 				String str=null;
 				try{
 					str=URLUtil.url2str("http://stockpage.10jqka.com.cn/"+stock.getCode()+"/event/", cacheParam);

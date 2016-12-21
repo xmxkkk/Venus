@@ -8,6 +8,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import venus.dao.StockCompanyInfoMapper;
@@ -22,19 +23,21 @@ import venus.model.dao.Stockinfo;
 @Component
 public class StockCompanyInfoTask {
 	Logger logger=Logger.getLogger(StockCompanyInfoTask.class);
+	@Value("${stock-company-info-threadnum}")
+	public int threadNum;
 	@Autowired
 	StockCompanyInfoMapper stockCompanyInfoMapper;
 	@Autowired
 	StockinfoMapper stockinfoMapper;
 	
 	@Autowired URLUtil URLUtil;
-	public void init(String stockCode){
-		init(false,stockCode);
+	public void init(String stockCode,int threadId){
+		init(false,stockCode,threadId);
 	}
-	public void initCache(String stockCode){
-		init(true,stockCode);
+	public void initCache(String stockCode,int threadId){
+		init(true,stockCode,threadId);
 	}
-	private void init(boolean cacheParam,String stockCode){
+	private void init(boolean cacheParam,String stockCode,int threadId){
 		logger.info("[start]"+cacheParam+","+stockCode);
 		try{
 			List<Stockinfo> stocks = null;
@@ -46,6 +49,11 @@ public class StockCompanyInfoTask {
 				stocks.add(stock);
 			}
 			for(Stockinfo stock:stocks){
+				if(stockCode==null){
+					if (stock.getCode().hashCode() % threadNum != threadId) {
+						continue;
+					}
+				}
 				String str=null;
 				try{
 					str=URLUtil.url2str("http://stockpage.10jqka.com.cn/"+stock.getCode()+"/company/", cacheParam);
