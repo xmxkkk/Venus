@@ -28,8 +28,13 @@ public class URLUtil {
 	@Value("${url-file-basepath}")
 	String urlFileBasepath;
 	
-	static CloseableHttpClient httpclient = HttpClients.createDefault();
-	
+	static CloseableHttpClient httpclient;// = HttpClients.createDefault();
+	public URLUtil(){
+		RequestConfig config=RequestConfig.custom().setConnectTimeout(Constant.TIMEOUT).setConnectionRequestTimeout(Constant.TIMEOUT).setSocketTimeout(Constant.TIMEOUT).build();
+		httpclient = HttpClients.custom().setDefaultRequestConfig(config)  
+		         .setMaxConnTotal(200)  
+		         .setMaxConnPerRoute(100).build();  
+	}
 	public String url2str(String url,boolean cache) throws IOException{
 		return url2str(url, Constant.CHARSET$UTF8, cache);
 	}
@@ -47,10 +52,10 @@ public class URLUtil {
 		}
 		String result=null;
 		HttpGet httpGet=new HttpGet(url);
+		CloseableHttpResponse response=null;
 		try {
-			RequestConfig config=RequestConfig.custom().setConnectTimeout(Constant.TIMEOUT).setConnectionRequestTimeout(Constant.TIMEOUT).setSocketTimeout(Constant.TIMEOUT).build();
-			httpGet.setConfig(config);
-			CloseableHttpResponse response=httpclient.execute(httpGet);
+//			httpGet.setConfig(config);
+			response=httpclient.execute(httpGet);
 			if(response.getStatusLine().getStatusCode()==200){
 				result=is2str(response.getEntity().getContent(),charset);
 			}else{
@@ -60,16 +65,19 @@ public class URLUtil {
 				result= null;
 			}
 		} catch (ClientProtocolException e) {
-			if(!httpGet.isAborted()){
-				httpGet.abort();
-			}
 			throw e;
 		} catch (IOException e) {
-			if(!httpGet.isAborted()){
-				httpGet.abort();
-			}
 			throw e;
 		}finally {
+			try {  
+                if (response != null) {  
+                    response.getEntity().getContent().close();
+                }  
+            } catch (IllegalStateException e) {  
+            	throw e;
+            } catch (IOException e) {  
+            	throw e;
+            }  
 			if(!httpGet.isAborted()){
 				httpGet.abort();
 			}
