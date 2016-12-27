@@ -36,6 +36,9 @@ public class NumUtil {
 		return new BigDecimal(d).setScale(wei, BigDecimal.ROUND_HALF_UP).toString();
 	}
 	public static double text2num(String text){
+		return text2num(text,2);
+	}
+	public static double text2num(String text,int dic){
 		text=text.replaceAll("元", "").replaceAll("手", "").replaceAll("股", "").replaceAll(" ", "").trim();
 		if(text.equals("")||text.equals("&nbsp;")||text.equals(" ")){
 			return 0;
@@ -56,7 +59,7 @@ public class NumUtil {
 			text=text.replace("%", "");
 		}
 		try{
-			double result=new BigDecimal(text).multiply(new BigDecimal(unit)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+			double result=new BigDecimal(text).multiply(new BigDecimal(unit)).setScale(dic, BigDecimal.ROUND_HALF_UP).doubleValue();
 			return result;
 		}catch(Exception e){
 			return 0;

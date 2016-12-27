@@ -1,5 +1,8 @@
 package venus;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -7,6 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import venus.helper.middle.Count;
 import venus.helper.property.CommandProperty;
 import venus.helper.util.CommonUtil;
+import venus.helper.util.DateUtil;
 import venus.task.analyse.LuStrategyTask;
 import venus.task.collect.CheckTask;
 import venus.task.collect.DayTask;
@@ -47,6 +51,9 @@ public class App {
 //			}.start();
 //		}
 //		CommonUtil.wait2000(count);
+		
+//		List<String> list=new ArrayList<String>();
+		System.out.println(DateUtil.financeDay(null,"2016-12-30", 2));
 		
 		
 		CommandProperty startProperty=cxt.getBean(CommandProperty.class);

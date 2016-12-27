@@ -155,7 +155,7 @@ public class StockCompanyFinanceTask {
 
 							for (int x = 0; x < report.getJSONArray(k).size(); x++) {
 								String time = report.getJSONArray(0).getString(x);
-								double value = NumUtil.text2num(report.getJSONArray(k).getString(x) + unit);
+								double value = NumUtil.text2num(report.getJSONArray(k).getString(x) + unit, 4);
 
 								StockCompanyFinance stockCompanyFinance = new StockCompanyFinance();
 								stockCompanyFinance.setCode(stock.getCode());

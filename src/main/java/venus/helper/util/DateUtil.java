@@ -239,4 +239,35 @@ public class DateUtil {
 		return null;
 	}
 	
+	public static List<String> financeDay(List<String> result,String day,int num){
+		if(result==null){
+			result=new ArrayList<String>();
+		}
+		if(num==0){
+			return result;
+		}
+		
+		//"2016-09-30"
+		int year=Integer.parseInt(day.substring(0,4));
+		int month=Integer.parseInt(day.substring(5, 7));
+
+		String mm=day.substring(5);
+		
+		String ixString=null;
+		if(mm.compareTo("12-31")<0 && mm.compareTo("09-30")>=0){
+			ixString=year+"-09-30";
+		}else if(mm.compareTo("09-30")<0 && mm.compareTo("06-30")>=0){
+			ixString=year+"-06-30";
+		}else if(mm.compareTo("06-30")<0 && mm.compareTo("03-31")>=0){
+			ixString=year+"-03-31";
+		}else if(mm.compareTo("03-31")<0 && mm.compareTo("01-01")>=0){
+			ixString=(year-1)+"-12-31";
+		}else if(mm.compareTo("12-31")==0){
+			ixString=year+"-12-31";
+		}
+		result.add(ixString);
+		
+		return financeDay(result,DateUtil.date2(ixString, -1),--num);
+	}
+	
 }

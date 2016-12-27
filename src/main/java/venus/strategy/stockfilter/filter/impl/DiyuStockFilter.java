@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import venus.dao.StockCompanyInfoMapper;
+import venus.helper.util.CommonUtil;
 import venus.model.dao.StockCompanyInfo;
 import venus.strategy.stockfilter.filter.StockFilter;
 
@@ -20,15 +21,16 @@ public class DiyuStockFilter implements StockFilter {
 			if(stockCompanyInfo==null || stockCompanyInfo.getSuoshudiyu()==null){
 				result= false;
 			}else{
-				String[] paramss=params.split(",");
-				
-				if(stockCompanyInfo.getSuoshudiyu().equals(paramss[1])){
-					result=true;
-				}
-				
-				if(paramss[0].equals("false")){
-					result=!result;
-				}
+//				String[] paramss=params.split(",");
+//				
+//				if(stockCompanyInfo.getSuoshudiyu().equals(paramss[1])){
+//					result=true;
+//				}
+//				
+//				if(paramss[0].equals("false")){
+//					result=!result;
+//				}
+				result= CommonUtil.compareExpressionString(stockCompanyInfo.getSuoshudiyu(), params);
 			}
 		}catch(Exception e){
 			e.printStackTrace();

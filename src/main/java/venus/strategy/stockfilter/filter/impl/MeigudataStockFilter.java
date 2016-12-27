@@ -1,14 +1,20 @@
 package venus.strategy.stockfilter.filter.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.event.ListSelectionEvent;
+
 import org.apache.log4j.Logger;
+import org.jsoup.helper.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import venus.dao.StockCompanyFinanceMapper;
 import venus.dao.StockCompanyHangyeDataMapper;
 import venus.helper.util.CommonUtil;
+import venus.helper.util.DateUtil;
+import venus.helper.util.NumUtil;
 import venus.model.dao.StockCompanyFinance;
 import venus.model.dao.StockCompanyHangyeData;
 import venus.strategy.stockfilter.filter.StockFilter;
@@ -38,11 +44,44 @@ public class MeigudataStockFilter implements StockFilter {
 //			}else if(paramss[0].equals("每股未分配利润")){
 //				menu="每股未分配利润";
 //			}
-			List<StockCompanyFinance> list=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "simple", menu, 1);
-			if(list==null||list.size()==0)return false;
-			StockCompanyFinance stockCompanyFinance=list.get(0);
-			
-			Double data=stockCompanyFinance.getValue();
+			Double data=0.;
+			if(paramss[0].equals("每股收益增长率")){
+				
+				List<StockCompanyFinance> list=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "simple", "基本每股收益", 1);
+				if(list==null||list.size()!=1)return false;
+
+				List<String> days=DateUtil.financeDay(null, list.get(0).getTime(), 5);
+				
+				List<StockCompanyFinance> oneList=stockCompanyFinanceMapper.findCodeTypeMenuTime(code, "simple", "基本每股收益", days.get(4), days.get(1));
+				List<StockCompanyFinance> twoList=stockCompanyFinanceMapper.findCodeTypeMenuTime(code, "simple", "基本每股收益", days.get(3), days.get(0));
+				
+				if(!(oneList.size()==4&&twoList.size()==4)){
+					return false;
+				}
+				
+				double one=0.,two=0.;
+				for(int i=0;i<oneList.size();i++){
+					one+=oneList.get(i).getValue();
+				}
+				for(int i=0;i<twoList.size();i++){
+					two+=twoList.get(i).getValue();
+				}
+				
+				if(one != 0.){
+					data=NumUtil.format4((two-one)*100.0/one);
+				}
+				
+				if(one<0){
+					data=-data;
+				}
+				
+			}else{
+				List<StockCompanyFinance> list=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "simple", menu, 1);
+				if(list==null||list.size()==0)return false;
+				StockCompanyFinance stockCompanyFinance=list.get(0);
+				
+				data=stockCompanyFinance.getValue();
+			}
 			result= CommonUtil.compareExpressionDouble(data, paramss[1]);
 		}catch(Exception e){
 			e.printStackTrace();
