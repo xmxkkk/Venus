@@ -65,8 +65,7 @@ public class StockCompanySummaryTask {
 				try{
 					str=URLUtil.url2str("http://hq.sinajs.cn/?list="+StringUtil.toMarketName(stock),Constant.CHARSET$GB2312, cacheParam);
 				}catch(Exception e){
-					e.printStackTrace();
-					logger.error("[except]"+e.getMessage());
+					logger.error("[except]",e);
 					continue;
 				}
 				
@@ -120,8 +119,7 @@ public class StockCompanySummaryTask {
 			
 			initOther(cacheParam, stockCode);
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+cacheParam);
 	}
@@ -145,8 +143,7 @@ public class StockCompanySummaryTask {
 				try{
 					str=URLUtil.url2str("http://finance.sina.com.cn/realstock/company/"+StringUtil.toMarketName(stock)+"/nc.shtml",Constant.CHARSET$GB2312, cacheParam);
 				}catch(Exception e){
-					e.printStackTrace();
-					logger.error("[except]"+e.getMessage());
+					logger.error("[except]",e);
 					continue;
 				}
 	//			private double zongguben;
@@ -260,8 +257,7 @@ public class StockCompanySummaryTask {
 			updateAllOther(stockCode);
 			
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[info]"+cacheParam);
 	}
@@ -364,8 +360,7 @@ public class StockCompanySummaryTask {
 			}
 			
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]");
 	}

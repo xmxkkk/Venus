@@ -351,8 +351,7 @@ public class StockCompanyTask {
 			
 			taskExecTimeMiddle.end(idInit);
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]");
 	}
@@ -423,7 +422,7 @@ public class StockCompanyTask {
 					}.start();
 				}
 				CommonUtil.wait2000(count);
-				taskUpdateMiddle.update("StockCompanySummaryTask.init",Constant.TIME$SECOND$1DAY);
+				taskUpdateMiddle.update("StockCompanySummaryTask.init",Constant.TIME$SECOND$3DAY);
 				taskExecTimeMiddle.end(id);
 			}
 			
@@ -658,8 +657,7 @@ public class StockCompanyTask {
 			
 			taskExecTimeMiddle.end(idCache);
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]");
 	}
@@ -929,8 +927,7 @@ public class StockCompanyTask {
 			
 			taskExecTimeMiddle.end(idForce);
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]");
 	}

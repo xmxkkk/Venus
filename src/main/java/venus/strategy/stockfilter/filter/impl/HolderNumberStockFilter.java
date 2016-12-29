@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import venus.dao.StockCompanyHolderNumberMapper;
 import venus.dao.StockCompanyHolderStructMapper;
 import venus.helper.util.CommonUtil;
+import venus.helper.util.NumUtil;
 import venus.model.dao.StockCompanyHolderNumber;
 import venus.model.dao.StockCompanyHolderStruct;
 import venus.strategy.stockfilter.filter.StockFilter;
@@ -34,7 +35,7 @@ public class HolderNumberStockFilter implements StockFilter {
 			String[] paramss=params.split(",");
 			
 			String menu=null;
-			if(paramss[0].equals("人均流通A股变化")){
+			if(paramss[0].equals("人均流通A股变化(季度)")){
 				menu="人均流通%变化";
 			}else if(paramss[0].equals("人均流通A股")){
 				menu="人均流通%股(%股)";//
@@ -51,8 +52,6 @@ public class HolderNumberStockFilter implements StockFilter {
 				if(stockCompanyHolderNumber==null){
 					stockCompanyHolderNumber=stockCompanyHolderNumberMapper.findCodeMenuTime(code, "A股股东数变化", lastTime);
 				}
-			}else if(paramss[0].equals("流通股本数")){
-				
 			}
 			
 			if(paramss[0].equals("流通股本数")){
@@ -88,6 +87,47 @@ public class HolderNumberStockFilter implements StockFilter {
 				}
 				
 				val=xianshouagu+xianshoubgu+xianshouhgu;
+			}else if(paramss[0].equals("人均流通A股变化(半年)")){
+				
+				StockCompanyHolderNumber stockCompanyHolderNumberx=stockCompanyHolderNumberMapper.findCodeLast(code);
+				if(stockCompanyHolderNumberx==null)return false;
+				
+				String oneTime=null;
+				String twoTime=stockCompanyHolderNumberx.getTime();
+				int year=Integer.parseInt(twoTime.substring(0, 4));
+				int month=Integer.parseInt(twoTime.substring(5, 7));
+				if(month==3){
+					oneTime=(year-1)+"-09-30";
+				}else if(month==6){
+					oneTime=(year-1)+"-12-31";
+				}else if(month==9){
+					oneTime=year+"-03-31";
+				}else if(month==12){
+					oneTime=year+"-06-30";
+				}
+				
+//				String oneTime=(Integer.parseInt(twoTime.substring(0, 4))+1)+twoTime.substring(4);
+				//人均流通%股(%股)
+				String menux="人均流通%股(%股)";
+				StockCompanyHolderNumber oneSCHN=stockCompanyHolderNumberMapper.findCodeTimeMenuLike(code, oneTime, menux);
+				StockCompanyHolderNumber twoSCHN=stockCompanyHolderNumberMapper.findCodeTimeMenuLike(code, twoTime, menux);
+				if(oneSCHN==null||twoSCHN==null)return false;
+				
+				double one=0.,two=0.;
+				if(oneSCHN.getMenu().contains("(万股)")){
+					one=oneSCHN.getValue()*10000;
+				}else{
+					one=oneSCHN.getValue();
+				}
+				
+				if(twoSCHN.getMenu().contains("(万股)")){
+					two=twoSCHN.getValue()*10000;
+				}else{
+					two=twoSCHN.getValue();
+				}
+				
+				val=NumUtil.calcRate(one, two);
+				
 			}else{
 				if(stockCompanyHolderNumber==null){
 					stockCompanyHolderNumber=stockCompanyHolderNumberMapper.findCodeMenuLast(code,menu);

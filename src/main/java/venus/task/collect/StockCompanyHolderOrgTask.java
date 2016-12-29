@@ -52,8 +52,7 @@ public class StockCompanyHolderOrgTask {
 				try{
 					str=URLUtil.url2str("http://stockpage.10jqka.com.cn/"+stock.getCode()+"/position/", cacheParam);
 				}catch(Exception e){
-					e.printStackTrace();
-					logger.error("[except]"+e.getMessage());
+					logger.error("[except]",e);
 					continue;
 				}
 				if(StringUtil.isBlank(str))continue;
@@ -113,8 +112,7 @@ public class StockCompanyHolderOrgTask {
 				logger.info(insertAll.size());
 			}
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+cacheParam);
 	}

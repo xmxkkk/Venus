@@ -35,8 +35,7 @@ public class LuCommonChoose extends ApplicationObjectSupport{
 			List<LuStrategyFilter> filters=luStrategyFilterMapper.findId(id);
 			result=choose(filters);
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+result);
 		return result;
@@ -72,8 +71,7 @@ public class LuCommonChoose extends ApplicationObjectSupport{
 			
 			result=choose(filters);
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+result);
 		return result;
@@ -121,8 +119,7 @@ public class LuCommonChoose extends ApplicationObjectSupport{
 			}
 			
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+result);
 		return result;

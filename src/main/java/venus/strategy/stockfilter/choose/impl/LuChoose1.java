@@ -103,8 +103,7 @@ public class LuChoose1 implements LuChoose{
 				result.add(code);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+result.size()+","+result);
 		return result;

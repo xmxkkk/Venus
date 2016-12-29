@@ -68,8 +68,7 @@ public class StockCompanyJingyingTask {
 				try{
 					str=URLUtil.url2str("http://stockpage.10jqka.com.cn/"+code+"/operate/", cacheParam);
 				}catch(Exception e){
-					e.printStackTrace();
-					logger.error("[except]"+e.getMessage());
+					logger.error("[except]",e);
 					continue;
 				}
 				if(StringUtil.isBlank(str))continue;
@@ -132,8 +131,7 @@ public class StockCompanyJingyingTask {
 				logger.info("[message]"+code);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 	
 		logger.info("[end]");

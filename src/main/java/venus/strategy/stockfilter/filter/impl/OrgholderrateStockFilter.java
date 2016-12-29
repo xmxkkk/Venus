@@ -21,7 +21,8 @@ public class OrgholderrateStockFilter implements StockFilter{
 		logger.info("[start]"+code+","+params);
 		boolean result=false;
 		try{
-			Double rate=stockCompanyHolderOrgMapper.findCodeTotalRate(code);
+			String date=stockCompanyHolderOrgMapper.findLastTime(code);
+			Double rate=stockCompanyHolderOrgMapper.findCodeTotalRate(code,date);
 			if(rate==null)return false;
 			result= CommonUtil.compareExpressionDouble(rate, params);
 		}catch(Exception e){

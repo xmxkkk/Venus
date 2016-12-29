@@ -69,8 +69,7 @@ public class StockDayTask {
 				try{
 					str=URLUtil.url2str("http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/"+code+".phtml",Constant.CHARSET$GB2312, false);
 				}catch(Exception e){
-					e.printStackTrace();
-					logger.error("[except]"+e.getMessage());
+					logger.error("[except]",e);
 					continue;
 				}
 				if(StringUtil.isBlank(str)){
@@ -119,7 +118,7 @@ public class StockDayTask {
 							}
 						}catch(Exception e){
 							logger.error("[message]"+code+","+year+","+k);
-							logger.error("[message]"+e.getMessage());
+							logger.error("[message]",e);
 							conti=false;
 							break;
 						}
@@ -191,11 +190,8 @@ public class StockDayTask {
 			
 			
 			
-		}catch(BizException e){
-			
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]threadId="+threadId+",clearCache="+clearCache+",updateNew="+updateNew);
 	}
@@ -264,12 +260,12 @@ public class StockDayTask {
 					
 					updateChangeAll.add(stockDay);
 					
-					if(stockDays.size()==1000){
+					if(updateChangeAll.size()==1000){
 						stockDayMapper.updateChangeAll(updateChangeAll);
 						updateChangeAll.clear();
 					}
 				}
-				if(stockDays.size()>0){
+				if(updateChangeAll.size()>0){
 					stockDayMapper.updateChangeAll(updateChangeAll);
 					updateChangeAll.clear();
 				}
@@ -277,8 +273,7 @@ public class StockDayTask {
 				logger.info(stock);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]");
 	}

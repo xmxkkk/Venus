@@ -124,15 +124,14 @@ public class DayTask {
 			stockinfoTask.updateFirstTradeDay(null);
 			taskExecTimeMiddle.end(id);
 				
-			id=taskExecTimeMiddle.start("checkTask.init");
-			checkTask.init();
-			taskExecTimeMiddle.end(id);
+//			id=taskExecTimeMiddle.start("checkTask.init");
+//			checkTask.init();
+//			taskExecTimeMiddle.end(id);
 			
 			
 			taskExecTimeMiddle.end(idInit);
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]");
 	}
@@ -212,8 +211,7 @@ public class DayTask {
 			}
 			
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]");
 	}

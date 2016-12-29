@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import venus.dao.StockCompanyFinanceMapper;
+import venus.helper.exception.BizException;
 import venus.helper.util.CommonUtil;
 import venus.helper.util.DateUtil;
 import venus.helper.util.NumUtil;
@@ -38,77 +39,84 @@ public class MeigudataStockFilter implements StockFilter {
 //			}else if(paramss[0].equals("每股未分配利润")){
 //				menu="每股未分配利润";
 //			}
-			Double data=0.;
-			if(paramss[0].equals("每股收益同比增长率")){
-				String type="report";
-				List<StockCompanyFinance> list=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, type, "基本每股收益", 1);
-				if(list==null||list.size()!=1)return  false;
-				
-				StockCompanyFinance twoSCF=list.get(0);
-				
-				String oneTime=(Integer.parseInt(twoSCF.getTime().substring(0, 4))-1)+twoSCF.getTime().substring(4);
-				
-				StockCompanyFinance oneSCF=stockCompanyFinanceMapper.find(code, oneTime, "基本每股收益", type);
-				if(oneSCF==null)return false;
-				
-				double one=oneSCF.getValue(),two=twoSCF.getValue();
-				
-				data=NumUtil.calcRate(one, two);
-				
-			}else if(paramss[0].equals("每股收益同比增长")){
-				String type="report";
-				List<StockCompanyFinance> list=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, type, "基本每股收益", 1);
-				if(list==null||list.size()!=1)return  false;
-				
-				StockCompanyFinance twoSCF=list.get(0);
-				
-				String oneTime=(Integer.parseInt(twoSCF.getTime().substring(0, 4))-1)+twoSCF.getTime().substring(4);
-				
-				StockCompanyFinance oneSCF=stockCompanyFinanceMapper.find(code, oneTime, "基本每股收益", type);
-				if(oneSCF==null)return false;
-				
-				double one=oneSCF.getValue(),two=twoSCF.getValue();
-				
-				data=two-one;
-				
-			}else if(paramss[0].equals("每股收益增长率")){
-				
-				List<StockCompanyFinance> list=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "simple", "基本每股收益", 1);
-				if(list==null||list.size()!=1)return false;
-
-				List<String> days=DateUtil.financeDay(null, list.get(0).getTime(), 5);
-				
-				List<StockCompanyFinance> oneList=stockCompanyFinanceMapper.findCodeTypeMenuTime(code, "simple", "基本每股收益", days.get(4), days.get(1));
-				List<StockCompanyFinance> twoList=stockCompanyFinanceMapper.findCodeTypeMenuTime(code, "simple", "基本每股收益", days.get(3), days.get(0));
-				
-				if(!(oneList.size()==4&&twoList.size()==4)){
-					return false;
-				}
-				
-				double one=0.,two=0.;
-				for(int i=0;i<oneList.size();i++){
-					one+=oneList.get(i).getValue();
-				}
-				for(int i=0;i<twoList.size();i++){
-					two+=twoList.get(i).getValue();
-				}
-				
-				data=NumUtil.calcRate(one, two);
-				
+			Double val=0.;
+			
+			if(paramss[0].endsWith("同比增长")){
+				val=calc(code, paramss[0].substring(0,paramss[0].length()-4), "simple", false);
+			}else if(paramss[0].endsWith("同比增长率")){
+				val=calc(code, paramss[0].substring(0,paramss[0].length()-5), "simple", true);
 			}else{
 				List<StockCompanyFinance> list=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "simple", menu, 1);
 				if(list==null||list.size()==0)return false;
 				StockCompanyFinance stockCompanyFinance=list.get(0);
 				
-				data=stockCompanyFinance.getValue();
+				val=stockCompanyFinance.getValue();
 			}
-			result= CommonUtil.compareExpressionDouble(data, paramss[1]);
+			/*
+			if(paramss[0].equals("基本每股收益同比增长")){
+				val=calc(code, "基本每股收益", "simple", false);
+			}else if(paramss[0].equals("基本每股收益同比增长率")){
+				val=calc(code, "基本每股收益", "simple", true);
+			}else if(paramss[0].equals("每股净资产同比增长")){
+				val=calc(code, "每股净资产", "simple", false);
+			}else if(paramss[0].equals("每股净资产同比增长率")){
+				val=calc(code, "每股净资产", "simple", true);
+			}else if(paramss[0].equals("每股经营现金流同比增长")){
+				val=calc(code, "每股经营现金流", "simple", false);
+			}else if(paramss[0].equals("每股经营现金流同比增长率")){
+				val=calc(code, "每股经营现金流", "simple", true);
+			}else if(paramss[0].equals("每股资本公积金同比增长")){
+				val=calc(code, "每股资本公积金", "simple", false);
+			}else if(paramss[0].equals("每股资本公积金同比增长率")){
+				val=calc(code, "每股资本公积金", "simple", true);
+			}else if(paramss[0].equals("每股未分配利润同比增长")){
+				val=calc(code, "每股未分配利润", "simple", false);
+			}else if(paramss[0].equals("每股未分配利润同比增长率")){
+				val=calc(code, "每股未分配利润", "simple", true);
+			}else {
+				List<StockCompanyFinance> list=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "simple", menu, 1);
+				if(list==null||list.size()==0)return false;
+				StockCompanyFinance stockCompanyFinance=list.get(0);
+				
+				val=stockCompanyFinance.getValue();
+			}*/
+			
+			
+			result= CommonUtil.compareExpressionDouble(val, paramss[1]);
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.info("[except]"+e.getMessage());
 		}
 		logger.info("[start]"+code+","+params+","+result);
 		return result;
+	}
+	private double calc(String code,String menu1,String type,boolean rate){
+//		String type="simple";
+//		String menu1="基本每股收益";
+		List<StockCompanyFinance> list=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, type, menu1, 1);
+		if(list==null||list.size()!=1){
+			throw new BizException(code, "中断");
+		}
+		
+		StockCompanyFinance twoSCF=list.get(0);
+		
+		String oneTime=(Integer.parseInt(twoSCF.getTime().substring(0, 4))-1)+twoSCF.getTime().substring(4);
+		
+		StockCompanyFinance oneSCF=stockCompanyFinanceMapper.find(code, oneTime, menu1, type);
+		if(oneSCF==null){
+			throw new BizException(code, "中断");
+		}
+		
+		double one=oneSCF.getValue(),two=twoSCF.getValue();
+		
+		double data=0;
+		if(rate){
+			data=NumUtil.calcRate(one, two);
+		}else{
+			data=two-one;
+		}
+		
+		return data;
 	}
 
 }

@@ -74,7 +74,7 @@ public class FeatureMiddle extends ApplicationObjectSupport{
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+featureStr+","+start_time+","+end_time);
 	}
@@ -103,7 +103,7 @@ public class FeatureMiddle extends ApplicationObjectSupport{
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+featureStr+","+start_time+","+end_time);
 	}
@@ -155,8 +155,7 @@ public class FeatureMiddle extends ApplicationObjectSupport{
 			featureSimilarMapper.insertAll(result);
 			result.clear();
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+feature_type+","+start_time+","+end_time);
 	}
@@ -209,8 +208,7 @@ public class FeatureMiddle extends ApplicationObjectSupport{
 			featureSimilarMapper.insertAll(result);
 			result.clear();
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+feature_type+","+start_time+","+end_time);
 	}

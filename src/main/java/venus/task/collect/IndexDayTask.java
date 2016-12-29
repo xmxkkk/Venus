@@ -61,8 +61,7 @@ public class IndexDayTask {
 				try{
 					str=URLUtil.url2str("http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/"+codeStr+"/type/S.phtml",Constant.CHARSET$GB2312, false);
 				}catch(Exception e){
-					e.printStackTrace();
-					logger.error("[except]StockCompanyEventTask.init:"+e.getMessage());
+					logger.error("[except]StockCompanyEventTask.init:",e);
 					continue;
 				}
 				
@@ -108,7 +107,7 @@ public class IndexDayTask {
 							html=URLUtil.url2str(url,Constant.CHARSET$GB2312, cache);
 						}catch(Exception e){
 							logger.error("[message]"+code+","+year+","+k);
-							logger.error("[message]"+e.getMessage());
+							logger.error("[message]",e);
 							conti=false;
 							break;
 						}
@@ -172,11 +171,8 @@ public class IndexDayTask {
 				
 				indexinfoMapper.updateFlag(code, 1);
 			}
-		}catch(BizException e){
-			
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]threadId="+threadId+",clearCache="+clearCache+",updateNew="+updateNew);
 	}
@@ -238,12 +234,12 @@ public class IndexDayTask {
 					
 					updateChangeAll.add(indexDay);
 					
-					if(indexDays.size()==1000){
+					if(updateChangeAll.size()==1000){
 						indexDayMapper.updateChangeAll(updateChangeAll);
 						updateChangeAll.clear();
 					}
 				}
-				if(indexDays.size()>0){
+				if(updateChangeAll.size()>0){
 					indexDayMapper.updateChangeAll(updateChangeAll);
 					updateChangeAll.clear();
 				}
@@ -251,8 +247,7 @@ public class IndexDayTask {
 				logger.info(index);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+threadId);
 	}

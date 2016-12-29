@@ -128,8 +128,7 @@ public class StockCompanyFinanceTask {
 					try{
 						str = URLUtil.url2str(url,cacheParam);
 					}catch(Exception e){
-						e.printStackTrace();
-						logger.error("[except]"+e.getMessage());
+						logger.error("[except]",e);
 						continue;
 					}
 					
@@ -196,8 +195,7 @@ public class StockCompanyFinanceTask {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("[except]" + e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]" + cacheParam);
 	}

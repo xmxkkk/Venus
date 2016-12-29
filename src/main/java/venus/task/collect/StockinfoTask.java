@@ -98,8 +98,7 @@ public class StockinfoTask {
 //			updateFirstTradeDay();
 			
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]");
 	}
@@ -128,8 +127,7 @@ public class StockinfoTask {
 				logger.info(stock);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+stockCode);
 	}
@@ -157,8 +155,7 @@ public class StockinfoTask {
 				logger.info(stock);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+stockCode);
 	}
@@ -185,8 +182,7 @@ public class StockinfoTask {
 				logger.info(stock);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+stockCode);
 	}
@@ -212,8 +208,7 @@ public class StockinfoTask {
 				logger.info(stock);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+stockCode);
 	}

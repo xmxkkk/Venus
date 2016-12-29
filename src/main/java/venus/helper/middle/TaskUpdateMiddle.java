@@ -19,8 +19,7 @@ public class TaskUpdateMiddle {
 			taskUpdateMapper.delete(name);
 			taskUpdateMapper.insert(name, DateUtil.datetime(),intervalTime);
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]");
 	}

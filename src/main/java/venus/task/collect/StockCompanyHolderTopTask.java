@@ -56,8 +56,7 @@ public class StockCompanyHolderTopTask {
 				try{
 					str=URLUtil.url2str("http://stockpage.10jqka.com.cn/"+stock.getCode()+"/holder/", cacheParam);
 				}catch(Exception e){
-					e.printStackTrace();
-					logger.error("[except]"+e.getMessage());
+					logger.error("[except]",e);
 					continue;
 				}
 				
@@ -173,7 +172,7 @@ public class StockCompanyHolderTopTask {
 				logger.info(insertAll.size());
 			}
 		}catch(Exception e){
-			logger.error(""+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+cacheParam);
 	}

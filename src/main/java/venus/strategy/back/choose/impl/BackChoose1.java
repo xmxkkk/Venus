@@ -38,8 +38,7 @@ public class BackChoose1 implements BackChoose{
 				result= true;
 			}
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		
 		logger.info("[end]"+jingyingRate+"	,"+touziRate+"	,"+"	,"+chouziRate+"	,"+result);

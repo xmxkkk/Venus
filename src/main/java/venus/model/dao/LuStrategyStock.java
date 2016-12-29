@@ -14,42 +14,7 @@ public class LuStrategyStock {
 	Double zongshizhi;
 	Double shiyinglvttm;
 	String update_time;
-	Double shijinglvttm;
-	Double meigushouyi;
-	Double meigushouyitongbizhengzhang;
-	Double jingzichanshouyitongbizhengzhang;
-	Double meigujingzichan;
 
-	public Double getShijinglvttm() {
-		return shijinglvttm;
-	}
-	public void setShijinglvttm(Double shijinglvttm) {
-		this.shijinglvttm = shijinglvttm;
-	}
-	public Double getMeigushouyi() {
-		return meigushouyi;
-	}
-	public void setMeigushouyi(Double meigushouyi) {
-		this.meigushouyi = meigushouyi;
-	}
-	public Double getMeigushouyitongbizhengzhang() {
-		return meigushouyitongbizhengzhang;
-	}
-	public void setMeigushouyitongbizhengzhang(Double meigushouyitongbizhengzhang) {
-		this.meigushouyitongbizhengzhang = meigushouyitongbizhengzhang;
-	}
-	public Double getJingzichanshouyitongbizhengzhang() {
-		return jingzichanshouyitongbizhengzhang;
-	}
-	public void setJingzichanshouyitongbizhengzhang(Double jingzichanshouyitongbizhengzhang) {
-		this.jingzichanshouyitongbizhengzhang = jingzichanshouyitongbizhengzhang;
-	}
-	public Double getMeigujingzichan() {
-		return meigujingzichan;
-	}
-	public void setMeigujingzichan(Double meigujingzichan) {
-		this.meigujingzichan = meigujingzichan;
-	}
 	public String getUpdate_time() {
 		return update_time;
 	}
@@ -133,10 +98,7 @@ public class LuStrategyStock {
 		return "LuStrategyStock [id=" + id + ", code=" + code + ", market=" + market + ", name=" + name + ", addtime="
 				+ addtime + ", quittime=" + quittime + ", status=" + status + ", score=" + score + ", change_rate="
 				+ change_rate + ", curr_price=" + curr_price + ", zongshizhi=" + zongshizhi + ", shiyinglvttm="
-				+ shiyinglvttm + ", update_time=" + update_time + ", shijinglvttm=" + shijinglvttm + ", meigushouyi="
-				+ meigushouyi + ", meigushouyitongbizhengzhang=" + meigushouyitongbizhengzhang
-				+ ", jingzichanshouyitongbizhengzhang=" + jingzichanshouyitongbizhengzhang + ", meigujingzichan="
-				+ meigujingzichan + "]";
+				+ shiyinglvttm + ", update_time=" + update_time + "]";
 	}
 	
 }

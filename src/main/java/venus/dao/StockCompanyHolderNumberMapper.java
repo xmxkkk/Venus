@@ -42,6 +42,9 @@ public interface StockCompanyHolderNumberMapper {
 	@Select("select * from stock_company_holder_number where code=#{code} and menu like #{menu} order by time desc limit 1")
 	StockCompanyHolderNumber findCodeMenuLast(@Param("code")String code,@Param("menu")String menu);
 	
+	@Select("select * from stock_company_holder_number where code=#{code} and time=#{time} and menu like #{menu} limit 1")
+	StockCompanyHolderNumber findCodeTimeMenuLike(@Param("code")String code,@Param("time")String time,@Param("menu")String menu);
+	
 	@Select("select * from stock_company_holder_number where code=#{code} order by time desc limit 1")
 	StockCompanyHolderNumber findCodeLast(@Param("code")String code);
 	

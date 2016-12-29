@@ -18,7 +18,7 @@ public class IndustryTask {
 	@Autowired IndustryMapper industryMapper;
 	@Autowired URLUtil URLUtil;
 	public void init(){
-		logger.info("[start]IndustryTask.init:");
+		logger.info("[start]");
 		try{
 			industryMapper.deleteIndustries();
 			industryMapper.deleteIndustryStocks();
@@ -28,10 +28,9 @@ public class IndustryTask {
 			industries("概念板块", "gainianbankuai");
 			industries("地域板块", "diyu");
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]IndustryTask.init:"+e.getMessage());
+			logger.error("[except]",e);
 		}
-		logger.info("[end]IndustryTask.init:");
+		logger.info("[end]");
 	}
 	private void industries(String type,String typename){
 		logger.info("[start]"+type+","+typename);
@@ -84,8 +83,7 @@ public class IndustryTask {
 				
 			}
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+type+","+typename);
 	}

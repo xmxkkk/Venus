@@ -1,5 +1,7 @@
 package venus.helper.util;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -29,4 +31,11 @@ public class StringUtil {
 			return "sz"+stock.getCode();
 		}
 	}
+	public static String getTrace(Throwable t) {
+        StringWriter stringWriter= new StringWriter();
+        PrintWriter writer= new PrintWriter(stringWriter);
+        t.printStackTrace(writer);
+        StringBuffer buffer= stringWriter.getBuffer();
+        return buffer.toString();
+    }
 }

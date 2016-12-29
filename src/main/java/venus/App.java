@@ -1,8 +1,6 @@
 package venus;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.apache.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -10,17 +8,15 @@ import org.springframework.context.ConfigurableApplicationContext;
 import venus.helper.middle.Count;
 import venus.helper.property.CommandProperty;
 import venus.helper.util.CommonUtil;
-import venus.helper.util.DateUtil;
-import venus.helper.util.NumUtil;
 import venus.task.analyse.LuStrategyTask;
 import venus.task.collect.CheckTask;
 import venus.task.collect.DayTask;
-import venus.task.collect.StockCompanyFinanceTask;
-import venus.task.collect.StockCompanySummaryTask;
+import venus.task.collect.StockCompanyHangyeDataTask;
 import venus.task.collect.StockCompanyTask;
 
 @SpringBootApplication
 public class App {
+	static Logger logger=Logger.getLogger(App.class);
 	public static void main(String[] args) {
 		final ConfigurableApplicationContext cxt = SpringApplication.run(App.class, args);
 		
@@ -37,14 +33,14 @@ public class App {
 //		stockCompanyHolderStructTask.initCache();
 		
 		
-//		final StockCompanyFinanceTask stockCompanyFinanceTask=cxt.getBean(StockCompanyFinanceTask.class);
+//		final StockCompanyHangyeDataTask stockCompanyHangyeDataTask=cxt.getBean(StockCompanyHangyeDataTask.class);
 //		final Count count=new Count();
-//		count.init(stockCompanyFinanceTask.threadNum);
-//		for (int i = 0; i < stockCompanyFinanceTask.threadNum; i++) {
+//		count.init(stockCompanyHangyeDataTask.threadNum);
+//		for (int i = 0; i < stockCompanyHangyeDataTask.threadNum; i++) {
 //			final int threadId = i;
 //			new Thread() {
 //				public void run() {
-//					stockCompanyFinanceTask.init(null,threadId);
+//					stockCompanyHangyeDataTask.init(null,threadId);
 //					synchronized (count) {
 //						count.reduce();
 //					}

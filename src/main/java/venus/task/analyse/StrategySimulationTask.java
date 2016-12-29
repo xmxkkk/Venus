@@ -169,8 +169,7 @@ public class StrategySimulationTask extends ApplicationObjectSupport{
 			
 			return strategyResult;
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		return null;
 	}

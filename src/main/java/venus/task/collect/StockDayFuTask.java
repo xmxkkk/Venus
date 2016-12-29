@@ -69,8 +69,7 @@ public class StockDayFuTask {
 				try{
 					str=URLUtil.url2str("http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_FuQuanMarketHistory/stockid/"+code+".phtml",Constant.CHARSET$GB2312, false);
 				}catch(Exception e){
-					e.printStackTrace();
-					logger.error("[except]StockCompanyEventTask.init:"+e.getMessage());
+					logger.error("[except]StockCompanyEventTask.init:",e);
 					continue;
 				}
 				if(StringUtil.isBlank(str)){
@@ -119,7 +118,7 @@ public class StockDayFuTask {
 							}
 						}catch(Exception e){
 							logger.error("[message]"+stock.getCode()+","+year+","+k);
-							logger.error("[message]"+e.getMessage());
+							logger.error("[message]",e);
 							conti=false;
 							break;
 						}
@@ -192,11 +191,8 @@ public class StockDayFuTask {
 			}
 			
 			
-		}catch(BizException e){
-			
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]threadId="+threadId+",clearCache="+clearCache+",updateNew="+updateNew);
 	}
@@ -265,12 +261,12 @@ public class StockDayFuTask {
 					
 					updateChangeAll.add(stockDay);
 					
-					if(stockDays.size()==1000){
+					if(updateChangeAll.size()==1000){
 						stockDayFuMapper.updateChangeAll(updateChangeAll);
 						updateChangeAll.clear();
 					}
 				}
-				if(stockDays.size()>0){
+				if(updateChangeAll.size()>0){
 					stockDayFuMapper.updateChangeAll(updateChangeAll);
 					updateChangeAll.clear();
 				}
@@ -278,8 +274,7 @@ public class StockDayFuTask {
 				logger.info(stock);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]");
 	}

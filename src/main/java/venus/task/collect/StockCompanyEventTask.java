@@ -50,8 +50,7 @@ public class StockCompanyEventTask {
 				try{
 					str=URLUtil.url2str("http://stockpage.10jqka.com.cn/"+stock.getCode()+"/event/", cacheParam);
 				}catch(Exception e){
-					e.printStackTrace();
-					logger.error("[except]"+e.getMessage());
+					logger.error("[except]",e);
 					continue;
 				}
 				if(StringUtil.isBlank(str))continue;
@@ -139,8 +138,7 @@ public class StockCompanyEventTask {
 				
 			}
 		}catch(Exception e){
-			e.printStackTrace();
-			logger.error("[except]"+e.getMessage());
+			logger.error("[except]",e);
 		}
 		logger.info("[end]"+cacheParam);
 	}

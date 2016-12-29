@@ -24,8 +24,14 @@ public interface StockCompanyHolderOrgMapper {
 	@Select("select * from stock_company_holder_org where code=#{code}")
 	List<StockCompanyHolderOrg> findCode(@Param("code")String code);
 	
-	@Select("select sum(rate) as rate from stock_company_holder_org where code=#{code}")
-	Double findCodeTotalRate(@Param("code")String code);
+	@Select("select sum(rate) as rate from stock_company_holder_org where code=#{code} and date=#{date}")
+	Double findCodeTotalRate(@Param("code")String code,@Param("date")String date);
+	
+	@Select("select  sum(num)*10000 as num from stock_company_holder_org where code=#{code} and date=#{date}")
+	Double findCodeTotal(@Param("code")String code,@Param("date")String date);
+	
+	@Select("select `date` from stock_company_holder_org where code=#{code} order by date desc limit 1")
+	String findLastTime(@Param("code")String code);
 	
 	@Select("select * from stock_company_holder_org where code=#{code} and date=#{date} and name=#{name} and type=#{type}")
 	StockCompanyHolderOrg findCodeDtNameType(@Param("code")String code,@Param("date")String date,@Param("name")String name,@Param("type")String type);
