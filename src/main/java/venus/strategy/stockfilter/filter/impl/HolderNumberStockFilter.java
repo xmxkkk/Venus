@@ -5,14 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import venus.dao.StockCompanyHolderNumberMapper;
+import venus.dao.StockCompanyHolderStructMapper;
 import venus.helper.util.CommonUtil;
 import venus.model.dao.StockCompanyHolderNumber;
+import venus.model.dao.StockCompanyHolderStruct;
 import venus.strategy.stockfilter.filter.StockFilter;
 
 @Component
 public class HolderNumberStockFilter implements StockFilter {
 	Logger logger=Logger.getLogger(HolderNumberStockFilter.class);
 	@Autowired StockCompanyHolderNumberMapper stockCompanyHolderNumberMapper;
+	@Autowired StockCompanyHolderStructMapper stockCompanyHolderStructMapper;
 	public boolean filter(String code, String params) {
 		logger.info("[start]"+code+","+params);
 		boolean result=false;
@@ -48,30 +51,68 @@ public class HolderNumberStockFilter implements StockFilter {
 				if(stockCompanyHolderNumber==null){
 					stockCompanyHolderNumber=stockCompanyHolderNumberMapper.findCodeMenuTime(code, "A股股东数变化", lastTime);
 				}
+			}else if(paramss[0].equals("流通股本数")){
+				
 			}
-			if(stockCompanyHolderNumber==null){
-				stockCompanyHolderNumber=stockCompanyHolderNumberMapper.findCodeMenuLast(code,menu);
-			}
-			if(stockCompanyHolderNumber==null)return false;
 			
-			
-			if(paramss[0].equals("人均流通A股变化")){
-				val=stockCompanyHolderNumber.getValue();
-			}else if(paramss[0].equals("人均流通A股")){
-				if(stockCompanyHolderNumber.getMenu().contains("(万股)")){
-					val=stockCompanyHolderNumber.getValue()*10000;
-				}else{
+			if(paramss[0].equals("流通股本数")){
+				StockCompanyHolderStruct stockCompanyHolderStruct=stockCompanyHolderStructMapper.findCodeLast(code);
+				double liutongagu=0;
+				if(stockCompanyHolderStruct.getLiutongagu()!=null){
+					liutongagu=stockCompanyHolderStruct.getLiutongagu();
+				}
+				double liutongbgu=0;
+				if(stockCompanyHolderStruct.getLiutongbgu()!=null){
+					liutongbgu=stockCompanyHolderStruct.getLiutongbgu();
+				}
+				double liutonghgu=0;
+				if(stockCompanyHolderStruct.getLiutonghgu()!=null){
+					liutonghgu=stockCompanyHolderStruct.getLiutonghgu();
+				}
+				
+				val=liutongagu+liutongbgu+liutonghgu;
+				
+			}else if(paramss[0].equals("限售股合计")){
+				StockCompanyHolderStruct stockCompanyHolderStruct=stockCompanyHolderStructMapper.findCodeLast(code);
+				double xianshouagu=0;
+				if(stockCompanyHolderStruct.getXianshouagu()!=null){
+					xianshouagu=stockCompanyHolderStruct.getXianshouagu();
+				}
+				double xianshoubgu=0;
+				if(stockCompanyHolderStruct.getXianshoubgu()!=null){
+					xianshoubgu=stockCompanyHolderStruct.getXianshoubgu();
+				}
+				double xianshouhgu=0;
+				if(stockCompanyHolderStruct.getXianshouhgu()!=null){
+					xianshouhgu=stockCompanyHolderStruct.getXianshouhgu();
+				}
+				
+				val=xianshouagu+xianshoubgu+xianshouhgu;
+			}else{
+				if(stockCompanyHolderNumber==null){
+					stockCompanyHolderNumber=stockCompanyHolderNumberMapper.findCodeMenuLast(code,menu);
+				}
+				if(stockCompanyHolderNumber==null)return false;
+				
+				if(paramss[0].equals("人均流通A股变化")){
+					val=stockCompanyHolderNumber.getValue();
+				}else if(paramss[0].equals("人均流通A股")){
+					if(stockCompanyHolderNumber.getMenu().contains("(万股)")){
+						val=stockCompanyHolderNumber.getValue()*10000;
+					}else{
+						val=stockCompanyHolderNumber.getValue();
+					}
+				}else if(paramss[0].equals("股东总人数")){
+					if(stockCompanyHolderNumber.getMenu().contains("(万户)")){
+						val=stockCompanyHolderNumber.getValue()*10000;
+					}else{
+						val=stockCompanyHolderNumber.getValue();
+					}
+				}else if(paramss[0].equals("股东人数较上期变化")){
 					val=stockCompanyHolderNumber.getValue();
 				}
-			}else if(paramss[0].equals("股东总人数")){
-				if(stockCompanyHolderNumber.getMenu().contains("(万户)")){
-					val=stockCompanyHolderNumber.getValue()*10000;
-				}else{
-					val=stockCompanyHolderNumber.getValue();
-				}
-			}else if(paramss[0].equals("股东人数较上期变化")){
-				val=stockCompanyHolderNumber.getValue();
 			}
+			
 			result= CommonUtil.compareExpressionDouble(val, paramss[1]);
 		}catch(Exception e){
 			e.printStackTrace();

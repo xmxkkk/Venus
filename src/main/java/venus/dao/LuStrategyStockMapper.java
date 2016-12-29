@@ -16,12 +16,16 @@ import venus.model.dao.LuStrategyStock;
 @Mapper
 public interface LuStrategyStockMapper {
 	
-	@Insert("insert into lu_strategy_stock (id,code,market,name,addtime,quittime,status,score,change_rate,curr_price,zongshizhi,shiyinglvttm,update_time) values "
-			+ "(#{id},#{code},#{market},#{name},#{addtime},#{quittime},#{status},#{score},#{change_rate},#{curr_price},#{zongshizhi},#{shiyinglvttm},#{update_time})")
+	@Insert("insert into lu_strategy_stock (id,code,market,name,addtime,quittime,status,score,change_rate,curr_price,zongshizhi,shiyinglvttm,update_time"
+			+ ",shijinglvttm,meigushouyi,meigushouyitongbizhengzhang,jingzichanshouyitongbizhengzhang,meigujingzichan) values "
+			+ "(#{id},#{code},#{market},#{name},#{addtime},#{quittime},#{status},#{score},#{change_rate},#{curr_price},#{zongshizhi},#{shiyinglvttm},#{update_time}"
+			+ ",#{shijinglvttm},#{meigushouyi},#{meigushouyitongbizhengzhang},#{jingzichanshouyitongbizhengzhang},#{meigujingzichan})")
 	int insert(LuStrategyStock luStrategyStock);
 	
 	@Update("update lu_strategy_stock set market=#{market},name=#{name},addtime=#{addtime},quittime=#{quittime},status=#{status},score=#{score}"
-			+ ",change_rate=#{change_rate},curr_price=#{curr_price},zongshizhi=#{zongshizhi},shiyinglvttm=#{shiyinglvttm},update_time=#{update_time} where id=#{id} and code=#{code}")
+			+ ",change_rate=#{change_rate},curr_price=#{curr_price},zongshizhi=#{zongshizhi},shiyinglvttm=#{shiyinglvttm},update_time=#{update_time}"
+			+ ",shijinglvttm=#{shijinglvttm},meigushouyi=#{meigushouyi},meigushouyitongbizhengzhang=#{meigushouyitongbizhengzhang}"
+			+ ",jingzichanshouyitongbizhengzhang=#{jingzichanshouyitongbizhengzhang},meigujingzichan=#{meigujingzichan} where id=#{id} and code=#{code}")
 	int update(LuStrategyStock luStrategyStock);
 	
 	@Select("select * from lu_strategy_stock where id=#{id} and code=#{code}")

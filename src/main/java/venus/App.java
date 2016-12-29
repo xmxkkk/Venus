@@ -53,7 +53,6 @@ public class App {
 //		CommonUtil.wait2000(count);
 		
 //		List<String> list=new ArrayList<String>();
-		System.out.println(DateUtil.financeDay(null,"2016-12-30", 2));
 		
 		
 		CommandProperty startProperty=cxt.getBean(CommandProperty.class);
