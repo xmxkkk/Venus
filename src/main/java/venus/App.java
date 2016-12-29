@@ -11,6 +11,7 @@ import venus.helper.middle.Count;
 import venus.helper.property.CommandProperty;
 import venus.helper.util.CommonUtil;
 import venus.helper.util.DateUtil;
+import venus.helper.util.NumUtil;
 import venus.task.analyse.LuStrategyTask;
 import venus.task.collect.CheckTask;
 import venus.task.collect.DayTask;
@@ -52,9 +53,6 @@ public class App {
 //		}
 //		CommonUtil.wait2000(count);
 		
-//		List<String> list=new ArrayList<String>();
-		
-		
 		CommandProperty startProperty=cxt.getBean(CommandProperty.class);
 		String startDtCommand=startProperty.getCommandDt().trim();
 		if(!startDtCommand.equals("none")&&startDtCommand.equals("start")){
@@ -95,7 +93,7 @@ public class App {
 		String startShutdownCommand=startProperty.getCommandShutdown().trim();
 		if(!startShutdownCommand.equals("none")&&startShutdownCommand.equals("start")){
 			CommonUtil.shutdown();
-		}/**/
+		}
 		
 		
 //		StockCompanySummaryTask stockCompanySummaryTask=cxt.getBean(StockCompanySummaryTask.class);

@@ -111,4 +111,15 @@ public class NumUtil {
 		return false;
 		
 	}
+	public static double calcRate(double one,double two){
+		double result=0;
+		if(one==.0){
+			result= 0;
+		}else if(one>0){
+			result=NumUtil.format4(100.0*(two/one-1));
+		}else if(one<0){
+			result=NumUtil.format4((1-(two/one))*100.0);
+		}
+		return result;
+	}
 }

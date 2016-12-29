@@ -54,12 +54,7 @@ public class FinancerateStockFilter implements StockFilter{
 				beforeValue+=before.get(i).getValue();
 			}
 			
-			double rate=0;
-			if(beforeValue==0.0){
-				
-			}else{
-				rate=NumUtil.format4((currentValue-beforeValue)*100/beforeValue);
-			}
+			double rate=NumUtil.calcRate(beforeValue, currentValue);
 			
 			result= CommonUtil.compareExpressionDouble(rate, paramss[1]);
 		}catch(Exception e){

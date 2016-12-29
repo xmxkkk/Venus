@@ -1,22 +1,16 @@
 package venus.strategy.stockfilter.filter.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.event.ListSelectionEvent;
-
 import org.apache.log4j.Logger;
-import org.jsoup.helper.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import venus.dao.StockCompanyFinanceMapper;
-import venus.dao.StockCompanyHangyeDataMapper;
 import venus.helper.util.CommonUtil;
 import venus.helper.util.DateUtil;
 import venus.helper.util.NumUtil;
 import venus.model.dao.StockCompanyFinance;
-import venus.model.dao.StockCompanyHangyeData;
 import venus.strategy.stockfilter.filter.StockFilter;
 
 @Component
@@ -45,7 +39,39 @@ public class MeigudataStockFilter implements StockFilter {
 //				menu="每股未分配利润";
 //			}
 			Double data=0.;
-			if(paramss[0].equals("每股收益增长率")){
+			if(paramss[0].equals("每股收益同比增长率")){
+				String type="report";
+				List<StockCompanyFinance> list=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, type, "基本每股收益", 1);
+				if(list==null||list.size()!=1)return  false;
+				
+				StockCompanyFinance twoSCF=list.get(0);
+				
+				String oneTime=(Integer.parseInt(twoSCF.getTime().substring(0, 4))-1)+twoSCF.getTime().substring(4);
+				
+				StockCompanyFinance oneSCF=stockCompanyFinanceMapper.find(code, oneTime, "基本每股收益", type);
+				if(oneSCF==null)return false;
+				
+				double one=oneSCF.getValue(),two=twoSCF.getValue();
+				
+				data=NumUtil.calcRate(one, two);
+				
+			}else if(paramss[0].equals("每股收益同比增长")){
+				String type="report";
+				List<StockCompanyFinance> list=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, type, "基本每股收益", 1);
+				if(list==null||list.size()!=1)return  false;
+				
+				StockCompanyFinance twoSCF=list.get(0);
+				
+				String oneTime=(Integer.parseInt(twoSCF.getTime().substring(0, 4))-1)+twoSCF.getTime().substring(4);
+				
+				StockCompanyFinance oneSCF=stockCompanyFinanceMapper.find(code, oneTime, "基本每股收益", type);
+				if(oneSCF==null)return false;
+				
+				double one=oneSCF.getValue(),two=twoSCF.getValue();
+				
+				data=two-one;
+				
+			}else if(paramss[0].equals("每股收益增长率")){
 				
 				List<StockCompanyFinance> list=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "simple", "基本每股收益", 1);
 				if(list==null||list.size()!=1)return false;
@@ -67,13 +93,7 @@ public class MeigudataStockFilter implements StockFilter {
 					two+=twoList.get(i).getValue();
 				}
 				
-				if(one != 0.){
-					data=NumUtil.format4((two-one)*100.0/one);
-				}
-				
-				if(one<0){
-					data=-data;
-				}
+				data=NumUtil.calcRate(one, two);
 				
 			}else{
 				List<StockCompanyFinance> list=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "simple", menu, 1);
