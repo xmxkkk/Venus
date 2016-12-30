@@ -14,12 +14,12 @@ import venus.model.dao.LuStrategyStockQuit;
 @Mapper
 public interface LuStrategyStockQuitMapper {
 
-	@Insert("insert into lu_strategy_stock_quit (id,code,calc_date,join_date,quit_date,join_price,quit_price,join_price_fu,quit_price_fu,update_time)"
-			+ " values (#{id},#{code},#{calc_date},#{join_date},#{quit_date},#{join_price},#{quit_price},#{join_price_fu},#{quit_price_fu},#{update_time})")
+	@Insert("insert into lu_strategy_stock_quit (id,code,calc_date,join_date,quit_date,join_price,quit_price,join_price_fu,quit_price_fu,update_time,change_rate)"
+			+ " values (#{id},#{code},#{calc_date},#{join_date},#{quit_date},#{join_price},#{quit_price},#{join_price_fu},#{quit_price_fu},#{update_time},#{change_rate})")
 	int insert(LuStrategyStockQuit luStrategyStockQuit);
 
 	@Update("update lu_strategy_stock_quit set join_date=#{join_date},quit_date=#{quit_date},join_price=#{join_price},quit_price=#{quit_price}"
-			+ ",join_price_fu=#{join_price_fu},quit_price_fu=#{quit_price_fu},update_time=#{update_time} "
+			+ ",join_price_fu=#{join_price_fu},quit_price_fu=#{quit_price_fu},update_time=#{update_time},change_rate=#{change_rate} "
 			+ "where id=#{id} and code=#{code} and calc_date=#{calc_date}")
 	int update(LuStrategyStockQuit luStrategyStockQuit);
 	

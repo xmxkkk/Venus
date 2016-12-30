@@ -285,6 +285,12 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 						insertLuStrategyStockQuit.setQuit_price_fu(quit_price_fu);
 						insertLuStrategyStockQuit.setUpdate_time(DateUtil.datetime());
 						
+						Double change_rate=null;
+						if(lastStockDayFu!=null&&db.getJoin_price_fu()!=null&&db.getJoin_price_fu()!=0){
+							change_rate=NumUtil.format2((lastStockDayFu.getClose_price()-db.getJoin_price_fu())*100.0/db.getJoin_price_fu());
+						}
+						insertLuStrategyStockQuit.setChange_rate(change_rate);
+						
 						LuStrategyStockQuit luStrategyStockQuit=luStrategyStockQuitMapper.find(keyid, code, calc_date);
 						if(luStrategyStockQuit==null){
 							luStrategyStockQuitMapper.insert(insertLuStrategyStockQuit);
