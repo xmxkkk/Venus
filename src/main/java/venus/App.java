@@ -5,13 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import venus.helper.middle.Count;
 import venus.helper.property.CommandProperty;
 import venus.helper.util.CommonUtil;
 import venus.task.analyse.LuStrategyTask;
 import venus.task.collect.CheckTask;
 import venus.task.collect.DayTask;
-import venus.task.collect.StockCompanyHangyeDataTask;
 import venus.task.collect.StockCompanyTask;
 
 @SpringBootApplication
@@ -72,18 +70,18 @@ public class App {
 			}
 		}
 		
+		String startCtCommand=startProperty.getCommandCt().trim();
+		if(!startCtCommand.equals("none")&&startCtCommand.equals("start")){
+			CheckTask checkTask=cxt.getBean(CheckTask.class);
+			checkTask.init();
+		}
+		
 		String startLstCommand=startProperty.getCommandLst().trim();
 		if(!startLstCommand.equals("none")&&startLstCommand.equals("start")){
 			LuStrategyTask luStrategyTask=cxt.getBean(LuStrategyTask.class);
 			int commandLstId=startProperty.getCommandLstId();
 			String commandLstJson=startProperty.getCommandLstJson();
 			luStrategyTask.init(commandLstId,commandLstJson);
-		}
-		
-		String startCtCommand=startProperty.getCommandCt().trim();
-		if(!startCtCommand.equals("none")&&startCtCommand.equals("start")){
-			CheckTask checkTask=cxt.getBean(CheckTask.class);
-			checkTask.init();
 		}
 		
 		String startShutdownCommand=startProperty.getCommandShutdown().trim();
