@@ -15,6 +15,7 @@ import venus.dao.LuStrategyChangeRateMapper;
 import venus.dao.LuStrategyFilterMapper;
 import venus.dao.LuStrategyMapper;
 import venus.dao.LuStrategyStockMapper;
+import venus.dao.LuStrategyStockQuitMapper;
 import venus.dao.RunStatusMapper;
 import venus.dao.StockCompanyFinanceMapper;
 import venus.dao.StockCompanyHangyeDataMapper;
@@ -34,6 +35,7 @@ import venus.model.dao.LuStrategy;
 import venus.model.dao.LuStrategyChangeRate;
 import venus.model.dao.LuStrategyFilter;
 import venus.model.dao.LuStrategyStock;
+import venus.model.dao.LuStrategyStockQuit;
 import venus.model.dao.StockCompanyHangye;
 import venus.model.dao.StockCompanyInfo;
 import venus.model.dao.StockCompanySummary;
@@ -63,6 +65,7 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 	@Autowired LuCommonChoose luCommonChoose;
 	@Autowired StockCompanyInfoMapper stockCompanyInfoMapper;
 	@Autowired StockCompanyFinanceMapper stockCompanyFinanceMapper;
+	@Autowired LuStrategyStockQuitMapper luStrategyStockQuitMapper;
 	public void init(int id,String strategy_json_str){
 		logger.info("[start]id="+id);
 		try{
@@ -138,6 +141,7 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 					luStrategyChangeRateMapper.deleteId(luStrategy.getId());
 				}
 				
+				List<String> joinCodes=new ArrayList<String>();
 				for(int i=0;i<codes.size();i++){
 					String code=codes.get(i);
 					
@@ -176,6 +180,8 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 						}
 					}
 					StockDay lastStockDay=stockDayMapper.findLast(code);
+					StockDayFu lastStockDayFu=stockDayFuMapper.findLast(code);
+					
 					
 					String market=StringUtil.toMarketName(stock).substring(0, 2).toUpperCase();
 					
@@ -191,7 +197,7 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 						luStrategyStockDb.setName(stock.getName());
 						luStrategyStockDb.setChange_rate(change_rate);
 						luStrategyStockDb.setCode(code);
-						luStrategyStockDb.setCurr_price(NumUtil.format2(lastStockDay.getClose_price()));
+						luStrategyStockDb.setCurr_price(lastStockDay.getClose_price());
 						luStrategyStockDb.setQuittime("");
 						luStrategyStockDb.setScore(1);
 						luStrategyStockDb.setShiyinglvttm(stockCompanySummary.getShiyinglvttm());
@@ -199,6 +205,15 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 						luStrategyStockDb.setZongshizhi(stockCompanySummary.getZongshizhi());
 						luStrategyStockDb.setUpdate_time(DateUtil.datetime());
 
+						luStrategyStockDb.setJoin_date(DateUtil.date2());
+						luStrategyStockDb.setJoin_price(lastStockDay.getClose_price());
+						luStrategyStockDb.setJoin_price_fu(lastStockDayFu.getClose_price());
+						luStrategyStockDb.setCurr_price_fu(lastStockDayFu.getClose_price());
+//						String join_date;
+//						Double join_price;
+//						Double join_price_fu;
+//						Double curr_price_fu;
+						
 						luStrategyStockMapper.insert(luStrategyStockDb);
 					}else{
 					
@@ -206,13 +221,15 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 						luStrategyStockDb.setName(stock.getName());
 						luStrategyStockDb.setChange_rate(change_rate);
 						luStrategyStockDb.setCode(code);
-						luStrategyStockDb.setCurr_price(NumUtil.format2(lastStockDay.getClose_price()));
+						luStrategyStockDb.setCurr_price(lastStockDay.getClose_price());
 						luStrategyStockDb.setQuittime("");
 						luStrategyStockDb.setScore(luStrategyStockDb.getScore()+1);
 						luStrategyStockDb.setShiyinglvttm(stockCompanySummary.getShiyinglvttm());
 						luStrategyStockDb.setStatus(1);
 						luStrategyStockDb.setZongshizhi(stockCompanySummary.getZongshizhi());
 						luStrategyStockDb.setUpdate_time(DateUtil.datetime());
+						
+						luStrategyStockDb.setCurr_price_fu(lastStockDayFu.getClose_price());
 						
 						luStrategyStockMapper.update(luStrategyStockDb);
 					}
@@ -224,7 +241,61 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 					}else{
 						down++;
 					}
-					
+					joinCodes.add(code);
+				}
+				
+				List<LuStrategyStock> dbList=luStrategyStockMapper.findId(luStrategy.getId());
+				for(LuStrategyStock db:dbList){
+					if(joinCodes.contains(db.getCode())){
+						continue;
+					}else{
+						//不被包含
+						
+						int keyid=db.getId();
+						String code=db.getCode();
+						String calc_date=DateUtil.date2();
+
+						StockDayFu lastStockDayFu=stockDayFuMapper.findStockDayFu(code, calc_date.replaceAll("-", ""));
+						StockDay lastStockDay=stockDayMapper.find(code,calc_date.replaceAll("-", ""));
+						if(lastStockDayFu==null||lastStockDay==null){
+							logger.error("[error]strategy_id="+keyid+",code="+code+",calc_date="+calc_date);
+							logger.error("[error]lastStockDay="+lastStockDay);
+							logger.error("[error]lastStockDayFu="+lastStockDayFu);
+						}
+						
+						double quit_price=0;
+						if(lastStockDay!=null){
+							quit_price=lastStockDay.getClose_price();
+						}
+						
+						double quit_price_fu=0;
+						if(lastStockDayFu!=null){
+							quit_price_fu=lastStockDayFu.getClose_price();
+						}
+						
+						LuStrategyStockQuit insertLuStrategyStockQuit=new LuStrategyStockQuit();
+						insertLuStrategyStockQuit.setId(keyid);
+						insertLuStrategyStockQuit.setCode(code);
+						insertLuStrategyStockQuit.setCalc_date(calc_date);
+						insertLuStrategyStockQuit.setJoin_date(db.getJoin_date());
+						insertLuStrategyStockQuit.setJoin_price(db.getJoin_price());
+						insertLuStrategyStockQuit.setJoin_price_fu(db.getJoin_price_fu());
+						insertLuStrategyStockQuit.setQuit_date(calc_date);
+						insertLuStrategyStockQuit.setQuit_price(quit_price);
+						insertLuStrategyStockQuit.setQuit_price_fu(quit_price_fu);
+						insertLuStrategyStockQuit.setUpdate_time(DateUtil.datetime());
+						
+						LuStrategyStockQuit luStrategyStockQuit=luStrategyStockQuitMapper.find(keyid, code, calc_date);
+						if(luStrategyStockQuit==null){
+							luStrategyStockQuitMapper.insert(insertLuStrategyStockQuit);
+						}else{
+							luStrategyStockQuitMapper.update(insertLuStrategyStockQuit);
+						}
+						
+						logger.info("[message]"+db);
+						logger.info("[message]"+insertLuStrategyStockQuit);
+						luStrategyStockMapper.deleteIdCode(keyid, code);
+					}
 				}
 				
 				luStrategy.setDown(down);
@@ -236,15 +307,15 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 				luStrategyMapper.updateLuStrategy(luStrategy);
 				
 				//更新score
-				List<LuStrategyStock> stocks=luStrategyStockMapper.findIdStatus(luStrategy.getId(), 1);
-				for(int i=0;i<stocks.size();i++){
-					LuStrategyStock temp=stocks.get(i);
-					if(!codes.contains(temp.getCode())){
-						temp.setScore(0);
-						temp.setStatus(0);
-						luStrategyStockMapper.update(temp);
-					}
-				}
+//				List<LuStrategyStock> stocks=luStrategyStockMapper.findIdStatus(luStrategy.getId(), 1);
+//				for(int i=0;i<stocks.size();i++){
+//					LuStrategyStock temp=stocks.get(i);
+//					if(!codes.contains(temp.getCode())){
+//						temp.setScore(0);
+//						temp.setStatus(0);
+//						luStrategyStockMapper.update(temp);
+//					}
+//				}
 				
 				logger.info("时间	:7天	:14天	:21天	:1月	:3月	:6月	:1年	:2年	:3年	:4年	:5年	:6年	:7年	:8年	:9年	:10年");
 				

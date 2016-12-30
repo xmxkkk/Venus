@@ -14,7 +14,35 @@ public class LuStrategyStock {
 	Double zongshizhi;
 	Double shiyinglvttm;
 	String update_time;
-
+	String join_date;
+	Double join_price;
+	Double join_price_fu;
+	Double curr_price_fu;
+	
+	public String getJoin_date() {
+		return join_date;
+	}
+	public void setJoin_date(String join_date) {
+		this.join_date = join_date;
+	}
+	public Double getJoin_price() {
+		return join_price;
+	}
+	public void setJoin_price(Double join_price) {
+		this.join_price = join_price;
+	}
+	public Double getJoin_price_fu() {
+		return join_price_fu;
+	}
+	public void setJoin_price_fu(Double join_price_fu) {
+		this.join_price_fu = join_price_fu;
+	}
+	public Double getCurr_price_fu() {
+		return curr_price_fu;
+	}
+	public void setCurr_price_fu(Double curr_price_fu) {
+		this.curr_price_fu = curr_price_fu;
+	}
 	public String getUpdate_time() {
 		return update_time;
 	}
@@ -98,7 +126,8 @@ public class LuStrategyStock {
 		return "LuStrategyStock [id=" + id + ", code=" + code + ", market=" + market + ", name=" + name + ", addtime="
 				+ addtime + ", quittime=" + quittime + ", status=" + status + ", score=" + score + ", change_rate="
 				+ change_rate + ", curr_price=" + curr_price + ", zongshizhi=" + zongshizhi + ", shiyinglvttm="
-				+ shiyinglvttm + ", update_time=" + update_time + "]";
+				+ shiyinglvttm + ", update_time=" + update_time + ", join_date=" + join_date + ", join_price="
+				+ join_price + ", join_price_fu=" + join_price_fu + ", curr_price_fu=" + curr_price_fu + "]";
 	}
 	
 }
