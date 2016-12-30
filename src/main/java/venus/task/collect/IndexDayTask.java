@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import venus.dao.IndexDayMapper;
 import venus.dao.IndexinfoMapper;
-import venus.helper.exception.BizException;
 import venus.helper.util.Constant;
 import venus.helper.util.DateUtil;
 import venus.helper.util.NumUtil;

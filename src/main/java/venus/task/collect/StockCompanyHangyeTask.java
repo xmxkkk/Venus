@@ -86,10 +86,11 @@ public class StockCompanyHangyeTask {
 				
 				StockCompanyHangye existStockCompanyHangye=stockCompanyHangyeMapper.findCode(stock.getCode());
 				if(existStockCompanyHangye!=null){
-					stockCompanyHangyeMapper.delete(stock.getCode());
+					stockCompanyHangyeMapper.update(stockCompanyHangye);
+				}else{
+					stockCompanyHangyeMapper.insert(stockCompanyHangye);
 				}
 				
-				stockCompanyHangyeMapper.insert(stockCompanyHangye);
 				logger.info(stockCompanyHangye);
 			}
 		}catch(Exception e){

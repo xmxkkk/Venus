@@ -249,7 +249,7 @@ public class DateUtil {
 		
 		//"2016-09-30"
 		int year=Integer.parseInt(day.substring(0,4));
-		int month=Integer.parseInt(day.substring(5, 7));
+//		int month=Integer.parseInt(day.substring(5, 7));
 
 		String mm=day.substring(5);
 		

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
 import venus.model.dao.StockCompanyHangye;
@@ -18,6 +19,9 @@ public interface StockCompanyHangyeMapper {
 	@Insert("insert into stock_company_hangye (code,level1,level2,level3,level_num,update_time) values "
 			+ "(#{code},#{level1},#{level2},#{level3},#{level_num},#{update_time})")
 	int insert(StockCompanyHangye stockCompanyHangye);
+	
+	@Update("update stock_company_hangye set level1=#{level1},level2=#{level2},level3=#{level3},level_num=#{level_num},update_time=#{update_time} where code=#{code}")
+	int update(StockCompanyHangye stockCompanyHangye);
 	
 	@Select("select * from stock_company_hangye where code=#{code}")
 	StockCompanyHangye findCode(@Param("code")String code);

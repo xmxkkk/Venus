@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
 import venus.model.dao.StockCompanyHolderCansell;
@@ -18,6 +19,10 @@ public interface StockCompanyHolderCansellMapper {
 	@Insert("insert into stock_company_holder_cansell (code,date,num,rate,type,price,total_price,update_time) values"
 			+ " (#{code},#{date},#{num},#{rate},#{type},#{price},#{total_price},#{update_time})")
 	int insert(StockCompanyHolderCansell stockCompanyHolderCansell);
+	
+	@Update("update stock_company_holder_cansell set num=#{num},rate=#{rate},type=#{type},price=#{price},total_price=#{total_price},update_time=#{update_time}"
+			+ " where code=#{code} and date=#{date}")
+	int update(StockCompanyHolderCansell stockCompanyHolderCansell);
 	
 	@Select("select * from stock_company_holder_cansell where code=#{code}")
 	List<StockCompanyHolderCansell> findCode(@Param("code")String code);

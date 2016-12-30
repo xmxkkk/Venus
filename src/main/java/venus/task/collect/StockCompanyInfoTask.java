@@ -139,10 +139,12 @@ public class StockCompanyInfoTask {
 				
 				StockCompanyInfo existStockCompanyInfo=stockCompanyInfoMapper.findCode(stock.getCode());
 				if(existStockCompanyInfo!=null){
-					stockCompanyInfoMapper.delete(stock.getCode());
+					stockCompanyInfoMapper.update(stockCompanyInfo);
+				}else{
+					stockCompanyInfoMapper.insert(stockCompanyInfo);
 				}
 				
-				stockCompanyInfoMapper.insert(stockCompanyInfo);
+				
 				logger.info(stockCompanyInfo);
 			}
 		}catch(Exception e){

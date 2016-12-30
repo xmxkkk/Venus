@@ -76,9 +76,11 @@ public class StockCompanyHolderCansellTask {
 					
 					StockCompanyHolderCansell existStockCompanyHolderCansell=stockCompanyHolderCansellMapper.findCodeDate(stock.getCode(), date);
 					if(existStockCompanyHolderCansell!=null){
-						stockCompanyHolderCansellMapper.delete(stock.getCode(), date);
+						stockCompanyHolderCansellMapper.update(stockCompanyHolderCansell);
+					}else{
+						stockCompanyHolderCansellMapper.insert(stockCompanyHolderCansell);
 					}
-					stockCompanyHolderCansellMapper.insert(stockCompanyHolderCansell);
+					
 					logger.info(stockCompanyHolderCansell);
 				}
 			}

@@ -5,11 +5,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import venus.helper.middle.Count;
 import venus.helper.property.CommandProperty;
 import venus.helper.util.CommonUtil;
 import venus.task.analyse.LuStrategyTask;
 import venus.task.collect.CheckTask;
 import venus.task.collect.DayTask;
+import venus.task.collect.StockCompanyInfoTask;
 import venus.task.collect.StockCompanyTask;
 
 @SpringBootApplication
@@ -31,14 +33,14 @@ public class App {
 //		stockCompanyHolderStructTask.initCache();
 		
 		
-//		final StockCompanyHangyeDataTask stockCompanyHangyeDataTask=cxt.getBean(StockCompanyHangyeDataTask.class);
+//		final StockCompanyInfoTask stockCompanyInfoTask=cxt.getBean(StockCompanyInfoTask.class);
 //		final Count count=new Count();
-//		count.init(stockCompanyHangyeDataTask.threadNum);
-//		for (int i = 0; i < stockCompanyHangyeDataTask.threadNum; i++) {
+//		count.init(stockCompanyInfoTask.threadNum);
+//		for (int i = 0; i < stockCompanyInfoTask.threadNum; i++) {
 //			final int threadId = i;
 //			new Thread() {
 //				public void run() {
-//					stockCompanyHangyeDataTask.init(null,threadId);
+//					stockCompanyInfoTask.init(null,threadId);
 //					synchronized (count) {
 //						count.reduce();
 //					}

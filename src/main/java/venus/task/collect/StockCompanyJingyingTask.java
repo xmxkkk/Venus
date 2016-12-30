@@ -62,8 +62,6 @@ public class StockCompanyJingyingTask {
 					}
 				}
 				
-				
-				
 				String str=null;
 				try{
 					str=URLUtil.url2str("http://stockpage.10jqka.com.cn/"+code+"/operate/", cacheParam);
