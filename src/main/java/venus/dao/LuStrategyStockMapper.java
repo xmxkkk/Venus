@@ -17,14 +17,15 @@ import venus.model.dao.LuStrategyStock;
 public interface LuStrategyStockMapper {
 	
 	@Insert("insert into lu_strategy_stock (id,code,market,name,addtime,quittime,status,score,change_rate,curr_price,zongshizhi,shiyinglvttm,update_time"
-			+ ",join_date,join_price,join_price_fu,curr_price_fu) values "
+			+ ",join_date,join_price,join_price_fu,curr_price_fu,total_change_rate) values "
 			+ "(#{id},#{code},#{market},#{name},#{addtime},#{quittime},#{status},#{score},#{change_rate},#{curr_price},#{zongshizhi},#{shiyinglvttm},#{update_time}"
-			+ ",#{join_date},#{join_price},#{join_price_fu},#{curr_price_fu})")
+			+ ",#{join_date},#{join_price},#{join_price_fu},#{curr_price_fu},#{total_change_rate})")
 	int insert(LuStrategyStock luStrategyStock);
 	
 	@Update("update lu_strategy_stock set market=#{market},name=#{name},addtime=#{addtime},quittime=#{quittime},status=#{status},score=#{score}"
 			+ ",change_rate=#{change_rate},curr_price=#{curr_price},zongshizhi=#{zongshizhi},shiyinglvttm=#{shiyinglvttm},update_time=#{update_time}"
-			+ ",join_date=#{join_date},join_price=#{join_price},join_price_fu=#{join_price_fu},curr_price_fu=#{curr_price_fu} where id=#{id} and code=#{code}")
+			+ ",join_date=#{join_date},join_price=#{join_price},join_price_fu=#{join_price_fu},curr_price_fu=#{curr_price_fu},total_change_rate=#{total_change_rate}"
+			+ " where id=#{id} and code=#{code}")
 	int update(LuStrategyStock luStrategyStock);
 	
 	@Select("select * from lu_strategy_stock where id=#{id} and code=#{code}")

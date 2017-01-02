@@ -18,7 +18,14 @@ public class LuStrategyStock {
 	Double join_price;
 	Double join_price_fu;
 	Double curr_price_fu;
+	Double total_change_rate;
 	
+	public Double getTotal_change_rate() {
+		return total_change_rate;
+	}
+	public void setTotal_change_rate(Double total_change_rate) {
+		this.total_change_rate = total_change_rate;
+	}
 	public String getJoin_date() {
 		return join_date;
 	}
@@ -127,7 +134,8 @@ public class LuStrategyStock {
 				+ addtime + ", quittime=" + quittime + ", status=" + status + ", score=" + score + ", change_rate="
 				+ change_rate + ", curr_price=" + curr_price + ", zongshizhi=" + zongshizhi + ", shiyinglvttm="
 				+ shiyinglvttm + ", update_time=" + update_time + ", join_date=" + join_date + ", join_price="
-				+ join_price + ", join_price_fu=" + join_price_fu + ", curr_price_fu=" + curr_price_fu + "]";
+				+ join_price + ", join_price_fu=" + join_price_fu + ", curr_price_fu=" + curr_price_fu
+				+ ", total_change_rate=" + total_change_rate + "]";
 	}
 	
 }

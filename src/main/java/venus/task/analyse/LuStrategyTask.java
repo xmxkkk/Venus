@@ -209,6 +209,9 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 						luStrategyStockDb.setJoin_price(lastStockDay.getClose_price());
 						luStrategyStockDb.setJoin_price_fu(lastStockDayFu.getClose_price());
 						luStrategyStockDb.setCurr_price_fu(lastStockDayFu.getClose_price());
+						
+						double total_change_rate=NumUtil.format2(100.0*(luStrategyStockDb.getCurr_price_fu()-luStrategyStockDb.getJoin_price_fu())/luStrategyStockDb.getJoin_price_fu());
+						luStrategyStockDb.setTotal_change_rate(total_change_rate);
 //						String join_date;
 //						Double join_price;
 //						Double join_price_fu;
@@ -231,6 +234,8 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 						
 						luStrategyStockDb.setCurr_price_fu(lastStockDayFu.getClose_price());
 						
+						double total_change_rate=NumUtil.format2(100.0*(luStrategyStockDb.getCurr_price_fu()-luStrategyStockDb.getJoin_price_fu())/luStrategyStockDb.getJoin_price_fu());
+						luStrategyStockDb.setTotal_change_rate(total_change_rate);
 						luStrategyStockMapper.update(luStrategyStockDb);
 					}
 					
