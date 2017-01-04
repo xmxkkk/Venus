@@ -28,4 +28,7 @@ public interface LuStrategyStockQuitMapper {
 	
 	@Select("select * from lu_strategy_stock_quit where id=#{id} and code=#{code} and calc_date=#{calc_date}")
 	LuStrategyStockQuit find(@Param("id")int id,@Param("code")String code,@Param("calc_date")String calc_date);
+	
+	@Select("select sum(change_rate) as total_change_rate from lu_strategy_stock_quit where id=#{id} and quit_price<>0.00 and change_rate is not null")
+	Double findTotalChangeRate(@Param("id")int id);
 }

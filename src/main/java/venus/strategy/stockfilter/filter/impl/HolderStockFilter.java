@@ -42,9 +42,7 @@ public class HolderStockFilter implements StockFilter{
 				}
 			}else if(paramss[0].equals("限售股票")){
 				StockCompanyHolderStruct stockCompanyHolderStruct=stockCompanyHolderStructMapper.findCodeLast(code);
-				if(stockCompanyHolderStruct==null)return false;
-				
-				if(stockCompanyHolderStruct.getZongguben()==null)return false;
+				if(stockCompanyHolderStruct==null||stockCompanyHolderStruct.getZongguben()==null)return false;
 				
 				double xianshouagu=0;
 				if(null!=stockCompanyHolderStruct.getXianshouagu()){
@@ -65,9 +63,7 @@ public class HolderStockFilter implements StockFilter{
 //				xianshou=xianshou*100/stockCompanyHolderStruct.getZongguben();
 			}else if(paramss[0].equals("限售股票比率")){
 				StockCompanyHolderStruct stockCompanyHolderStruct=stockCompanyHolderStructMapper.findCodeLast(code);
-				if(stockCompanyHolderStruct==null)return false;
-				
-				if(stockCompanyHolderStruct.getZongguben()==null)return false;
+				if(stockCompanyHolderStruct==null||stockCompanyHolderStruct.getZongguben()==null)return false;
 				
 				double xianshouagu=0;
 				if(null!=stockCompanyHolderStruct.getXianshouagu()){
@@ -88,9 +84,7 @@ public class HolderStockFilter implements StockFilter{
 				val=val*100/stockCompanyHolderStruct.getZongguben();
 			}else if(paramss[0].equals("流通股票")){
 				StockCompanyHolderStruct stockCompanyHolderStruct=stockCompanyHolderStructMapper.findCodeLast(code);
-				if(stockCompanyHolderStruct==null)return false;
-				
-				if(stockCompanyHolderStruct.getZongguben()==null)return false;
+				if(stockCompanyHolderStruct==null||stockCompanyHolderStruct.getZongguben()==null)return false;
 				
 				double liutongagu=0;
 				if(null!=stockCompanyHolderStruct.getLiutongagu()){
@@ -111,9 +105,7 @@ public class HolderStockFilter implements StockFilter{
 //				xianshou=xianshou*100/stockCompanyHolderStruct.getZongguben();
 			}else if(paramss[0].equals("流通股票比率")){
 				StockCompanyHolderStruct stockCompanyHolderStruct=stockCompanyHolderStructMapper.findCodeLast(code);
-				if(stockCompanyHolderStruct==null)return false;
-				
-				if(stockCompanyHolderStruct.getZongguben()==null)return false;
+				if(stockCompanyHolderStruct==null||stockCompanyHolderStruct.getZongguben()==null)return false;
 				
 				double liutongagu=0;
 				if(null!=stockCompanyHolderStruct.getLiutongagu()){
@@ -141,6 +133,11 @@ public class HolderStockFilter implements StockFilter{
 				String date=stockCompanyHolderOrgMapper.findLastTime(code);
 				val=stockCompanyHolderOrgMapper.findCodeTotalRate(code,date);
 				if(val==null)return false;
+			}else if(paramss[0].equals("总股本")){
+				StockCompanyHolderStruct stockCompanyHolderStruct=stockCompanyHolderStructMapper.findCodeLast(code);
+				if(stockCompanyHolderStruct==null||stockCompanyHolderStruct.getZongguben()==null)return false;
+				
+				val=stockCompanyHolderStruct.getZongguben();
 			}
 
 			result= CommonUtil.compareExpressionDouble(val, paramss[1]);

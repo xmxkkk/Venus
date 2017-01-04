@@ -4,8 +4,8 @@ public class LuStrategy {
 	int id;
 	String title;
 	String attr;
-	double rate_3month;
-	double rate_1month;
+	Double rate_3month;
+	Double rate_1month;
 	String update_time;
 	String strategy_class;
 	int up;
@@ -17,7 +17,35 @@ public class LuStrategy {
 	int interval_day;
 	int status;
 	int run_status;
+	Double total_change_rate;
+	int is_top;
+	Double ord;
 	
+	
+	public int getIs_top() {
+		return is_top;
+	}
+	public void setIs_top(int is_top) {
+		this.is_top = is_top;
+	}
+	public Double getOrd() {
+		return ord;
+	}
+	public void setOrd(Double ord) {
+		this.ord = ord;
+	}
+	public Double getTotal_change_rate() {
+		return total_change_rate;
+	}
+	public void setTotal_change_rate(Double total_change_rate) {
+		this.total_change_rate = total_change_rate;
+	}
+	public void setRate_3month(Double rate_3month) {
+		this.rate_3month = rate_3month;
+	}
+	public void setRate_1month(Double rate_1month) {
+		this.rate_1month = rate_1month;
+	}
 	public int getStatus() {
 		return status;
 	}
@@ -120,7 +148,8 @@ public class LuStrategy {
 				+ ", rate_1month=" + rate_1month + ", update_time=" + update_time + ", strategy_class=" + strategy_class
 				+ ", up=" + up + ", down=" + down + ", flat=" + flat + ", img=" + img + ", type=" + type
 				+ ", modify_date=" + modify_date + ", interval_day=" + interval_day + ", status=" + status
-				+ ", run_status=" + run_status + "]";
+				+ ", run_status=" + run_status + ", total_change_rate=" + total_change_rate + ", is_top=" + is_top
+				+ ", ord=" + ord + "]";
 	}
 	
 }

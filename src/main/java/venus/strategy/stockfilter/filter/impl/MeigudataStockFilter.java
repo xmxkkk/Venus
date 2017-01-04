@@ -107,7 +107,9 @@ public class MeigudataStockFilter implements StockFilter {
 		}
 		
 		double one=oneSCF.getValue(),two=twoSCF.getValue();
-		
+		if(code.equals("002821")){
+			System.out.println(code);
+		}
 		double data=0;
 		if(rate){
 			data=NumUtil.calcRate(one, two);

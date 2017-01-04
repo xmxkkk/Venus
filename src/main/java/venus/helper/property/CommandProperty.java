@@ -24,7 +24,16 @@ public class CommandProperty {
 	int commandLstId;
 	@Value("${command.lst.json}")
 	String commandLstJson;
+	@Value("${command.lst.force}")
+	String commandLstForce;
 	
+	
+	public String getCommandLstForce() {
+		return commandLstForce;
+	}
+	public void setCommandLstForce(String commandLstForce) {
+		this.commandLstForce = commandLstForce;
+	}
 	public String getCommandLstJson() {
 		return commandLstJson;
 	}
@@ -84,7 +93,7 @@ public class CommandProperty {
 		return "CommandProperty [commandSct=" + commandSct + ", commandSctCache=" + commandSctCache + ", commandDt="
 				+ commandDt + ", commandLst=" + commandLst + ", commandCt=" + commandCt + ", commandShutdown="
 				+ commandShutdown + ", commandSctForce=" + commandSctForce + ", commandLstId=" + commandLstId
-				+ ", commandLstJson=" + commandLstJson + "]";
+				+ ", commandLstJson=" + commandLstJson + ", commandLstForce=" + commandLstForce + "]";
 	}
 	
 }

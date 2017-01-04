@@ -15,13 +15,13 @@ import venus.model.dao.LuStrategy;
 @Mapper
 public interface LuStrategyMapper {
 
-	@Insert("insert into lu_strategy (id,title,attr,rate_3month,rate_1month,update_time,strategy_class,up,down,flat,img,type,modify_date,interval_day) values "
-			+ "(#{id},#{title},#{attr},#{rate_3month},#{rate_1month},#{update_time},#{strategy_class},#{up},#{down},#{flat},#{img},#{type},#{modify_date},#{interval_day})")
+	@Insert("insert into lu_strategy (id,title,attr,rate_3month,rate_1month,update_time,strategy_class,up,down,flat,img,type,modify_date,interval_day,status,run_status,total_change_rate) values "
+			+ "(#{id},#{title},#{attr},#{rate_3month},#{rate_1month},#{update_time},#{strategy_class},#{up},#{down},#{flat},#{img},#{type},#{modify_date},#{interval_day},#{status},#{run_status},#{total_change_rate})")
 	int insertLuStrategy(LuStrategy luStrategy);
 	
 	@Update("update lu_strategy set title=#{title},attr=#{attr},rate_3month=#{rate_3month},rate_1month=#{rate_1month}"
 			+ ",update_time=#{update_time},strategy_class=#{strategy_class},up=#{up},down=#{down},flat=#{flat},img=#{img},type=#{type},modify_date=#{modify_date}"
-			+ ",interval_day=#{interval_day},status=#{status},run_status=#{run_status} where id=#{id}")
+			+ ",interval_day=#{interval_day},status=#{status},run_status=#{run_status},total_change_rate=#{total_change_rate} where id=#{id}")
 	int updateLuStrategy(LuStrategy luStrategy);
 	
 	@Select("select * from lu_strategy")

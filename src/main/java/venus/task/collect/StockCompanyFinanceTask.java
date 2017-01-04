@@ -87,6 +87,10 @@ public class StockCompanyFinanceTask {
 				
 				List<StockCompanyFinance> insertAll = new ArrayList<StockCompanyFinance>();
 				
+				if(code.equals("300558")||code.equals("002821")){
+					stockCompanyFinanceMapper.deleteCode(code);
+					continue;
+				}
 //				stockCompanyFinanceMapper.deleteCode(code);
 				
 				String[] dataTypes = {"main", "each", "grow", "pay", "operate", "debt", "benefit", "cash" };
@@ -155,7 +159,9 @@ public class StockCompanyFinanceTask {
 							for (int x = 0; x < report.getJSONArray(k).size(); x++) {
 								String time = report.getJSONArray(0).getString(x);
 								double value = NumUtil.text2num(report.getJSONArray(k).getString(x) + unit, 4);
-
+								
+								
+								
 								StockCompanyFinance stockCompanyFinance = new StockCompanyFinance();
 								stockCompanyFinance.setCode(stock.getCode());
 								stockCompanyFinance.setTime(time);
@@ -174,10 +180,12 @@ public class StockCompanyFinanceTask {
 								if(!kv.contains(key)){
 									kv.add(key);
 									insertAll.add(stockCompanyFinance);
+//									logger.info("xxx="+stockCompanyFinance);
 								}
 
 								if (insertAll.size() == 1000) {
 									stockCompanyFinanceMapper.insertAll(insertAll);
+									
 									logger.info(stock.getCode() + ":" + dataType + ":" + insertAll.size());
 									insertAll.clear();
 									kv.clear();

@@ -53,7 +53,7 @@ public class HolderNumberStockFilter implements StockFilter {
 					stockCompanyHolderNumber=stockCompanyHolderNumberMapper.findCodeMenuTime(code, "A股股东数变化", lastTime);
 				}
 			}
-			
+			/*
 			if(paramss[0].equals("流通股本数")){
 				StockCompanyHolderStruct stockCompanyHolderStruct=stockCompanyHolderStructMapper.findCodeLast(code);
 				double liutongagu=0;
@@ -87,7 +87,9 @@ public class HolderNumberStockFilter implements StockFilter {
 				}
 				
 				val=xianshouagu+xianshoubgu+xianshouhgu;
-			}else if(paramss[0].equals("人均流通A股变化(半年)")){
+			}else 
+			*/	
+			if(paramss[0].equals("人均流通A股变化(半年)")){
 				
 				StockCompanyHolderNumber stockCompanyHolderNumberx=stockCompanyHolderNumberMapper.findCodeLast(code);
 				if(stockCompanyHolderNumberx==null)return false;

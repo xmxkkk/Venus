@@ -5,11 +5,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import venus.helper.middle.Count;
 import venus.helper.property.CommandProperty;
 import venus.helper.util.CommonUtil;
 import venus.task.analyse.LuStrategyTask;
 import venus.task.collect.CheckTask;
 import venus.task.collect.DayTask;
+import venus.task.collect.StockCompanySummaryTask;
 import venus.task.collect.StockCompanyTask;
 
 @SpringBootApplication
@@ -31,21 +33,28 @@ public class App {
 //		stockCompanyHolderStructTask.initCache();
 		
 		
-//		final StockCompanyInfoTask stockCompanyInfoTask=cxt.getBean(StockCompanyInfoTask.class);
-//		final Count count=new Count();
-//		count.init(stockCompanyInfoTask.threadNum);
-//		for (int i = 0; i < stockCompanyInfoTask.threadNum; i++) {
-//			final int threadId = i;
-//			new Thread() {
-//				public void run() {
-//					stockCompanyInfoTask.init(null,threadId);
-//					synchronized (count) {
-//						count.reduce();
-//					}
-//				}
-//			}.start();
-//		}
-//		CommonUtil.wait2000(count);
+//		final StockCompanySummaryTask stockCompanySummaryTask=cxt.getBean(StockCompanySummaryTask.class);
+//		stockCompanySummaryTask.updateAllOther(null,false);
+		
+		/*
+		final Count count=new Count();
+		count.init(stockCompanySummaryTask.threadNum);
+		for (int i = 0; i < stockCompanySummaryTask.threadNum; i++) {
+			final int threadId = i;
+			new Thread() {
+				public void run() {
+					stockCompanySummaryTask.updateAllOther(null,threadId);
+					synchronized (count) {
+						count.reduce();
+					}
+				}
+			}.start();
+		}
+		CommonUtil.wait2000(count);*/
+		
+//		StockCompanyFinanceTask stockCompanyFinanceTask=cxt.getBean(StockCompanyFinanceTask.class);
+//		stockCompanyFinanceTask.init("002821", 0);
+		
 		
 		CommandProperty startProperty=cxt.getBean(CommandProperty.class);
 		String startDtCommand=startProperty.getCommandDt().trim();
@@ -81,7 +90,12 @@ public class App {
 			LuStrategyTask luStrategyTask=cxt.getBean(LuStrategyTask.class);
 			int commandLstId=startProperty.getCommandLstId();
 			String commandLstJson=startProperty.getCommandLstJson();
-			luStrategyTask.init(commandLstId,commandLstJson);
+			String force=startProperty.getCommandLstForce();
+			boolean forceParam=false;
+			if(force.equals("true")){
+				forceParam=true;
+			}
+			luStrategyTask.init(commandLstId,commandLstJson,forceParam);
 		}
 		
 		String startShutdownCommand=startProperty.getCommandShutdown().trim();

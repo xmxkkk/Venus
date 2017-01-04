@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.fastjson.JSONObject;
+
 import venus.dao.StockCompanyFinanceMapper;
 import venus.dao.StockCompanySummaryMapper;
 import venus.dao.StockDayMapper;
@@ -115,9 +117,11 @@ public class StockCompanySummaryTask {
 				
 //				stockCompanySummaryMapper.delete(stock.getCode());
 //				stockCompanySummaryMapper.insert(stockCompanySummary);
+				
+				initOther(cacheParam, stock.getCode());
 			}
 			
-			initOther(cacheParam, stockCode);
+			
 		}catch(Exception e){
 			logger.error("[except]",e);
 		}
@@ -252,9 +256,10 @@ public class StockCompanySummaryTask {
 				stockCompanySummaryMapper.update(stockCompanySummary);
 				logger.info(stockCompanySummary);
 				
+				updateAllOther(stock.getCode(),cacheParam);
 			}
 			
-			updateAllOther(stockCode);
+			
 			
 		}catch(Exception e){
 			logger.error("[except]",e);
@@ -262,7 +267,7 @@ public class StockCompanySummaryTask {
 		logger.info("[info]"+cacheParam);
 	}
 	
-	public void updateAllOther(String stockCode){
+	public void updateAllOther(String stockCode,boolean cacheParam){
 		logger.info("[start]");
 		try{
 			List<Stockinfo> stocks=null;
@@ -291,6 +296,20 @@ public class StockCompanySummaryTask {
 					continue;
 				}
 				
+				//http://stockpage.10jqka.com.cn/spService/002061/Header/realHeader
+				
+				String str=null;
+				try{
+					str=URLUtil.url2str("http://stockpage.10jqka.com.cn/spService/"+code+"/Header/realHeader",Constant.CHARSET$GB2312, cacheParam);
+				}catch(Exception e){
+					logger.error("[except]",e);
+					continue;
+				}
+				if(StringUtil.isBlank(str))continue;
+				
+				JSONObject obj=JSONObject.parseObject(str);
+				double shiyinglvttm=obj.getDouble("syl");
+				
 				double zongshizhi=NumUtil.format2(lastStockDay.getClose_price()*stockCompanySummary.getZongguben());
 				double liutongshizhi=NumUtil.format2(lastStockDay.getClose_price()*stockCompanySummary.getLiutongguben());
 				double zhenfu=0;
@@ -314,29 +333,29 @@ public class StockCompanySummaryTask {
 				if(stockCompanySummary.getMeigujingzichan()!=0.0){
 					shijinglv=NumUtil.format2(stockCompanySummary.getClose_price()/stockCompanySummary.getMeigujingzichan());
 				}
-				double shiyinglvttm=0;
+//				double shiyinglvttm=0;
 				
-				List<StockCompanyFinance> stockCompanyFinancess=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "simple", "基本每股收益", 4);
-				if(stockCompanyFinancess!=null&&stockCompanyFinancess.size()==4){
-					double lirun=0;
-					for(int i=0;i<stockCompanyFinancess.size();i++){
-						lirun+=stockCompanyFinancess.get(i).getValue();
-					}
-					lirun=NumUtil.format4(lirun);
-					if(lirun!=0){
-						shiyinglvttm=NumUtil.format4(lastStockDay.getClose_price()/lirun);
-					}
-				}
+//				List<StockCompanyFinance> stockCompanyFinancess=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "simple", "基本每股收益", 4);
+//				if(stockCompanyFinancess!=null&&stockCompanyFinancess.size()==4){
+//					double lirun=0;
+//					for(int i=0;i<stockCompanyFinancess.size();i++){
+//						lirun+=stockCompanyFinancess.get(i).getValue();
+//					}
+//					lirun=NumUtil.format4(lirun);
+//					if(lirun!=0){
+//						shiyinglvttm=NumUtil.format4(lastStockDay.getClose_price()/lirun);
+//					}
+//				}
 
-				double shiyinglvjing=0;
-				List<StockCompanyFinance> stockCompanyFinance1=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "year", "基本每股收益", 1);
-				if(stockCompanyFinance1!=null&&stockCompanyFinance1.size()==1){
-					double lirunyear=stockCompanyFinance1.get(0).getValue();
-					lirunyear=NumUtil.format4(lirunyear);
-					if(lirunyear!=0){
-						shiyinglvjing=lastStockDay.getClose_price()/lirunyear;
-					}
-				}
+				double shiyinglvjing=shiyinglvttm;
+//				List<StockCompanyFinance> stockCompanyFinance1=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "year", "基本每股收益", 1);
+//				if(stockCompanyFinance1!=null&&stockCompanyFinance1.size()==1){
+//					double lirunyear=stockCompanyFinance1.get(0).getValue();
+//					lirunyear=NumUtil.format4(lirunyear);
+//					if(lirunyear!=0){
+//						shiyinglvjing=lastStockDay.getClose_price()/lirunyear;
+//					}
+//				}
 				
 				double jingzichanshouyilv=0;
 				List<StockCompanyFinance> stockCompanyFinance2=stockCompanyFinanceMapper.findCodeTypeMenuLastLimit(code, "year", "净资产收益率", 1);

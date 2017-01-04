@@ -66,7 +66,7 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 	@Autowired StockCompanyInfoMapper stockCompanyInfoMapper;
 	@Autowired StockCompanyFinanceMapper stockCompanyFinanceMapper;
 	@Autowired LuStrategyStockQuitMapper luStrategyStockQuitMapper;
-	public void init(int id,String strategy_json_str){
+	public void init(int id,String strategy_json_str,boolean force){
 		logger.info("[start]id="+id);
 		try{
 			String endDt=DateUtil.date2();
@@ -103,12 +103,6 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 			}
 			
 			for(LuStrategy luStrategy:luStrategies){
-				
-//				String end_date=DateUtil.date2(luStrategy.getModify_date(), luStrategy.getInterval_day());
-//				if(end_date.compareTo(DateUtil.date2())>=0){
-//					continue;
-//				}
-			
 				List<String> codes=null;
 				if(!StringUtil.isBlank(luStrategy.getStrategy_class())){
 					LuChoose luChoose=(LuChoose)getApplicationContext().getBean(luStrategy.getStrategy_class());
@@ -116,7 +110,7 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 				}else{
 					if(luStrategy.getId()>0){
 						List<LuStrategyFilter> luStrategyFilters=luStrategyFilterMapper.findId(luStrategy.getId());
-						if(luStrategyFilters.size()==0)continue;
+						if(luStrategyFilters==null||luStrategyFilters.size()==0)continue;
 					}
 					if(luStrategy.getId()==-1){
 						codes=luCommonChoose.choose(strategy_json_str);
@@ -139,6 +133,33 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 				if(luStrategy.getId()==-1){
 					luStrategyStockMapper.deleteId(luStrategy.getId());
 					luStrategyChangeRateMapper.deleteId(luStrategy.getId());
+				}
+				
+				boolean updateIntervalTime=false;
+				
+				if(luStrategy.getId()!=-1){
+					
+					int day=DateUtil.datediff2(luStrategy.getModify_date(), DateUtil.date2());
+					if(day%luStrategy.getInterval_day()==0){
+						updateIntervalTime=true;
+					}
+//					String end_date=DateUtil.date2(luStrategy.getModify_date(), luStrategy.getInterval_day());
+//					if(end_date.equals(DateUtil.date2())){
+//						updateIntervalTime=true;
+//					}
+				}
+				
+				if(force){
+					updateIntervalTime=true;
+				}
+				
+				
+				if(!updateIntervalTime){
+					List<LuStrategyStock> temp=luStrategyStockMapper.findIdStatus(luStrategy.getId(), 1);
+					codes=new ArrayList<String>();
+					for(int i=0;i<temp.size();i++){
+						codes.add(temp.get(i).getCode());
+					}
 				}
 				
 				List<String> joinCodes=new ArrayList<String>();
@@ -312,11 +333,21 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 				luStrategy.setDown(down);
 				luStrategy.setUp(up);
 				luStrategy.setFlat(flat);
-				luStrategy.setModify_date(DateUtil.date2());
+				if(updateIntervalTime){
+					luStrategy.setModify_date(DateUtil.date2());
+				}
 				luStrategy.setUpdate_time(DateUtil.datetime());
 				
-				luStrategyMapper.updateLuStrategy(luStrategy);
+				Double changeRateQuitDouble=luStrategyStockQuitMapper.findTotalChangeRate(luStrategy.getId());
+				Double changeRateDouble=luStrategyStockMapper.findTotalChangeRate(luStrategy.getId());
+				double changeRateQuit=changeRateQuitDouble==null?0:changeRateQuitDouble;
+				double changeRate=changeRateDouble==null?0:changeRateDouble;
 				
+				luStrategy.setTotal_change_rate(changeRate+changeRateQuit);
+				
+				if(luStrategy.getId()!=-1){
+					luStrategyMapper.updateLuStrategy(luStrategy);
+				}
 				//更新score
 //				List<LuStrategyStock> stocks=luStrategyStockMapper.findIdStatus(luStrategy.getId(), 1);
 //				for(int i=0;i<stocks.size();i++){
@@ -413,7 +444,10 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 				}
 				
 				luStrategy.setRun_status(1);
-				luStrategyMapper.updateLuStrategy(luStrategy);
+				
+				if(luStrategy.getId()!=-1){
+					luStrategyMapper.updateLuStrategy(luStrategy);
+				}
 			}
 			
 			if(runStatusId!=null){

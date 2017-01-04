@@ -42,4 +42,7 @@ public interface LuStrategyStockMapper {
 	
 	@Delete("delete from lu_strategy_stock where id=#{id} and code=#{code}")
 	int deleteIdCode(@Param("id")int id,@Param("code")String code);
+	
+	@Select("select sum(total_change_rate) as total_change_rate from lu_strategy_stock where id=#{id} and change_rate is not null")
+	Double findTotalChangeRate(@Param("id")int id);
 }
