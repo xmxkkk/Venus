@@ -17,14 +17,15 @@ import venus.model.dao.LuStrategyStock;
 public interface LuStrategyStockMapper {
 	
 	@Insert("insert into lu_strategy_stock (id,code,market,name,addtime,quittime,status,score,change_rate,curr_price,zongshizhi,shiyinglvttm,update_time"
-			+ ",join_date,join_price,join_price_fu,curr_price_fu,total_change_rate) values "
+			+ ",join_date,join_price,join_price_fu,curr_price_fu,total_change_rate,weight,shijinglv,roe) values "
 			+ "(#{id},#{code},#{market},#{name},#{addtime},#{quittime},#{status},#{score},#{change_rate},#{curr_price},#{zongshizhi},#{shiyinglvttm},#{update_time}"
-			+ ",#{join_date},#{join_price},#{join_price_fu},#{curr_price_fu},#{total_change_rate})")
+			+ ",#{join_date},#{join_price},#{join_price_fu},#{curr_price_fu},#{total_change_rate},#{weight},#{shijinglv},#{roe})")
 	int insert(LuStrategyStock luStrategyStock);
 	
 	@Update("update lu_strategy_stock set market=#{market},name=#{name},addtime=#{addtime},quittime=#{quittime},status=#{status},score=#{score}"
 			+ ",change_rate=#{change_rate},curr_price=#{curr_price},zongshizhi=#{zongshizhi},shiyinglvttm=#{shiyinglvttm},update_time=#{update_time}"
 			+ ",join_date=#{join_date},join_price=#{join_price},join_price_fu=#{join_price_fu},curr_price_fu=#{curr_price_fu},total_change_rate=#{total_change_rate}"
+			+ ",weight=#{weight},shijinglv=#{shijinglv},roe=#{roe}"
 			+ " where id=#{id} and code=#{code}")
 	int update(LuStrategyStock luStrategyStock);
 	
@@ -43,6 +44,9 @@ public interface LuStrategyStockMapper {
 	@Delete("delete from lu_strategy_stock where id=#{id} and code=#{code}")
 	int deleteIdCode(@Param("id")int id,@Param("code")String code);
 	
-	@Select("select sum(total_change_rate) as total_change_rate from lu_strategy_stock where id=#{id} and change_rate is not null")
+	@Select("select sum(total_change_rate*weight) as total_change_rate from lu_strategy_stock where id=#{id} and change_rate is not null")
 	Double findTotalChangeRate(@Param("id")int id);
+	
+	@Update("update lu_strategy_stock set weight=#{weight} where id=#{id} and status=1")
+	int updateWeightById(@Param("id")int id,@Param("weight")double weight);
 }

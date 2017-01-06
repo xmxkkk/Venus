@@ -7,6 +7,20 @@ import java.util.List;
 import java.util.Map;
 
 public class NumUtil {
+	public static double format8(double d){
+		Double double1=new Double(d);
+		if(double1.isInfinite()||double1.isNaN()){
+			d=0;
+		}
+		return new BigDecimal(d).setScale(8, BigDecimal.ROUND_HALF_UP).doubleValue();
+	}
+	public static double format6(double d){
+		Double double1=new Double(d);
+		if(double1.isInfinite()||double1.isNaN()){
+			d=0;
+		}
+		return new BigDecimal(d).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+	}
 	public static double format4(double d){
 		Double double1=new Double(d);
 		if(double1.isInfinite()||double1.isNaN()){
@@ -28,6 +42,7 @@ public class NumUtil {
 		}
 		return new BigDecimal(d).setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
+	
 	public static String format(double d,int wei){
 		Double double1=new Double(d);
 		if(double1.isInfinite()||double1.isNaN()){

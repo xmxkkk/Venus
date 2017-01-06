@@ -12,7 +12,14 @@ public class LuStrategyStockQuit {
 	Double quit_price_fu;
 	String update_time;
 	Double change_rate;
+	Double weight;
 	
+	public Double getWeight() {
+		return weight;
+	}
+	public void setWeight(Double weight) {
+		this.weight = weight;
+	}
 	public Double getChange_rate() {
 		return change_rate;
 	}
@@ -84,7 +91,7 @@ public class LuStrategyStockQuit {
 		return "LuStrategyStockQuit [id=" + id + ", code=" + code + ", calc_date=" + calc_date + ", join_date="
 				+ join_date + ", quit_date=" + quit_date + ", join_price=" + join_price + ", quit_price=" + quit_price
 				+ ", join_price_fu=" + join_price_fu + ", quit_price_fu=" + quit_price_fu + ", update_time="
-				+ update_time + ", change_rate=" + change_rate + "]";
+				+ update_time + ", change_rate=" + change_rate + ", weight=" + weight + "]";
 	}
 	
 }

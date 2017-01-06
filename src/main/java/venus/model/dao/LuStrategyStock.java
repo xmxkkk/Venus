@@ -19,7 +19,28 @@ public class LuStrategyStock {
 	Double join_price_fu;
 	Double curr_price_fu;
 	Double total_change_rate;
+	Double weight;
+	Double shijinglv;
+	Double roe;
 	
+	public Double getShijinglv() {
+		return shijinglv;
+	}
+	public void setShijinglv(Double shijinglv) {
+		this.shijinglv = shijinglv;
+	}
+	public Double getRoe() {
+		return roe;
+	}
+	public void setRoe(Double roe) {
+		this.roe = roe;
+	}
+	public Double getWeight() {
+		return weight;
+	}
+	public void setWeight(Double weight) {
+		this.weight = weight;
+	}
 	public Double getTotal_change_rate() {
 		return total_change_rate;
 	}
@@ -135,7 +156,8 @@ public class LuStrategyStock {
 				+ change_rate + ", curr_price=" + curr_price + ", zongshizhi=" + zongshizhi + ", shiyinglvttm="
 				+ shiyinglvttm + ", update_time=" + update_time + ", join_date=" + join_date + ", join_price="
 				+ join_price + ", join_price_fu=" + join_price_fu + ", curr_price_fu=" + curr_price_fu
-				+ ", total_change_rate=" + total_change_rate + "]";
+				+ ", total_change_rate=" + total_change_rate + ", weight=" + weight + ", shijinglv=" + shijinglv
+				+ ", roe=" + roe + "]";
 	}
 	
 }
