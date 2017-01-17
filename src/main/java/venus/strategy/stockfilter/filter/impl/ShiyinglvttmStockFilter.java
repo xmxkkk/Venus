@@ -24,7 +24,9 @@ public class ShiyinglvttmStockFilter implements StockFilter{
 		try{
 			StockCompanySummary stockCompanySummary=stockCompanySummaryMapper.findCode(code);
 			if(null==stockCompanySummary)return false;
-			result= CommonUtil.compareExpressionDouble(stockCompanySummary.getShiyinglvttm(), params);
+			Double shiyinglvttm=stockCompanySummary.getShiyinglvttm();
+			if(shiyinglvttm==null||shiyinglvttm==0)return false;
+			result= CommonUtil.compareExpressionDouble(shiyinglvttm, params);
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.info("[except]"+e.getMessage());

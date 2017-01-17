@@ -19,7 +19,12 @@ public class ShijinglvStockFilter implements StockFilter {
 		try{
 			StockCompanySummary stockCompanySummary=stockCompanySummaryMapper.findCode(code);
 			if(null==stockCompanySummary)return false;
-			result= CommonUtil.compareExpressionDouble(stockCompanySummary.getShijinglv(), params);
+			if (stockCompanySummary.getShijinglv()==null||stockCompanySummary.getShijinglv()==0.0) {
+				return false;
+			}
+			Double shijinglv=stockCompanySummary.getShijinglv();
+			if(shijinglv==null||shijinglv==0.0)return false;
+			result= CommonUtil.compareExpressionDouble(shijinglv, params);
 		}catch(Exception e){
 			e.printStackTrace();
 			logger.info("[except]"+e.getMessage());

@@ -23,7 +23,7 @@ public class GuoqiStockFilter implements StockFilter {
 			StockCompanyInfo stockCompanyInfo=stockCompanyInfoMapper.findCode(code);
 			String kongzhiren=stockCompanyInfo.getKonggugudong()+stockCompanyInfo.getShijikongzhiren()+stockCompanyInfo.getZuizhongkongzhiren();
 			
-			if(kongzhiren.contains("国有资产")||kongzhiren.contains("国资委")||kongzhiren.contains("人民政府")){
+			if(kongzhiren.contains("国有资产")||kongzhiren.contains("国资委")||kongzhiren.contains("人民政府")||kongzhiren.contains("中央汇金")){
 				result=true;
 			}
 		

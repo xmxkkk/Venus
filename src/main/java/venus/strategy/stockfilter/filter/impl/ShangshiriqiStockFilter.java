@@ -21,7 +21,7 @@ public class ShangshiriqiStockFilter implements StockFilter{
 			StockCompanySummary stockCompanySummary=stockCompanySummaryMapper.findCode(code);
 			if(stockCompanySummary==null)return false;
 
-			int day=(int)(DateUtil.datediff2(stockCompanySummary.getChengliriqi(),DateUtil.date2())/365+1);
+			int day=(int)(DateUtil.datediff2(stockCompanySummary.getShangshiriqi(),DateUtil.date2())/365+1);
 			
 			result= CommonUtil.compareExpressionDouble(new Double(day), params);
 		}catch(Exception e){
