@@ -9,7 +9,6 @@ import venus.dao.StockCompanyHolderStructMapper;
 import venus.helper.util.CommonUtil;
 import venus.helper.util.NumUtil;
 import venus.model.dao.StockCompanyHolderNumber;
-import venus.model.dao.StockCompanyHolderStruct;
 import venus.strategy.stockfilter.filter.StockFilter;
 
 @Component

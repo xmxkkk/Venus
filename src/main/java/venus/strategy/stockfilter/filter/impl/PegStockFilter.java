@@ -2,7 +2,6 @@ package venus.strategy.stockfilter.filter.impl;
 
 import java.util.List;
 
-import org.apache.ibatis.jdbc.Null;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
