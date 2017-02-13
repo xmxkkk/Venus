@@ -1,13 +1,22 @@
 package venus;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import venus.dao.LuStrategyStockfilterMapper;
 import venus.helper.middle.Count;
 import venus.helper.property.CommandProperty;
 import venus.helper.util.CommonUtil;
+import venus.model.dao.LuStrategyFilter;
+import venus.model.dao.LuStrategyStockfilter;
 import venus.task.analyse.LuStrategyTask;
 import venus.task.collect.CheckTask;
 import venus.task.collect.DayTask;
@@ -54,7 +63,6 @@ public class App {
 		
 //		StockCompanyFinanceTask stockCompanyFinanceTask=cxt.getBean(StockCompanyFinanceTask.class);
 //		stockCompanyFinanceTask.init("002821", 0);
-		
 		
 		CommandProperty startProperty=cxt.getBean(CommandProperty.class);
 		String startDtCommand=startProperty.getCommandDt().trim();
