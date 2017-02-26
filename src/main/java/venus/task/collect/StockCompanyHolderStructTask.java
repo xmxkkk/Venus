@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import venus.dao.StockCompanyHolderStructMapper;
 import venus.dao.StockinfoMapper;
+import venus.helper.util.NumUtil;
 import venus.helper.util.StringUtil;
 import venus.helper.util.URLUtil;
 import venus.model.dao.StockCompanyHolderStruct;
@@ -80,28 +81,32 @@ public class StockCompanyHolderStructTask {
 							double zongguben=0;
 							String zonggubenStr=children.get(j).text();
 							if(!zonggubenStr.equals("")&&!zonggubenStr.equals("-")){
-								zongguben=Double.parseDouble(zonggubenStr)*10000;
+//								zongguben=Double.parseDouble(zonggubenStr)*10000;
+								zongguben=NumUtil.text2num(zonggubenStr);
 							}
 							list.get(j-1).setZongguben(zongguben);
 						}else if(i==2){
 							double aguzongguben=0;
 							String aguzonggubenStr=children.get(j).text();
 							if(!aguzonggubenStr.equals("")&&!aguzonggubenStr.equals("-")){
-								aguzongguben=Double.parseDouble(aguzonggubenStr)*10000;
+//								aguzongguben=Double.parseDouble(aguzonggubenStr)*10000;
+								aguzongguben=NumUtil.text2num(aguzonggubenStr);
 							}
 							list.get(j-1).setAguzongguben(aguzongguben);
 						}else if(i==3){
 							double liutongagu=0;
 							String liutongaguStr=children.get(j).text();
 							if(!liutongaguStr.equals("")&&!liutongaguStr.equals("-")){
-								liutongagu=Double.parseDouble(liutongaguStr)*10000;
+//								liutongagu=Double.parseDouble(liutongaguStr)*10000;
+								liutongagu=NumUtil.text2num(liutongaguStr);
 							}
 							list.get(j-1).setLiutongagu(liutongagu);
 						}else if(i==4){
 							double xianshouagu=0;
 							String xianshouaguStr=children.get(j).text();
 							if(!xianshouaguStr.equals("")&&!xianshouaguStr.equals("-")){
-								xianshouagu=Double.parseDouble(xianshouaguStr)*10000;
+//								xianshouagu=Double.parseDouble(xianshouaguStr)*10000;
+								xianshouagu=NumUtil.text2num(xianshouaguStr);
 							}
 							list.get(j-1).setXianshouagu(xianshouagu);
 						}
@@ -111,21 +116,24 @@ public class StockCompanyHolderStructTask {
 								double bguzongguben=0;
 								String bguzonggubenStr=children.get(j).text();
 								if(!bguzonggubenStr.equals("")&&!bguzonggubenStr.equals("-")){
-									bguzongguben=Double.parseDouble(bguzonggubenStr)*10000;
+//									bguzongguben=Double.parseDouble(bguzonggubenStr)*10000;
+									bguzongguben=NumUtil.text2num(bguzonggubenStr);
 								}
 								list.get(j-1).setBguzongguben(bguzongguben);
 							}else if(i==6){
 								double liutongbgu=0;
 								String liutongbguStr=children.get(j).text();
 								if(!liutongbguStr.equals("")&&!liutongbguStr.equals("-")){
-									liutongbgu=Double.parseDouble(liutongbguStr)*10000;
+//									liutongbgu=Double.parseDouble(liutongbguStr)*10000;
+									liutongbgu=NumUtil.text2num(liutongbguStr);
 								}
 								list.get(j-1).setLiutongbgu(liutongbgu);
 							}else if(i==7){
 								double xianshoubgu=0;
 								String xianshoubguStr=children.get(j).text();
 								if(!xianshoubguStr.equals("")&&!xianshoubguStr.equals("-")){
-									xianshoubgu=Double.parseDouble(xianshoubguStr)*10000;
+//									xianshoubgu=Double.parseDouble(xianshoubguStr)*10000;
+									xianshoubgu=NumUtil.text2num(xianshoubguStr);
 								}
 								list.get(j-1).setXianshoubgu(xianshoubgu);
 							}
@@ -135,21 +143,24 @@ public class StockCompanyHolderStructTask {
 								double hguzongguben=0;
 								String hguzonggubenStr=children.get(j).text();
 								if(!hguzonggubenStr.equals("")&&!hguzonggubenStr.equals("-")){
-									hguzongguben=Double.parseDouble(hguzonggubenStr)*10000;
+//									hguzongguben=Double.parseDouble(hguzonggubenStr)*10000;
+									hguzongguben=NumUtil.text2num(hguzonggubenStr);
 								}
 								list.get(j-1).setHguzongguben(hguzongguben);
 							}else if(i==9){
 								double liutonghgu=0;
 								String liutonghguStr=children.get(j).text();
 								if(!liutonghguStr.equals("")&&!liutonghguStr.equals("-")){
-									liutonghgu=Double.parseDouble(liutonghguStr)*10000;
+//									liutonghgu=Double.parseDouble(liutonghguStr)*10000;
+									liutonghgu=NumUtil.text2num(liutonghguStr);
 								}
 								list.get(j-1).setLiutonghgu(liutonghgu);
 							}else if(i==10){
 								double xianshouhgu=0;
 								String xianshouhguStr=children.get(j).text();
 								if(!xianshouhguStr.equals("")&&!xianshouhguStr.equals("-")){
-									xianshouhgu=Double.parseDouble(xianshouhguStr)*10000;
+//									xianshouhgu=Double.parseDouble(xianshouhguStr)*10000;
+									xianshouhgu=NumUtil.text2num(xianshouhguStr);
 								}
 								list.get(j-1).setXianshouhgu(xianshouhgu);
 							}

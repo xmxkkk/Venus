@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 public class URLUtil {
 	@Value("${url-file-basepath}")
 	String urlFileBasepath;
-	
+	static public int errorNum=0;
 	static CloseableHttpClient httpclient;// = HttpClients.createDefault();
 	public URLUtil(){
 		RequestConfig config=RequestConfig.custom().setConnectTimeout(Constant.TIMEOUT).setConnectionRequestTimeout(Constant.TIMEOUT).setSocketTimeout(Constant.TIMEOUT).build();
@@ -65,8 +65,10 @@ public class URLUtil {
 				result= null;
 			}
 		} catch (ClientProtocolException e) {
+			errorNum++;
 			throw e;
 		} catch (IOException e) {
+			errorNum++;
 			throw e;
 		}finally {
 			try {  

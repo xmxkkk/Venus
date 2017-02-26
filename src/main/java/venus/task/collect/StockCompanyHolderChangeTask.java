@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import venus.dao.StockCompanyHolderChangeMapper;
 import venus.dao.StockinfoMapper;
+import venus.helper.util.NumUtil;
 import venus.helper.util.StringUtil;
 import venus.helper.util.URLUtil;
 import venus.model.dao.StockCompanyHolderChange;
@@ -70,15 +71,19 @@ public class StockCompanyHolderChangeTask {
 					
 					double aguzongguben=0;
 					if(!aguzonggubenStr.equals("-")&&!aguzonggubenStr.equals("")){
-						aguzongguben=Double.parseDouble(aguzonggubenStr)*10000;
+						aguzongguben=NumUtil.text2num(aguzonggubenStr);
+						
+//						aguzongguben=Double.parseDouble(aguzonggubenStr)*10000;
 					}
 					double liutongagu=0;
 					if(!liutongaguStr.equals("-")&&!liutongaguStr.equals("")){
-						liutongagu=Double.parseDouble(liutongaguStr)*10000;
+						liutongagu=NumUtil.text2num(liutongaguStr);
+//						liutongagu=Double.parseDouble(liutongaguStr)*10000;
 					}
 					double xianshouagu=0;
 					if(!xianshouaguStr.equals("-")&&!xianshouaguStr.equals("")){
-						xianshouagu=Double.parseDouble(xianshouaguStr)*10000;
+						xianshouagu=NumUtil.text2num(xianshouaguStr);
+//						xianshouagu=Double.parseDouble(xianshouaguStr)*10000;
 					}
 					
 					StockCompanyHolderChange stockCompanyHolderChange=new StockCompanyHolderChange();
@@ -108,6 +113,7 @@ public class StockCompanyHolderChangeTask {
 			}
 		}catch(Exception e){
 			logger.error("[except]",e);
+			logger.error("[except]"+e.getMessage());
 		}
 		logger.info("[end]"+cacheParam);
 	}

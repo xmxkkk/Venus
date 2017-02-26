@@ -25,7 +25,7 @@ public class DayTask {
 	@Autowired TaskUpdateMiddle taskUpdateMiddle;
 	@Autowired StockinfoMapper stockinfoMapper;
 	@Autowired CheckTask checkTask;
-	@Autowired HangyeChangeRateTask hangyeChangeRateTask;
+//	@Autowired HangyeChangeRateTask hangyeChangeRateTask;
 	@Autowired TaskExecTimeMiddle taskExecTimeMiddle;
 	public void init(){
 		logger.info("[start]");
@@ -86,9 +86,9 @@ public class DayTask {
 			stockinfoTask.updateWeight(null);
 			taskExecTimeMiddle.end(id);
 			
-			id=taskExecTimeMiddle.start("hangyeChangeRateTask.init");
-			hangyeChangeRateTask.init();
-			taskExecTimeMiddle.end(id);
+//			id=taskExecTimeMiddle.start("hangyeChangeRateTask.init");
+//			hangyeChangeRateTask.init();
+//			taskExecTimeMiddle.end(id);
 			
 			
 			id=taskExecTimeMiddle.start("stockDayTask.init");
@@ -160,7 +160,7 @@ public class DayTask {
 				stockDayFuTask.updateChange(0,null);
 				stockinfoTask.updateWeight(null);
 				
-				hangyeChangeRateTask.init();
+//				hangyeChangeRateTask.init();
 				
 				taskUpdateMiddle.update("StockDayFuTask.initAll", Constant.TIME$SECOND$30DAY);
 			}

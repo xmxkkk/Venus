@@ -1,26 +1,19 @@
 package venus;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import venus.dao.LuStrategyStockfilterMapper;
+import venus.helper.middle.AlertMiddle;
 import venus.helper.middle.Count;
 import venus.helper.property.CommandProperty;
 import venus.helper.util.CommonUtil;
-import venus.model.dao.LuStrategyFilter;
-import venus.model.dao.LuStrategyStockfilter;
+import venus.helper.util.URLUtil;
 import venus.task.analyse.LuStrategyTask;
 import venus.task.collect.CheckTask;
 import venus.task.collect.DayTask;
-import venus.task.collect.StockCompanySummaryTask;
+import venus.task.collect.StockCompanyHolderChangeTask;
 import venus.task.collect.StockCompanyTask;
 
 @SpringBootApplication
@@ -64,6 +57,24 @@ public class App {
 //		StockCompanyFinanceTask stockCompanyFinanceTask=cxt.getBean(StockCompanyFinanceTask.class);
 //		stockCompanyFinanceTask.init("002821", 0);
 		
+//		final StockCompanyHolderChangeTask stockCompanyHolderChangeTask=cxt.getBean(StockCompanyHolderChangeTask.class);
+//		final Count count=new Count();
+//		count.init(stockCompanyHolderChangeTask.threadNum);
+//		for (int i = 0; i < stockCompanyHolderChangeTask.threadNum; i++) {
+//			final int threadId = i;
+//			new Thread() {
+//				public void run() {
+//					stockCompanyHolderChangeTask.init(threadId);
+//					synchronized (count) {
+//						count.reduce();
+//					}
+//				}
+//			}.start();
+//		}
+//		CommonUtil.wait2000(count);
+		
+		
+		
 		CommandProperty startProperty=cxt.getBean(CommandProperty.class);
 		String startDtCommand=startProperty.getCommandDt().trim();
 		if(!startDtCommand.equals("none")&&startDtCommand.equals("start")){
@@ -104,6 +115,11 @@ public class App {
 				forceParam=true;
 			}
 			luStrategyTask.init(commandLstId,commandLstJson,forceParam);
+		}
+		
+		if(URLUtil.errorNum>100){
+			AlertMiddle alertMiddle=cxt.getBean(AlertMiddle.class);
+			alertMiddle.init("抓取数据错误提醒邮件","抓取错误过多"); 
 		}
 		
 		String startShutdownCommand=startProperty.getCommandShutdown().trim();

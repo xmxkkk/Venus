@@ -15,17 +15,17 @@ import venus.model.dao.TaskUpdate;
 @Component
 public class StockCompanyTask {
 	Logger logger=Logger.getLogger(StockCompanyTask.class);
-	@Autowired StockCompanyEventTask stockCompanyEventTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/event/"
+//	@Autowired StockCompanyEventTask stockCompanyEventTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/event/"
 	@Autowired StockCompanyFinanceTask stockCompanyFinanceTask;//"http://stockpage.10jqka.com.cn/basic/" + stock.getCode() + "/"+dataType+".txt"
 	@Autowired StockCompanyHangyeDataTask stockCompanyHangyeDataTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/field/"
 	@Autowired StockCompanyHangyeTask stockCompanyHangyeTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/field/"
 	@Autowired StockCompanyHolderCansellTask stockCompanyHolderCansellTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/holder/"
 	@Autowired StockCompanyHolderNumberTask stockCompanyHolderNumberTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/holder/"
 	@Autowired StockCompanyHolderTopTask stockCompanyHolderTopTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/holder/"
-	@Autowired StockCompanyHolderChangeTask stockCompanyHolderChangeTask;
+//	@Autowired StockCompanyHolderChangeTask stockCompanyHolderChangeTask;
 	@Autowired StockCompanyHolderStructTask stockCompanyHolderStructTask;
 	@Autowired StockCompanyHolderOrgTask stockCompanyHolderOrgTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/position/"
-	@Autowired StockCompanyHoldingTask stockCompanyHoldingTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/company/"
+//	@Autowired StockCompanyHoldingTask stockCompanyHoldingTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/company/"
 	@Autowired StockCompanyInfoTask stockCompanyInfoTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/company/"
 	@Autowired StockCompanySummaryTask stockCompanySummaryTask;//"http://hq.sinajs.cn/?list="+StringUtil.toMarketName(stock)
 	@Autowired StockCompanyJingyingTask stockCompanyJingyingTask;//"http://stockpage.10jqka.com.cn/"+stock.getCode()+"/operate/"
@@ -40,27 +40,27 @@ public class StockCompanyTask {
 			String id=null;
 			TaskUpdate taskUpdate=null;
 			
-			taskUpdate=taskUpdateMapper.findExist("StockCompanyHoldingTask.init");
-			if(taskUpdate==null){
-				id=taskExecTimeMiddle.start("stockCompanyHoldingTask.init");
-				
-				final Count count=new Count();
-				count.init(stockCompanyHoldingTask.threadNum);
-				for (int i = 0; i < stockCompanyHoldingTask.threadNum; i++) {
-					final int threadId = i;
-					new Thread() {
-						public void run() {
-							stockCompanyHoldingTask.init(threadId);
-							synchronized (count) {
-								count.reduce();
-							}
-						}
-					}.start();
-				}
-				CommonUtil.wait2000(count);
-				taskUpdateMiddle.update("StockCompanyHoldingTask.init",Constant.TIME$SECOND$3DAY);
-				taskExecTimeMiddle.end(id);
-			}
+//			taskUpdate=taskUpdateMapper.findExist("StockCompanyHoldingTask.init");
+//			if(taskUpdate==null){
+//				id=taskExecTimeMiddle.start("stockCompanyHoldingTask.init");
+//				
+//				final Count count=new Count();
+//				count.init(stockCompanyHoldingTask.threadNum);
+//				for (int i = 0; i < stockCompanyHoldingTask.threadNum; i++) {
+//					final int threadId = i;
+//					new Thread() {
+//						public void run() {
+//							stockCompanyHoldingTask.init(threadId);
+//							synchronized (count) {
+//								count.reduce();
+//							}
+//						}
+//					}.start();
+//				}
+//				CommonUtil.wait2000(count);
+//				taskUpdateMiddle.update("StockCompanyHoldingTask.init",Constant.TIME$SECOND$3DAY);
+//				taskExecTimeMiddle.end(id);
+//			}
 			
 			taskUpdate=taskUpdateMapper.findExist("StockCompanyInfoTask.init");
 			if(taskUpdate==null){
@@ -106,26 +106,26 @@ public class StockCompanyTask {
 				taskExecTimeMiddle.end(id);
 			}
 			
-			taskUpdate=taskUpdateMapper.findExist("StockCompanyEventTask.init");
-			if(taskUpdate==null){
-				id=taskExecTimeMiddle.start("stockCompanyEventTask.init");
-				final Count count=new Count();
-				count.init(stockCompanyEventTask.threadNum);
-				for (int i = 0; i < stockCompanyEventTask.threadNum; i++) {
-					final int threadId = i;
-					new Thread() {
-						public void run() {
-							stockCompanyEventTask.init(threadId);
-							synchronized (count) {
-								count.reduce();
-							}
-						}
-					}.start();
-				}
-				CommonUtil.wait2000(count);
-				taskUpdateMiddle.update("StockCompanyEventTask.init",Constant.TIME$SECOND$1DAY);
-				taskExecTimeMiddle.end(id);
-			}
+//			taskUpdate=taskUpdateMapper.findExist("StockCompanyEventTask.init");
+//			if(taskUpdate==null){
+//				id=taskExecTimeMiddle.start("stockCompanyEventTask.init");
+//				final Count count=new Count();
+//				count.init(stockCompanyEventTask.threadNum);
+//				for (int i = 0; i < stockCompanyEventTask.threadNum; i++) {
+//					final int threadId = i;
+//					new Thread() {
+//						public void run() {
+//							stockCompanyEventTask.init(threadId);
+//							synchronized (count) {
+//								count.reduce();
+//							}
+//						}
+//					}.start();
+//				}
+//				CommonUtil.wait2000(count);
+//				taskUpdateMiddle.update("StockCompanyEventTask.init",Constant.TIME$SECOND$1DAY);
+//				taskExecTimeMiddle.end(id);
+//			}
 			
 			taskUpdate=taskUpdateMapper.findExist("StockCompanyFinanceTask.init");
 			if(taskUpdate==null){
@@ -260,27 +260,27 @@ public class StockCompanyTask {
 				taskExecTimeMiddle.end(id);
 			}
 			
-			taskUpdate=taskUpdateMapper.findExist("StockCompanyHolderChangeTask.init");
-			if(taskUpdate==null){
-				id=taskExecTimeMiddle.start("stockCompanyHolderChangeTask.initCache");
-				
-				final Count count=new Count();
-				count.init(stockCompanyHolderChangeTask.threadNum);
-				for (int i = 0; i < stockCompanyHolderChangeTask.threadNum; i++) {
-					final int threadId = i;
-					new Thread() {
-						public void run() {
-							stockCompanyHolderChangeTask.initCache(threadId);
-							synchronized (count) {
-								count.reduce();
-							}
-						}
-					}.start();
-				}
-				CommonUtil.wait2000(count);
-				taskUpdateMiddle.update("StockCompanyHolderChangeTask.init",Constant.TIME$SECOND$3DAY);
-				taskExecTimeMiddle.end(id);
-			}
+//			taskUpdate=taskUpdateMapper.findExist("StockCompanyHolderChangeTask.init");
+//			if(taskUpdate==null){
+//				id=taskExecTimeMiddle.start("stockCompanyHolderChangeTask.initCache");
+//				
+//				final Count count=new Count();
+//				count.init(stockCompanyHolderChangeTask.threadNum);
+//				for (int i = 0; i < stockCompanyHolderChangeTask.threadNum; i++) {
+//					final int threadId = i;
+//					new Thread() {
+//						public void run() {
+//							stockCompanyHolderChangeTask.initCache(threadId);
+//							synchronized (count) {
+//								count.reduce();
+//							}
+//						}
+//					}.start();
+//				}
+//				CommonUtil.wait2000(count);
+//				taskUpdateMiddle.update("StockCompanyHolderChangeTask.init",Constant.TIME$SECOND$3DAY);
+//				taskExecTimeMiddle.end(id);
+//			}
 			
 			taskUpdate=taskUpdateMapper.findExist("StockCompanyHolderStructTask.init");
 			if(taskUpdate==null){
@@ -363,26 +363,26 @@ public class StockCompanyTask {
 			String id=null;
 			TaskUpdate taskUpdate=null;
 			
-			taskUpdate=taskUpdateMapper.findExist("StockCompanyHoldingTask.init");
-			if(taskUpdate==null){
-				id=taskExecTimeMiddle.start("stockCompanyHoldingTask.initCache");
-				final Count count=new Count();
-				count.init(stockCompanyHoldingTask.threadNum);
-				for (int i = 0; i < stockCompanyHoldingTask.threadNum; i++) {
-					final int threadId = i;
-					new Thread() {
-						public void run() {
-							stockCompanyHoldingTask.initCache(threadId);
-							synchronized (count) {
-								count.reduce();
-							}
-						}
-					}.start();
-				}
-				CommonUtil.wait2000(count);
-				taskUpdateMiddle.update("StockCompanyHoldingTask.init",Constant.TIME$SECOND$3DAY);
-				taskExecTimeMiddle.end(id);
-			}
+//			taskUpdate=taskUpdateMapper.findExist("StockCompanyHoldingTask.init");
+//			if(taskUpdate==null){
+//				id=taskExecTimeMiddle.start("stockCompanyHoldingTask.initCache");
+//				final Count count=new Count();
+//				count.init(stockCompanyHoldingTask.threadNum);
+//				for (int i = 0; i < stockCompanyHoldingTask.threadNum; i++) {
+//					final int threadId = i;
+//					new Thread() {
+//						public void run() {
+//							stockCompanyHoldingTask.initCache(threadId);
+//							synchronized (count) {
+//								count.reduce();
+//							}
+//						}
+//					}.start();
+//				}
+//				CommonUtil.wait2000(count);
+//				taskUpdateMiddle.update("StockCompanyHoldingTask.init",Constant.TIME$SECOND$3DAY);
+//				taskExecTimeMiddle.end(id);
+//			}
 			
 			taskUpdate=taskUpdateMapper.findExist("StockCompanyInfoTask.init");
 			if(taskUpdate==null){
@@ -426,26 +426,26 @@ public class StockCompanyTask {
 				taskExecTimeMiddle.end(id);
 			}
 			
-			taskUpdate=taskUpdateMapper.findExist("StockCompanyEventTask.init");
-			if(taskUpdate==null){
-				id=taskExecTimeMiddle.start("stockCompanyEventTask.initCache");
-				final Count count=new Count();
-				count.init(stockCompanyEventTask.threadNum);
-				for (int i = 0; i < stockCompanyEventTask.threadNum; i++) {
-					final int threadId = i;
-					new Thread() {
-						public void run() {
-							stockCompanyEventTask.initCache(threadId);
-							synchronized (count) {
-								count.reduce();
-							}
-						}
-					}.start();
-				}
-				CommonUtil.wait2000(count);
-				taskUpdateMiddle.update("StockCompanyEventTask.init",Constant.TIME$SECOND$1DAY);
-				taskExecTimeMiddle.end(id);
-			}
+//			taskUpdate=taskUpdateMapper.findExist("StockCompanyEventTask.init");
+//			if(taskUpdate==null){
+//				id=taskExecTimeMiddle.start("stockCompanyEventTask.initCache");
+//				final Count count=new Count();
+//				count.init(stockCompanyEventTask.threadNum);
+//				for (int i = 0; i < stockCompanyEventTask.threadNum; i++) {
+//					final int threadId = i;
+//					new Thread() {
+//						public void run() {
+//							stockCompanyEventTask.initCache(threadId);
+//							synchronized (count) {
+//								count.reduce();
+//							}
+//						}
+//					}.start();
+//				}
+//				CommonUtil.wait2000(count);
+//				taskUpdateMiddle.update("StockCompanyEventTask.init",Constant.TIME$SECOND$1DAY);
+//				taskExecTimeMiddle.end(id);
+//			}
 			
 			taskUpdate=taskUpdateMapper.findExist("StockCompanyFinanceTask.init");
 			if(taskUpdate==null){
@@ -572,26 +572,26 @@ public class StockCompanyTask {
 				taskUpdateMiddle.update("StockCompanyHolderTopTask.init",Constant.TIME$SECOND$3DAY);
 				taskExecTimeMiddle.end(id);
 			}
-			taskUpdate=taskUpdateMapper.findExist("StockCompanyHolderChangeTask.init");
-			if(taskUpdate==null){
-				id=taskExecTimeMiddle.start("stockCompanyHolderChangeTask.initCache");
-				final Count count=new Count();
-				count.init(stockCompanyHolderChangeTask.threadNum);
-				for (int i = 0; i < stockCompanyHolderChangeTask.threadNum; i++) {
-					final int threadId = i;
-					new Thread() {
-						public void run() {
-							stockCompanyHolderChangeTask.initCache(threadId);
-							synchronized (count) {
-								count.reduce();
-							}
-						}
-					}.start();
-				}
-				CommonUtil.wait2000(count);
-				taskUpdateMiddle.update("StockCompanyHolderChangeTask.init",Constant.TIME$SECOND$3DAY);
-				taskExecTimeMiddle.end(id);
-			}
+//			taskUpdate=taskUpdateMapper.findExist("StockCompanyHolderChangeTask.init");
+//			if(taskUpdate==null){
+//				id=taskExecTimeMiddle.start("stockCompanyHolderChangeTask.initCache");
+//				final Count count=new Count();
+//				count.init(stockCompanyHolderChangeTask.threadNum);
+//				for (int i = 0; i < stockCompanyHolderChangeTask.threadNum; i++) {
+//					final int threadId = i;
+//					new Thread() {
+//						public void run() {
+//							stockCompanyHolderChangeTask.initCache(threadId);
+//							synchronized (count) {
+//								count.reduce();
+//							}
+//						}
+//					}.start();
+//				}
+//				CommonUtil.wait2000(count);
+//				taskUpdateMiddle.update("StockCompanyHolderChangeTask.init",Constant.TIME$SECOND$3DAY);
+//				taskExecTimeMiddle.end(id);
+//			}
 			taskUpdate=taskUpdateMapper.findExist("StockCompanyHolderStructTask.init");
 			if(taskUpdate==null){
 				id=taskExecTimeMiddle.start("stockCompanyHolderStructTask.initCache");
@@ -668,24 +668,24 @@ public class StockCompanyTask {
 			
 			String id=null;
 			
-			{
-				id=taskExecTimeMiddle.start("stockCompanyHoldingTask.init");
-				final Count count=new Count();
-				count.init(stockCompanyHoldingTask.threadNum);
-				for (int i = 0; i < stockCompanyHoldingTask.threadNum; i++) {
-					final int threadId = i;
-					new Thread() {
-						public void run() {
-							stockCompanyHoldingTask.init(threadId);
-							synchronized (count) {
-								count.reduce();
-							}
-						}
-					}.start();
-				}
-				CommonUtil.wait2000(count);
-				taskExecTimeMiddle.end(id);
-			}
+//			{
+//				id=taskExecTimeMiddle.start("stockCompanyHoldingTask.init");
+//				final Count count=new Count();
+//				count.init(stockCompanyHoldingTask.threadNum);
+//				for (int i = 0; i < stockCompanyHoldingTask.threadNum; i++) {
+//					final int threadId = i;
+//					new Thread() {
+//						public void run() {
+//							stockCompanyHoldingTask.init(threadId);
+//							synchronized (count) {
+//								count.reduce();
+//							}
+//						}
+//					}.start();
+//				}
+//				CommonUtil.wait2000(count);
+//				taskExecTimeMiddle.end(id);
+//			}
 			{
 				id=taskExecTimeMiddle.start("stockCompanyInfoTask.initCache");
 				final Count count=new Count();
@@ -723,24 +723,25 @@ public class StockCompanyTask {
 				taskExecTimeMiddle.end(id);
 			}
 			
-			{
-				id=taskExecTimeMiddle.start("stockCompanyEventTask.init");
-				final Count count=new Count();
-				count.init(stockCompanyEventTask.threadNum);
-				for (int i = 0; i < stockCompanyEventTask.threadNum; i++) {
-					final int threadId = i;
-					new Thread() {
-						public void run() {
-							stockCompanyEventTask.init(threadId);
-							synchronized (count) {
-								count.reduce();
-							}
-						}
-					}.start();
-				}
-				CommonUtil.wait2000(count);
-				taskExecTimeMiddle.end(id);
-			}
+//			{
+//				id=taskExecTimeMiddle.start("stockCompanyEventTask.init");
+//				final Count count=new Count();
+//				count.init(stockCompanyEventTask.threadNum);
+//				for (int i = 0; i < stockCompanyEventTask.threadNum; i++) {
+//					final int threadId = i;
+//					new Thread() {
+//						public void run() {
+//							stockCompanyEventTask.init(threadId);
+//							synchronized (count) {
+//								count.reduce();
+//							}
+//						}
+//					}.start();
+//				}
+//				CommonUtil.wait2000(count);
+//				taskExecTimeMiddle.end(id);
+//			}
+			
 			{
 				id=taskExecTimeMiddle.start("stockCompanyFinanceTask.init");
 				final Count count=new Count();
@@ -850,24 +851,24 @@ public class StockCompanyTask {
 				taskExecTimeMiddle.end(id);
 			}
 			
-			{
-				id=taskExecTimeMiddle.start("stockCompanyHolderChangeTask.initCache");
-				final Count count=new Count();
-				count.init(stockCompanyHolderChangeTask.threadNum);
-				for (int i = 0; i < stockCompanyHolderChangeTask.threadNum; i++) {
-					final int threadId = i;
-					new Thread() {
-						public void run() {
-							stockCompanyHolderChangeTask.initCache(threadId);
-							synchronized (count) {
-								count.reduce();
-							}
-						}
-					}.start();
-				}
-				CommonUtil.wait2000(count);
-				taskExecTimeMiddle.end(id);
-			}
+//			{
+//				id=taskExecTimeMiddle.start("stockCompanyHolderChangeTask.initCache");
+//				final Count count=new Count();
+//				count.init(stockCompanyHolderChangeTask.threadNum);
+//				for (int i = 0; i < stockCompanyHolderChangeTask.threadNum; i++) {
+//					final int threadId = i;
+//					new Thread() {
+//						public void run() {
+//							stockCompanyHolderChangeTask.initCache(threadId);
+//							synchronized (count) {
+//								count.reduce();
+//							}
+//						}
+//					}.start();
+//				}
+//				CommonUtil.wait2000(count);
+//				taskExecTimeMiddle.end(id);
+//			}
 			{
 				id=taskExecTimeMiddle.start("stockCompanyHolderStructTask.initCache");
 				final Count count=new Count();

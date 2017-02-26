@@ -68,7 +68,7 @@ public class StockDayFuTask {
 				try{
 					str=URLUtil.url2str("http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_FuQuanMarketHistory/stockid/"+code+".phtml",Constant.CHARSET$GB2312, false);
 				}catch(Exception e){
-					logger.error("[except]StockCompanyEventTask.init:",e);
+					logger.error("[except]",e);
 					continue;
 				}
 				if(StringUtil.isBlank(str)){

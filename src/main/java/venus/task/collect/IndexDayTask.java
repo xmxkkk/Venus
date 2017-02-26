@@ -60,7 +60,7 @@ public class IndexDayTask {
 				try{
 					str=URLUtil.url2str("http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/"+codeStr+"/type/S.phtml",Constant.CHARSET$GB2312, false);
 				}catch(Exception e){
-					logger.error("[except]StockCompanyEventTask.init:",e);
+					logger.error("[except]",e);
 					continue;
 				}
 				
