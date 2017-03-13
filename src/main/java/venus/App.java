@@ -73,8 +73,6 @@ public class App {
 //		}
 //		CommonUtil.wait2000(count);
 		
-		
-		
 		CommandProperty startProperty=cxt.getBean(CommandProperty.class);
 		String startDtCommand=startProperty.getCommandDt().trim();
 		if(!startDtCommand.equals("none")&&startDtCommand.equals("start")){
