@@ -11,10 +11,12 @@ import venus.helper.property.CommandProperty;
 import venus.helper.util.CommonUtil;
 import venus.helper.util.URLUtil;
 import venus.task.analyse.LuStrategyTask;
+import venus.task.analyse.StockCompanyFinanceRateTask;
+import venus.task.collect.AIDataTask;
 import venus.task.collect.CheckTask;
 import venus.task.collect.DayTask;
-import venus.task.collect.StockCompanyHolderChangeTask;
 import venus.task.collect.StockCompanyTask;
+import venus.task.collect.StockDayFuTask;
 
 @SpringBootApplication
 public class App {
@@ -38,14 +40,17 @@ public class App {
 //		final StockCompanySummaryTask stockCompanySummaryTask=cxt.getBean(StockCompanySummaryTask.class);
 //		stockCompanySummaryTask.updateAllOther(null,false);
 		
+//		AIDataTask aiDataTask=cxt.getBean(AIDataTask.class);
+//		aiDataTask.init();
 		/*
+		final StockDayFuTask stockDayFuTask=cxt.getBean(StockDayFuTask.class);
 		final Count count=new Count();
-		count.init(stockCompanySummaryTask.threadNum);
-		for (int i = 0; i < stockCompanySummaryTask.threadNum; i++) {
+		count.init(stockDayFuTask.threadNum);
+		for (int i = 0; i < stockDayFuTask.threadNum; i++) {
 			final int threadId = i;
 			new Thread() {
 				public void run() {
-					stockCompanySummaryTask.updateAllOther(null,threadId);
+					stockDayFuTask.updateChange(threadId, null);
 					synchronized (count) {
 						count.reduce();
 					}
@@ -72,6 +77,10 @@ public class App {
 //			}.start();
 //		}
 //		CommonUtil.wait2000(count);
+		
+		AIDataTask app=cxt.getBean(AIDataTask.class);
+		app.fin();
+		
 		
 		CommandProperty startProperty=cxt.getBean(CommandProperty.class);
 		String startDtCommand=startProperty.getCommandDt().trim();

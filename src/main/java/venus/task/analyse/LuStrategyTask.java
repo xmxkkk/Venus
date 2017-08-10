@@ -66,6 +66,7 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 	@Autowired StockCompanyInfoMapper stockCompanyInfoMapper;
 	@Autowired StockCompanyFinanceMapper stockCompanyFinanceMapper;
 	@Autowired LuStrategyStockQuitMapper luStrategyStockQuitMapper;
+	@Autowired TotalRateChangeFixTask totalRateChangeFixTask;
 	public void init(int id,String strategy_json_str,boolean force){
 		logger.info("[start]id="+id);
 		try{
@@ -284,9 +285,12 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 						int keyid=db.getId();
 						String code=db.getCode();
 						String calc_date=DateUtil.date2();
-
-						StockDayFu lastStockDayFu=stockDayFuMapper.findStockDayFu(code, calc_date.replaceAll("-", ""));
-						StockDay lastStockDay=stockDayMapper.find(code,calc_date.replaceAll("-", ""));
+						StockDayFu lastStockDayFu=stockDayFuMapper.findDtNear(code, calc_date.replaceAll("-", ""));
+//						StockDayFu lastStockDayFu=stockDayFuMapper.findStockDayFu(code, calc_date.replaceAll("-", ""));
+						
+						StockDay lastStockDay=stockDayMapper.findDtNear(code,calc_date.replaceAll("-", ""));
+//						StockDay lastStockDay=stockDayMapper.find(code,calc_date.replaceAll("-", ""));
+						
 						if(lastStockDayFu==null||lastStockDay==null){
 							logger.error("[error]strategy_id="+keyid+",code="+code+",calc_date="+calc_date);
 							logger.error("[error]lastStockDay="+lastStockDay);
@@ -454,6 +458,8 @@ public class LuStrategyTask extends ApplicationObjectSupport{
 			if(runStatusId!=null){
 				runStatusMapper.update(runStatusId, 1);
 			}
+			
+			totalRateChangeFixTask.init();
 			
 		}catch(Exception e){
 			logger.error("[except]",e);

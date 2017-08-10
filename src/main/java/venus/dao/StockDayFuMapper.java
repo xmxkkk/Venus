@@ -17,6 +17,9 @@ import venus.model.dao.StockDayFu;
 
 @Mapper
 public interface StockDayFuMapper {
+	
+	@Select("select * from stock_day_fu")
+	List<StockDayFu> findAll();
 
 	@Insert("insert into stock_day_fu (code,dt,open_price,close_price,high_price,low_price,change_rate,change_price,trade_quty,trade_amt,week,weight) "
 			+ "values (#{code},#{dt},#{open_price},#{close_price},#{high_price},#{low_price},#{change_rate},#{change_price},#{trade_quty},#{trade_amt},#{week},#{weight})")

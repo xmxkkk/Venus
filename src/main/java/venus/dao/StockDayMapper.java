@@ -36,6 +36,9 @@ public interface StockDayMapper {
 	@Select("select * from stock_day where code=#{code} order by dt desc limit 1")
 	StockDay findLast(@Param("code")String code);
 	
+	@Select("select * from stock_day where code=#{code} order by abs(DATEDIFF(#{dt},dt)) asc limit 1")
+	public StockDay findDtNear(@Param("code")String code,@Param("dt")String dt);
+	
 	@Delete("delete from stock_day where code=#{code} and dt=#{dt}")
 	int delete(@Param("code")String code,@Param("dt")String dt);
 	

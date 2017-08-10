@@ -92,17 +92,21 @@ public class StockCompanyHangyeDataTask {
 							continue;
 						}
 						exists.add(code+times.get(i));
-						double meigushouyi=tempArr.getString(2)==null?0:tempArr.getDouble(2);
-						double meigujingzichan=tempArr.getString(3)==null?0:tempArr.getDouble(3);
-						double meiguxianjinliu=tempArr.getString(4)==null?0:tempArr.getDouble(4);
-						double jinglirun=tempArr.getString(5)==null?0:tempArr.getDouble(5);
-						double yingyeshouru=tempArr.getString(6)==null?0:tempArr.getDouble(6);
-						double zongzichan=tempArr.getString(7)==null?0:tempArr.getDouble(7);
-						double jingzichanshouyilv=tempArr.getString(8)==null?0:tempArr.getDouble(8);
-						double gudongquanyibilv=tempArr.getString(9)==null?0:tempArr.getDouble(9);
-						double xiaoshoumaolilv=tempArr.getString(10)==null?0:tempArr.getDouble(10);
-						double zongguben=tempArr.getString(11)==null?0:tempArr.getDouble(11);
-						double zichanfuzhailv=tempArr.getString(9)==null?0:100-tempArr.getDouble(9);
+						double meigushouyi=(tempArr.getString(2)==null||tempArr.getString(2).equals("false"))?0:tempArr.getDouble(2);
+						double meigujingzichan=(tempArr.getString(3)==null||tempArr.getString(3).equals("false"))?0:tempArr.getDouble(3);
+						double meiguxianjinliu=(tempArr.getString(4)==null||tempArr.getString(4).equals("false"))?0:tempArr.getDouble(4);
+						double jinglirun=(tempArr.getString(5)==null||tempArr.getString(5).equals("false"))?0:tempArr.getDouble(5);
+						double yingyeshouru=(tempArr.getString(6)==null||tempArr.getString(6).equals("false"))?0:tempArr.getDouble(6);
+						double zongzichan=(tempArr.getString(7)==null||tempArr.getString(7).equals("false"))?0:tempArr.getDouble(7);
+						double jingzichanshouyilv=(tempArr.getString(8)==null||tempArr.getString(8).equals("false"))?0:tempArr.getDouble(8);
+						
+						
+						double gudongquanyibilv=(tempArr.getString(9)==null||tempArr.getString(9).equals("false"))?0:tempArr.getDouble(9);
+						
+						double xiaoshoumaolilv=(tempArr.getString(10)==null||tempArr.getString(10).equals("false"))?0:tempArr.getDouble(10);
+						
+						double zongguben=(tempArr.getString(11)==null||tempArr.getString(11).equals("false"))?0:tempArr.getDouble(11);
+						double zichanfuzhailv=(tempArr.getString(9)==null||tempArr.getString(9).equals("false"))?0:100-tempArr.getDouble(9);
 						
 						StockCompanyHangyeData stockCompanyHangyeData=new StockCompanyHangyeData();
 						stockCompanyHangyeData.setCode(code);

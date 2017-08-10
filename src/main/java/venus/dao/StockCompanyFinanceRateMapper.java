@@ -31,6 +31,9 @@ public interface StockCompanyFinanceRateMapper {
 	@Delete("delete from stock_company_finance_rate where code=#{code}")
 	int deleteCode(@Param("code")String code);
 	
+	@Select("select * from stock_company_finance_rate where code=#{code} and time=#{time}")
+	List<StockCompanyFinanceRate> findCodeTime(@Param("code")String code,@Param("time")String time);
+	
 	@InsertProvider(type=StockCompanyFinanceRateMapperProvider.class,method="insertAll")
 	int insertAll(List<StockCompanyFinanceRate> list);
 	

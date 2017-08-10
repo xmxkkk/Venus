@@ -27,7 +27,6 @@ public class CommandProperty {
 	@Value("${command.lst.force}")
 	String commandLstForce;
 	
-	
 	public String getCommandLstForce() {
 		return commandLstForce;
 	}
@@ -88,6 +87,7 @@ public class CommandProperty {
 	public void setCommandShutdown(String commandShutdown) {
 		this.commandShutdown = commandShutdown;
 	}
+	
 	@Override
 	public String toString() {
 		return "CommandProperty [commandSct=" + commandSct + ", commandSctCache=" + commandSctCache + ", commandDt="
@@ -95,5 +95,6 @@ public class CommandProperty {
 				+ commandShutdown + ", commandSctForce=" + commandSctForce + ", commandLstId=" + commandLstId
 				+ ", commandLstJson=" + commandLstJson + ", commandLstForce=" + commandLstForce + "]";
 	}
+	
 	
 }

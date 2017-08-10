@@ -1,5 +1,7 @@
 package venus.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -32,4 +34,7 @@ public interface LuStrategyStockQuitMapper {
 	
 	@Select("select sum(change_rate*weight) as total_change_rate from lu_strategy_stock_quit where id=#{id} and quit_price<>0.00 and change_rate is not null")
 	Double findTotalChangeRate(@Param("id")int id);
+	
+	@Select("select * from lu_strategy_stock_quit where change_rate is null")
+	List<LuStrategyStockQuit> findNull();
 }
