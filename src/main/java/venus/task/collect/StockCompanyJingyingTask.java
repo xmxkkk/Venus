@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSONObject;
 import venus.dao.StockCompanyJingyingMapper;
 import venus.dao.StockinfoMapper;
 import venus.helper.util.DateUtil;
+import venus.helper.util.NumUtil;
 import venus.helper.util.StringUtil;
 import venus.helper.util.URLUtil;
 import venus.model.dao.StockCompanyJingying;
@@ -99,7 +100,7 @@ public class StockCompanyJingyingTask {
 							
 							for(int j=0;j<data.size();j++){
 								String menu=data.getJSONArray(j).getString(0);
-								Double value=data.getJSONArray(j).getDouble(1);
+								Double value= NumUtil.text2num(data.getJSONArray(j).getString(1));
 								
 								StockCompanyJingying stockCompanyJingying=new StockCompanyJingying();
 								stockCompanyJingying.setCode(code);

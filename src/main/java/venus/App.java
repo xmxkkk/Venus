@@ -78,8 +78,8 @@ public class App {
 //		}
 //		CommonUtil.wait2000(count);
 		
-		AIDataTask app=cxt.getBean(AIDataTask.class);
-		app.fin();
+//		AIDataTask app=cxt.getBean(AIDataTask.class);
+//		app.fin();
 		
 		
 		CommandProperty startProperty=cxt.getBean(CommandProperty.class);
